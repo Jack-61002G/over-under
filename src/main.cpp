@@ -1,5 +1,8 @@
 #include "main.h"
 #include "chassis.hpp"
+#include "intake.hpp"
+#include "pros/motors.hpp"
+#include <memory>
 
 pros::Motor left_front_motor(3, true);    // port 1, not reversed
 pros::Motor left_back_motor(2, true);     // port 2, not reversed
@@ -89,16 +92,28 @@ void disabled() {}
 
 void competition_initialize() {}
 
-void autonomous() { chassis.moveTo(12, 12, 0, 1000); }
-
-void opcontrol() {
-/*
+void autonomous() {
   chassis.VelController('l', 2.2, 1.7, 23, 7.5);
   chassis.VelController('r', 2.2, 1.7, 23, 7.5);
   trajectory nya(Pose(0, 0, 0), Pose(11.59, 50, 1.2), 10, 27, 5, 5, 5.1, 1);
   chassis.followProfile(nya);
-*/while (true) {
+}
 
+void opcontrol() {
+  pros::Motor intake_motor(4, false);
+  std::shared_ptr<Intake> intake = std::make_shared<Intake>(intake_motor);
 
-  chassis.arcade(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
-}}
+  while (true) {
+
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+      intake->setState(Intake::STATE::IN);
+    } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+      intake->setState(Intake::STATE::OUT);
+    } else {
+      intake->setState(Intake::STATE::IDLE);
+    }
+
+    chassis.arcade(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),
+                   controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
+  }
+}
