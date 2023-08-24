@@ -7,10 +7,9 @@ namespace balls {
 class Catapult : public ryan::TaskWrapper {
 
 public:
-  enum class STATE { DOWN, HALF, RELOAD, RELOAD_HALF, FIRE, IDLE};
+  enum class STATE { DOWN, HALF, RELOAD, RELOAD_HALF, FIRE, IDLE };
 
 private:
-
   const double midTarget;
   const double bottomTarget;
   STATE state = STATE::IDLE;
@@ -18,8 +17,10 @@ private:
   pros::Rotation &cataRotation;
 
 public:
-  Catapult(pros::Motor &cataMotor,pros::Rotation &cataRotation , double midTarget, double bottomTarget)
-      : cataMotor(cataMotor), cataRotation(cataRotation), midTarget(midTarget), bottomTarget(bottomTarget) {
+  Catapult(pros::Motor &cataMotor, pros::Rotation &cataRotation,
+           double midTarget, double bottomTarget)
+      : cataMotor(cataMotor), cataRotation(cataRotation), midTarget(midTarget),
+        bottomTarget(bottomTarget) {
     cataMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   }
 
