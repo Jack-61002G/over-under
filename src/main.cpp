@@ -1,5 +1,6 @@
 #include "main.h"
 #include "robotconfig.h"
+#include "gif-pros/gifclass.hpp"
 
 void screen() {
   // loop forever
@@ -15,10 +16,14 @@ void screen() {
 
 void initialize() {
 
-  pros::lcd::initialize();
+  
   chassis.calibrate();
+  /*
+  pros::lcd::initialize();
   pros::Task screenTask(
       screen); // create a task to print the position to the screen
+  */
+  static Gif gif("/usd/61002G.gif", lv_scr_act());
 }
 
 void disabled() {}
