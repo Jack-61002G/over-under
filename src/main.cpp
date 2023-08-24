@@ -70,9 +70,9 @@ balls::chassis chassis(drivetrain, lateralController, angularController,
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 pros::Motor cataMotor(5, false);
-pros::Rotation cataRotation(6);
+pros::Rotation cataRotation(6, false);
 
-balls::Catapult cata(cataMotor, cataRotation, 0, 0);
+balls::Catapult cata(cataMotor, cataRotation, 54, 68.75);
 
 
 void screen() {
