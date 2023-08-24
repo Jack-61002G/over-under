@@ -3,6 +3,7 @@
 #include "intake.hpp"
 #include "pros/motors.hpp"
 #include <memory>
+#include "cata.hpp"
 
 pros::Motor left_front_motor(3, true);    // port 1, not reversed
 pros::Motor left_back_motor(2, true);     // port 2, not reversed
@@ -67,6 +68,12 @@ balls::chassis chassis(drivetrain, lateralController, angularController,
                        sensors);
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
+
+pros::Motor cataMotor(5, false);
+pros::Rotation cataRotation(6);
+
+balls::Catapult cata(cataMotor, cataRotation, 0, 0);
+
 
 void screen() {
   // loop forever

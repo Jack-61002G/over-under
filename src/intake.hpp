@@ -5,6 +5,7 @@ class Intake : public ryan::TaskWrapper {
 
 public:
   enum class STATE { IN, OUT, IDLE, LOADED };
+  
 
 private:
   STATE state = STATE::IDLE;
