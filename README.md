@@ -1,5 +1,1 @@
-This project is an example of uploading images without converting them to C arrays. it shows chip.gif in the center of the screen.
-
-![Gif](/demo.png)
-
-Using Gif-Pros https://github.com/theol0403/gif-pros
+![image](https://github.com/Jack-61002G/balls/assets/87156347/ba802e55-8257-4f43-a8f7-c1cdbadd59ed)
