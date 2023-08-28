@@ -55,41 +55,6 @@ public:
     drivetrain.leftMotors->brake();
     drivetrain.rightMotors->brake();
   }
-
-  // pilons joystick curve
-  int curveJoystick(bool red, int input, double t) {
-
-    // scale input from -127 to 127 to -100 to 100
-    input = input * 100 / 127;
-
-    int val = 0;
-    if (red) {
-      val = (std::exp(-t / 10) +
-             std::exp((std::abs(input) - 100) / 10) * (1 - std::exp(-t / 10))) *
-            input;
-    } else {
-      // blue
-      val = std::exp(((std::abs(input) - 100) * t) / 1000) * input;
-    }
-    //scale back to 127 to -127
-    return val * 127 / 100;
-  }
-
-  //arcade control
-  void arcade(int forward, int turn) {
-
-    //curve input
-    forward = curveJoystick(true, forward, 7);
-    turn = curveJoystick(false, turn, 7);
-
-    // calculate left and right velocities
-    double leftVel = forward + turn;
-    double rightVel = forward - turn;
-
-    // set the motors
-    drivetrain.leftMotors->move(leftVel);
-    drivetrain.rightMotors->move(rightVel);
-  }
 };
 
 } // namespace balls

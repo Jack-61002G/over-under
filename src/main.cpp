@@ -1,57 +1,34 @@
 #include "main.h"
-#include "robotconfig.h"
 #include "gif-pros/gifclass.hpp"
+#include "lemlib/asset.hpp"
+#include "robotconfig.h"
 
-void screen() {
-  // loop forever
+ASSET(h_gif)
+ASSET(skillsmatchload_txt)
+
+void initialize() {}
+
+void autonomous() { chassis.follow(skillsmatchload_txt, 5000, 5); }
+
+void disabled() {
+
+  intakeLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
+  intakeLED.cycle(*intakeLED, 10);
+
+  // Store the time at the start of the loop
+  std::uint32_t clock = sylib::millis();
   while (true) {
-    lemlib::Pose pose =
-        chassis.getPose(); // get the current position of the robot
-    pros::lcd::print(0, "x: %f", pose.x);           // print the x position
-    pros::lcd::print(1, "y: %f", pose.y);           // print the y position
-    pros::lcd::print(2, "heading: %f", pose.theta); // print the heading
-    pros::delay(10);
+
+    // 10ms delay to allow other tasks to run
+    sylib::delay_until(&clock, 10);
   }
 }
 
-void initialize() {
-
-  
-  chassis.calibrate();
-  /*
-  pros::lcd::initialize();
-  pros::Task screenTask(
-      screen); // create a task to print the position to the screen
-  */
-  static Gif gif("/usd/61002G.gif", lv_scr_act());
-}
-
-void disabled() {}
-
-void competition_initialize() {}
-
-void autonomous() {
-  chassis.VelController('l', 2.2, 1.7, 23, 7.5);
-  chassis.VelController('r', 2.2, 1.7, 23, 7.5);
-  trajectory nya(Pose(0, 0, 0), Pose(11.59, 50, 1.2), 10, 27, 5, 5, 5.1, 1);
-  chassis.followProfile(nya);
-}
-
 void opcontrol() {
-  pros::Motor intake_motor(4, false);
-  std::shared_ptr<Intake> intake = std::make_shared<Intake>(intake_motor);
+  std::uint32_t clock = sylib::millis();
+  Gif gif(h_gif, lv_scr_act());
 
   while (true) {
-
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-      intake->setState(Intake::STATE::IN);
-    } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-      intake->setState(Intake::STATE::OUT);
-    } else {
-      intake->setState(Intake::STATE::IDLE);
-    }
-
-    chassis.arcade(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),
-                   controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
+    sylib::delay_until(&clock, 10);
   }
 }
