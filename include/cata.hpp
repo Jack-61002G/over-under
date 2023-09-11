@@ -2,6 +2,8 @@
 #include "main.h"
 #include "pros/rotation.hpp"
 #include "taskwrapper.hpp"
+#include "trapevel.h"
+#include <memory>
 
 namespace balls {
 class Catapult : public ryan::TaskWrapper {
@@ -15,6 +17,9 @@ private:
   STATE state = STATE::IDLE;
   pros::Motor &cataMotor;
   pros::Rotation &cataRotation;
+  std::shared_ptr<trapevel> cataVel = std::make_shared<trapevel>(0.1, 0.1, 0.1, 0.1);
+  
+  
 
 public:
   Catapult(pros::Motor &cataMotor, pros::Rotation &cataRotation,

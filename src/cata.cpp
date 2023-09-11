@@ -20,14 +20,14 @@ void Catapult::loop() {
       break;
     case STATE::RELOAD:
       if (cataRotation.get_position() < bottomTarget)
-        cataMotor = 127;
+        cataMotor = cataVel->update(100, cataMotor.get_actual_velocity());
 
       else
         state = STATE::DOWN;
     case STATE::RELOAD_HALF:
       if ((cataRotation.get_position() < midTarget) ||
           (cataRotation.get_position() > midTarget + 5))
-        cataMotor = 127;
+        cataMotor = cataVel->update(100, cataMotor.get_actual_velocity());
 
       else
         state = STATE::HALF;
@@ -36,7 +36,7 @@ void Catapult::loop() {
       if (cataRotation.get_position() < midTarget) {
         this->state = STATE::RELOAD;
       } else {
-        cataMotor = 127;
+        cataMotor = cataVel->update(100, cataMotor.get_actual_velocity());
       }
       break;
     case STATE::IDLE:
