@@ -5,6 +5,12 @@
 #include "main.h"
 
 
+sylib::Addrled intakeLED(22, 1, 28);
+
+ryan::Solenoid doinker('F');
+ryan::Solenoid LeftWingus('G');
+ryan::Solenoid RightWingus('H');
+
 pros::Motor left_front_motor(3, true);    // port 1, not reversed
 pros::Motor left_back_motor(2, true);     // port 2, not reversed
 pros::Motor left_top_motor(1, false);     // port 3, reversed
