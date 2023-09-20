@@ -1,50 +1,48 @@
 #include "cata.hpp"
 #include "pros/misc.hpp"
+#include "pros/rtos.hpp"
+#include "robotconfig.h"
+#include <atomic>
 #include <cmath>
+#include <iostream>
+
 using namespace balls;
 
-Catapult::STATE Catapult::getState() { return this->state; }
+enum class State { Ready, Reloading, Firing };
 
-void Catapult::setState(STATE newState) { this->state = newState; }
-
-void Catapult::operator=(STATE newState) { this->state = newState; }
+int targetvalue = 40;
+State cataState = State::Reloading;
 
 void Catapult::loop() {
+
   while (true) {
-    switch (this->state) {
-    case STATE::DOWN:
-      cataMotor = 0;
-      break;
-    case STATE::HALF:
-      cataMotor = 0;
-      break;
-    case STATE::RELOAD:
-      if (cataRotation.get_position() < bottomTarget)
-        cataMotor = cataVel->update(100, cataMotor.get_actual_velocity());
 
-      else
-        state = STATE::DOWN;
-    case STATE::RELOAD_HALF:
-      if ((cataRotation.get_position() < midTarget) ||
-          (cataRotation.get_position() > midTarget + 5))
-        cataMotor = cataVel->update(100, cataMotor.get_actual_velocity());
+    int pos = cataRotation.get_angle() / 100;
 
-      else
-        state = STATE::HALF;
-      break;
-    case STATE::FIRE:
-      if (cataRotation.get_position() < midTarget) {
-        this->state = STATE::RELOAD;
-      } else {
-        cataMotor = cataVel->update(100, cataMotor.get_actual_velocity());
+    switch (cataState) {
+
+    case State::Firing:
+      cataMotor.move(110);
+      while (pos > 30) {
+        pros::delay(10);
       }
+      cataMotor.move(0);
+      pros::delay(750);
+      cataState = State::Reloading;
       break;
-    case STATE::IDLE:
-      if (cataRotation.get_position() < midTarget) {
-        this->state = STATE::RELOAD_HALF;
-      }
 
+    case State::Reloading:
+      cataMotor.move(110);
+      if (pos >= targetvalue)
+        cataState = State::Ready;
+      break;
+
+    case State::Ready:
+      cataMotor.move(0);
       break;
     }
+    pros::delay(10);
   }
 };
+
+void Catapult::fire() { cataState = State::Firing; }
