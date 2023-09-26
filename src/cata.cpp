@@ -56,3 +56,5 @@ void Catapult::fire() {
   pros::delay(100);
   cataState = State::Reloading;
 }
+
+void Catapult::changeTarget(double target) { targetvalue = target; }

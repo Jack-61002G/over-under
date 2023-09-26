@@ -14,8 +14,6 @@ private:
   State cataState;
   pros::Motor &cataMotor;
   pros::Rotation &cataRotation;
-  std::shared_ptr<trapevel> cataVel =
-      std::make_shared<trapevel>(1.5, 1.7, 4, 0.5);
 
 public:
   Catapult(pros::Motor &cataMotor, pros::Rotation &cataRotation, int targetvalue) 
@@ -26,5 +24,7 @@ public:
   void fire();
 
   void loop() override;
+
+  void changeTarget(double target);
 };
 } // namespace balls
