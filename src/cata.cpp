@@ -10,7 +10,7 @@ using namespace balls;
 
 enum class State { Ready, Reloading, Firing };
 
-int targetvalue = 40;
+int targetvalue = 60;
 State cataState = State::Reloading;
 
 void Catapult::loop() {
@@ -20,7 +20,8 @@ void Catapult::loop() {
     int pos = cataRotation.get_angle() / 100;
 
     switch (cataState) {
-
+    
+    /*
     case State::Firing:
       cataMotor.move(110);
       while (pos > 30) {
@@ -29,6 +30,11 @@ void Catapult::loop() {
       cataMotor.move(0);
       pros::delay(750);
       cataState = State::Reloading;
+      break;
+    */
+    
+    case State::Firing:
+      cataMotor.move(110);
       break;
 
     case State::Reloading:
@@ -45,4 +51,8 @@ void Catapult::loop() {
   }
 };
 
-void Catapult::fire() { cataState = State::Firing; }
+void Catapult::fire() {
+  cataState = State::Firing;
+  pros::delay(100);
+  cataState = State::Reloading;
+}
