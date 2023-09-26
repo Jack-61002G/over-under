@@ -10,7 +10,7 @@ using namespace balls;
 
 enum class State { Ready, Reloading, Firing };
 
-int targetvalue = 60;
+int targetvalue;
 State cataState = State::Reloading;
 
 void Catapult::loop() {
