@@ -4,12 +4,12 @@
 #include "pros/misc.h"
 #include "robotconfig.h"
 
-ASSET(h_gif)
+ASSET(cat_gif)
 ASSET(skillsmatchload_txt)
 
 void initialize() {
   sylib::initialize();
-
+  Gif* gif = new Gif(cat_gif, lv_scr_act()); 
   catapult.startTask();
 
   intakeLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
