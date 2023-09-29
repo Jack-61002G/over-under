@@ -14,10 +14,11 @@ private:
   State cataState;
   pros::Motor &cataMotor;
   pros::Rotation &cataRotation;
+  int targetvalue;
 
 public:
   Catapult(pros::Motor &cataMotor, pros::Rotation &cataRotation, int targetvalue) 
-  : cataMotor(cataMotor), cataRotation(cataRotation) {
+  : cataMotor(cataMotor), cataRotation(cataRotation), targetvalue(targetvalue) {
     cataMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   }
 

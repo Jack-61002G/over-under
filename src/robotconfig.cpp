@@ -9,7 +9,7 @@
 sylib::Addrled intakeLED(22, 1, 28);
 sylib::Addrled LwingusLED(22, 2, 32);
 sylib::Addrled RwingusLED(22, 3, 32);
-sylib::Addrled deadassLogo(22, 4, 40);
+sylib::Addrled deadassLogo(22, 4, 50);
 
 ryan::Solenoid doinker('F');
 ryan::Solenoid LeftWingus('G');
@@ -75,10 +75,10 @@ balls::chassis chassis(drivetrain, lateralController, angularController,
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
-pros::Motor cataMotor(3, true);
+pros::Motor cataMotor(3, false);
 pros::Rotation cataRotation(19, false);
 
-balls::Catapult catapult(cataMotor, cataRotation, 60);
+balls::Catapult catapult(cataMotor, cataRotation, 50);
 
 pros::Motor intakeMotor(2, true);
 

@@ -9,6 +9,12 @@ ASSET(skillsmatchload_txt)
 
 void initialize() {
   sylib::initialize();
+
+  catapult.startTask();
+
+  intakeLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
+  LwingusLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
+  RwingusLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
 }
 
 void autonomous() { chassis.follow(skillsmatchload_txt, 5000, 5); }
@@ -25,7 +31,6 @@ void disabled() {
 }
 
 void opcontrol() {
-  // catapult.startTask();
 
   std::uint32_t clock = sylib::millis();
 
@@ -35,20 +40,21 @@ void opcontrol() {
 
     // intake controller input
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
-      if (intake.getState() != Intake::STATE::IN) {
+      if (intake.getState() == Intake::STATE::IDLE) {
         intake.setState(Intake::STATE::IN);
       } else {
         intake.setState(Intake::STATE::IDLE);
       }
     }
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
-      if (intake.getState() != Intake::STATE::OUT) {
+      if (intake.getState() == Intake::STATE::IDLE) {
         intake.setState(Intake::STATE::OUT);
       } else {
         intake.setState(Intake::STATE::IDLE);
       }
     }
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+      std::cout << "gonna fire" << std::endl;
       catapult.fire();
     }
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
