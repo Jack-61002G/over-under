@@ -55,6 +55,6 @@ void Catapult::fire() {
 }
 
 void Catapult::changeTarget(double target) {
-  targetvalue = target;
+  bottomTarget = target;
   cataState = State::Reloading;
 }
