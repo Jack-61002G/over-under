@@ -21,16 +21,21 @@ void Catapult::loop() {
     switch (cataState) {
 
     case State::Firing:
-      cataMotor.move(110);
-      std::cout << "firing" << std::endl;
-      break;
+
+      if (cataRotation.get_velocity() / 100 < 200) {
+        cataMotor.move(127);
+        break;
+      } else {
+        cataState = State::Reloading;
+        break;
+      }
 
     case State::Reloading:
       std::cout << "reloading" << std::endl;
       if ((pos >= targetvalue) && (pos < 100)) {
         cataState = State::Ready;
       } else {
-        cataMotor.move(110);
+        cataMotor.move(127);
         break;
       }
 
@@ -39,15 +44,13 @@ void Catapult::loop() {
       cataMotor.move(0);
       break;
     }
-    pros::delay(50);
+    pros::delay(15);
   }
 };
 
 void Catapult::fire() {
   cataState = State::Firing;
   std::cout << "FIRE" << std::endl;
-  pros::delay(500); // mess with this when tuning the cata
-  cataState = State::Reloading;
 }
 
 void Catapult::changeTarget(double target) {
