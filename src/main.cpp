@@ -13,8 +13,7 @@ void initialize() {
   catapult.startTask();
 
   intakeLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
-  LwingusLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
-  RwingusLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
+  doinkerLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
 }
 
 void autonomous() { chassis.follow(skillsmatchload_txt, 5000, 5); }
@@ -56,14 +55,10 @@ void opcontrol() {
       }
     }
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
-      std::cout << "gonna fire" << std::endl;
       catapult.fire();
     }
-    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
-      LeftWingus.toggle();
-    }
-    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
-      RightWingus.toggle();
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+      doinker.toggle();
     }
 
     // 10ms delay to allow other tasks to run

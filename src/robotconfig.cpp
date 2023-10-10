@@ -7,13 +7,9 @@
 #include "pros/motors.hpp"
 
 sylib::Addrled intakeLED(22, 1, 28);
-sylib::Addrled LwingusLED(22, 2, 32);
-sylib::Addrled RwingusLED(22, 3, 32);
-sylib::Addrled deadassLogo(22, 4, 50);
+sylib::Addrled doinkerLED(22, 2, 32);
 
 ryan::Solenoid doinker('F');
-ryan::Solenoid LeftWingus('G');
-ryan::Solenoid RightWingus('H');
 
 pros::Motor left_front_motor(6, true);    // port 1, not reversed
 pros::Motor left_back_motor(5, true);     // port 2, not reversed

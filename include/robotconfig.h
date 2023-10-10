@@ -11,12 +11,8 @@ extern pros::Controller controller;
 extern balls::Catapult catapult;
 extern Intake intake;
 extern sylib::Addrled intakeLED;
-extern sylib::Addrled LwingusLED;
-extern sylib::Addrled RwingusLED;
-extern sylib::Addrled deadassLogo;
+extern sylib::Addrled doinkerLED;
 
 extern ryan::Solenoid doinker;
-extern ryan::Solenoid LeftWingus;
-extern ryan::Solenoid RightWingus;
 
 extern std::shared_ptr<graphy::AsyncGrapher> velocityTime;
