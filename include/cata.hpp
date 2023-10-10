@@ -18,9 +18,12 @@ private:
   int bottomTarget;
 
 public:
-  Catapult(pros::Motor &cataMotor, pros::Rotation &cataRotation, int topTarget, int bottomTarget) 
-  : cataMotor(cataMotor), cataRotation(cataRotation), topTarget(topTarget), bottomTarget(bottomTarget) {
-    cataMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  Catapult(pros::Motor &cataMotor, pros::Rotation &cataRotation,
+           int bottomTarget)
+      : cataMotor(cataMotor), cataRotation(cataRotation),
+        bottomTarget(bottomTarget) {
+    cataMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    cataState = State::Reloading;
   }
 
   void fire();

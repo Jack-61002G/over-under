@@ -33,8 +33,10 @@ void disabled() {
 void opcontrol() {
 
   std::uint32_t clock = sylib::millis();
+  catapult.changeTarget(55);
 
   while (true) {
+    
     chassis.arcade(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),
                    controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
 

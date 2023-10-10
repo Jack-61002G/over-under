@@ -8,10 +8,7 @@
 
 using namespace balls;
 
-enum class State { Ready, Reloading, Firing };
-
 void Catapult::loop() {
-  State cataState = State::Reloading;
 
   while (true) {
 
@@ -22,20 +19,16 @@ void Catapult::loop() {
 
     case State::Firing:
       std::cout << "firing" << std::endl;
-      
-      if (pos < topTarget) { // fire until the cata is near it's top position
-        cataState = State::Reloading;
-      } else {
-        cataMotor.move(110);
-        break;
-      }
+      cataMotor.move(127);
+      break;
 
     case State::Reloading:
       std::cout << "reloading" << std::endl;
-      
-      if ((pos >= bottomTarget) && (pos < 100)) { // reload until the cata is near it's bottom position
+      cataMotor.move(127);
+      if ((pos >= bottomTarget) && (pos < 100)) {
         cataState = State::Ready;
       } else {
+        int power = 20 * (bottomTarget - pos);//cat
         cataMotor.move(127);
         break;
       }
@@ -45,13 +38,15 @@ void Catapult::loop() {
       cataMotor.move(0);
       break;
     }
-    pros::delay(15);
-  }
-};
+    pros::delay(5);
+
+  } // while loop
+};  // function
 
 void Catapult::fire() {
   cataState = State::Firing;
-  std::cout << "Fire Function" << std::endl;
+  pros::delay(250);
+  cataState = State::Reloading;
 }
 
 void Catapult::changeTarget(double target) {
