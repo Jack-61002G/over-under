@@ -5,6 +5,7 @@
 #include <atomic>
 #include <cmath>
 #include <iostream>
+#include <ostream>
 
 using namespace balls;
 
@@ -23,7 +24,7 @@ void Catapult::loop() {
       if ((pos >= bottomTarget) && (pos < 100)) {
         cataState = State::Ready;
       } else {
-        int power = 20 * (bottomTarget - pos);//cat     // I don't know what this does but I don't want to remove it
+        int power = 20 * (bottomTarget - pos); // I don't know what this does but I don't want to remove it
         cataMotor.move(127);
         break;
       }
@@ -40,6 +41,7 @@ void Catapult::loop() {
 
 void Catapult::fire() {
   cataState = State::Firing;
+  std::cout<<"please print\n";
   pros::delay(250);
   cataState = State::Reloading;
 }

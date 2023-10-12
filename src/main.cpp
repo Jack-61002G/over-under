@@ -39,21 +39,15 @@ void opcontrol() {
     chassis.arcade(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),
                    controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
 
-    // intake controller input
-    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
-      if (intake.getState() == Intake::STATE::IDLE) {
-        intake.setState(Intake::STATE::IN);
-      } else {
-        intake.setState(Intake::STATE::IDLE);
-      }
-    }
-    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
-      if (intake.getState() == Intake::STATE::IDLE) {
-        intake.setState(Intake::STATE::OUT);
-      } else {
-        intake.setState(Intake::STATE::IDLE);
-      }
-    }
+    Intake::STATE meow = 
+      controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)     //if
+        ? Intake::STATE::IN
+      : (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) //else if
+        ? Intake::STATE::OUT 
+      : Intake::STATE::IDLE;                                           //else
+
+    intake.setState(meow);
+
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
       catapult.fire();
     }
