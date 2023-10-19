@@ -5,17 +5,26 @@
 #include "intake.h"
 #include "main.h"
 #include "pros/motors.hpp"
+#include "lights.hpp"
 
 sylib::Addrled intakeLED(22, 2, 28);
 sylib::Addrled doinkerLED(22, 8, 32);
 
 ryan::Solenoid doinker('F');
+balls::Lights lights(intakeLED, doinkerLED, doinker);
 
+pros::Motor left_front_motor(6, true);    // port 1, not reversed
+pros::Motor left_back_motor(5, true);     // port 2, not reversed
+pros::Motor left_top_motor(7, false);     // port 3, reversed
+pros::Motor right_top_motor(8, true);     // port 3, reversed
+pros::Motor right_back_motor(9, false);   // port 4, reversed
+pros::Motor right_front_motor(10, false); // port 2, not reversed
 // Chassis constructor
 Drive chassis(
     // Left Chassis Ports (negative port will reverse it!)
     //   the first port is the sensored port (when trackers are not used!)
     {-6, -5, 7}
+
 
     // Right Chassis Ports (negative port will reverse it!)
     //   the first port is the sensored port (when trackers are not used!)

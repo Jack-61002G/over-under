@@ -30,9 +30,7 @@ void initialize() {
   ez::as::initialize();
 
   catapult.startTask();
-
-  intakeLED.set_all(sylib::Addrled::rgb_to_hex(100, 0, 200));
-  doinkerLED.set_all(sylib::Addrled::rgb_to_hex(100, 0, 200));
+  lights.startTask();
 }
 
 void autonomous() {
