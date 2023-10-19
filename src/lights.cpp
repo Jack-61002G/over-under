@@ -1,5 +1,5 @@
 #include "lights.hpp"
-#include "robotconfig.h"
+#include "lemlib/asset.hpp"
 #include <fstream>
 
 using namespace balls;
