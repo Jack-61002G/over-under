@@ -10,7 +10,7 @@
 sylib::Addrled intakeLED(22, 2, 28);
 sylib::Addrled doinkerLED(22, 8, 32);
 
-ryan::Solenoid doinker('F');
+ryan::Solenoid doinker('G');
 balls::Lights lights(intakeLED, doinkerLED, doinker);
 
 pros::Motor left_front_motor(6, true);    // port 1, not reversed
