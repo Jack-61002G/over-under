@@ -21,10 +21,9 @@ void Catapult::loop() {
       break;
 
     case State::Reloading:
-      if ((pos >= bottomTarget) && (pos < 100)) {
+      if ((pos >= targetPos) && (pos < 100)) {
         cataState = State::Ready;
-      } else {
-        int power = 20 * (bottomTarget - pos); // I don't know what this does but I don't want to remove it
+      } else { int power = 20 * (targetPos - pos); // I don't know what this does but I don't want to remove it
         cataMotor.move(127);
         break;
       }
@@ -41,12 +40,6 @@ void Catapult::loop() {
 
 void Catapult::fire() {
   cataState = State::Firing;
-  std::cout<<"please print\n";
   pros::delay(250);
-  cataState = State::Reloading;
-}
-
-void Catapult::changeTarget(double target) {
-  bottomTarget = target;
   cataState = State::Reloading;
 }

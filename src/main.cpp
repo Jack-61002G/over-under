@@ -1,22 +1,51 @@
 #include "main.h"
+#include "EZ-Template/auton.hpp"
+#include "EZ-Template/sdcard.hpp"
+#include "autons.hpp"
 #include "gif-pros/gifclass.hpp"
-#include "lemlib/asset.hpp"
 #include "pros/misc.h"
 #include "robotconfig.h"
 
 ASSET(cat_gif)
-ASSET(skillsmatchload_txt)
 
 void initialize() {
   sylib::initialize();
-  Gif* gif = new Gif(cat_gif, lv_scr_act()); 
+
+  // Print our branding over your terminal :D
+  ez::print_ez_template();
+
+  pros::delay(
+      500); // Stop the user from doing anything while legacy ports configure.
+
+  garage_constants();
+  modified_exit_condition();
+
+  // Autonomous Selector using LLEMU
+  ez::as::auton_selector.add_autons({
+    {Auton("test", drivetest)}
+  });
+
+  // Initialize chassis and auton selector
+  chassis.initialize();
+  ez::as::initialize();
+
   catapult.startTask();
 
-  intakeLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
-  doinkerLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
+  intakeLED.set_all(sylib::Addrled::rgb_to_hex(100, 0, 200));
+  doinkerLED.set_all(sylib::Addrled::rgb_to_hex(100, 0, 200));
 }
 
-void autonomous() { chassis.follow(skillsmatchload_txt, 5000, 5); }
+void autonomous() {
+
+  chassis.reset_pid_targets();               // Resets PID targets to 0
+  chassis.reset_gyro();                      // Reset gyro position to 0
+  chassis.reset_drive_sensor();              // Reset drive sensors to 0
+  chassis.set_drive_brake(MOTOR_BRAKE_HOLD); // Set motors to hold.  This helps
+                                             // autonomous consistency.
+
+  ez::as::auton_selector
+      .call_selected_auton(); // Calls selected auton from autonomous selector.
+}
 
 void disabled() {
 
@@ -30,21 +59,21 @@ void disabled() {
 }
 
 void opcontrol() {
-
-  std::uint32_t clock = sylib::millis();
-  catapult.changeTarget(55);
+  ez::as::shutdown();
+  blocker.toggle();
+   Gif *gif = new Gif(cat_gif, lv_scr_act());
+  chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 
   while (true) {
-    
-    chassis.arcade(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),
-                   controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
 
-    Intake::STATE meow = 
-      controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)     //if
-        ? Intake::STATE::IN
-      : (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) //else if
-        ? Intake::STATE::OUT 
-      : Intake::STATE::IDLE;                                           //else
+    chassis.arcade_standard(ez::SPLIT);
+
+    Intake::STATE meow =
+        controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1) // if
+            ? Intake::STATE::OUT
+            : (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) // else if
+                  ? Intake::STATE::IN
+                  : Intake::STATE::IDLE; // else
 
     intake.setState(meow);
 
@@ -55,7 +84,6 @@ void opcontrol() {
       doinker.toggle();
     }
 
-    // 10ms delay to allow other tasks to run
-    sylib::delay_until(&clock, 10);
+    pros::delay(ez::util::DELAY_TIME);
   }
 }
