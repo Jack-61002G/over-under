@@ -2,7 +2,6 @@
 #include "main.h"
 #include "pros/rotation.hpp"
 #include "taskwrapper.hpp"
-#include "trapevel.h"
 #include <memory>
 namespace balls {
 class Catapult : public ryan::TaskWrapper {
@@ -14,8 +13,7 @@ private:
   State cataState;
   pros::Motor &cataMotor;
   pros::Rotation &cataRotation;
-  int topTarget;
-  int bottomTarget;
+  int targetPos;
 
 public:
   Catapult(pros::Motor &cataMotor, pros::Rotation &cataRotation, int bottomTarget)
@@ -29,6 +27,6 @@ public:
 
   void loop() override;
 
-  void changeTarget(double target);
+  void toggleTarget();
 };
 } // namespace balls

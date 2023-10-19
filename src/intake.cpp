@@ -23,5 +23,6 @@ void Intake::loop() {
       intakeMotor = 0;
       break;
     }
+    pros::delay(20);
   }
 };

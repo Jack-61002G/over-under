@@ -77,6 +77,6 @@
 #include "pros/link.hpp"
 #endif
 
-#include "lemlib/asset.hpp"
+#include "asset.hpp"
 
 #endif  // _PROS_API_H_
