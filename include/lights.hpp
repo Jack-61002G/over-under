@@ -7,16 +7,9 @@
 
 namespace balls {
 class Lights : public ryan::TaskWrapper {
-  /*
-  enum class TEAM { Red, Blue, Skills };
-  enum class GAMESTATE { Initializing, Disabled, Autonomous, Driver };
-  */
 
 private:
-  /*
-  TEAM team;
-  GAMESTATE gamestate;
-  */
+
 
   //static unsigned char *readBMP();
   //unsigned char *doinkerAnimData;
@@ -27,16 +20,16 @@ private:
   ryan::Solenoid &doinker;
 
 public:
-  Lights(sylib::Addrled &intakeLED, sylib::Addrled &doinkerLED, ryan::Solenoid &doinker)
+    Lights(sylib::Addrled &intakeLED, sylib::Addrled &doinkerLED, ryan::Solenoid &doinker)
         : intakeLED(intakeLED), doinkerLED(doinkerLED), doinker(doinker) 
         {
-    //doinkerAnimData = readBMP();
-    intakeLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
-    doinkerLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
+            //doinkerAnimData = readBMP();
+            intakeLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
+            doinkerLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
         };
 
-  // void update( TEAM team, GAMESTATE gamestate );
+    // void update( TEAM team, GAMESTATE gamestate );
 
-  void loop() override;
+    void loop() override;
 };
 } // namespace balls
