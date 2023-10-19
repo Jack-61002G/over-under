@@ -5,11 +5,14 @@
 #include "intake.h"
 #include "main.h"
 #include "pros/motors.hpp"
+#include "lights.hpp"
 
 sylib::Addrled intakeLED(22, 1, 28);
 sylib::Addrled doinkerLED(22, 2, 32);
 
 ryan::Solenoid doinker('F');
+
+balls::Lights lights(intakeLED, doinkerLED, doinker);
 
 pros::Motor left_front_motor(6, true);    // port 1, not reversed
 pros::Motor left_back_motor(5, true);     // port 2, not reversed

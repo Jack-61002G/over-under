@@ -11,9 +11,7 @@ void initialize() {
   sylib::initialize();
   Gif* gif = new Gif(cat_gif, lv_scr_act()); 
   catapult.startTask();
-
-  intakeLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
-  doinkerLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
+  lights.startTask();
 }
 
 void autonomous() { chassis.follow(skillsmatchload_txt, 5000, 5); }
