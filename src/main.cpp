@@ -30,7 +30,7 @@ void initialize() {
   ez::as::initialize();
 
   catapult.startTask();
-  lights.startTask();
+  //lights.startTask();
 }
 
 void autonomous() {

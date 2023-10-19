@@ -11,14 +11,8 @@ sylib::Addrled intakeLED(22, 2, 28);
 sylib::Addrled doinkerLED(22, 8, 32);
 
 ryan::Solenoid doinker('G');
-balls::Lights lights(intakeLED, doinkerLED, doinker);
+//balls::Lights lights(intakeLED, doinkerLED, doinker);
 
-pros::Motor left_front_motor(6, true);    // port 1, not reversed
-pros::Motor left_back_motor(5, true);     // port 2, not reversed
-pros::Motor left_top_motor(7, false);     // port 3, reversed
-pros::Motor right_top_motor(8, true);     // port 3, reversed
-pros::Motor right_back_motor(9, false);   // port 4, reversed
-pros::Motor right_front_motor(10, false); // port 2, not reversed
 // Chassis constructor
 Drive chassis(
     // Left Chassis Ports (negative port will reverse it!)

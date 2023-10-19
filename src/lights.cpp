@@ -8,11 +8,11 @@ enum class TEAM { Red, Blue, Skills };
 enum class GAMESTATE { Initializing, Disabled, Autonomous, Driver };
 TEAM team;
 */
-
-unsigned char* Lights::readBMP(char* filename)
+/*
+unsigned char* Lights::readBMP()
 {   
     int i;
-    FILE* f = fopen(filename, "rb");
+    FILE* f = fopen("/usd/doinkerAnim.BMP", "rb");
     unsigned char info[54];
 
     // read the 54-byte header
@@ -40,11 +40,11 @@ unsigned char* Lights::readBMP(char* filename)
 
     return data;
 }
-
+*/
 
 void Lights::loop() {
     while (true) {
-
+        /*
         // find what frame in the animation we are
         if (doinker.getState()) {
             doinkerAnimTimestep++;
@@ -61,7 +61,7 @@ void Lights::loop() {
                                                                 doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) + 2]),// B
                                                                 i ); // index of the pixel in the strip
         }
-
+*/
         pros::delay(10);
     }
 }
