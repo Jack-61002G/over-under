@@ -1,5 +1,4 @@
 #include "lights.hpp"
-#include "lemlib/asset.hpp"
 #include <fstream>
 
 using namespace balls;
