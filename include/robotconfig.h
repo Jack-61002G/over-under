@@ -18,6 +18,6 @@ extern ryan::Solenoid blocker;
 
 extern ryan::Solenoid doinker;
 
-extern balls::Lights lights;
-
 extern std::shared_ptr<graphy::AsyncGrapher> velocityTime;
+
+extern balls::Lights lights;

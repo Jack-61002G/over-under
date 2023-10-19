@@ -6,12 +6,12 @@
 #include "main.h"
 #include "pros/motors.hpp"
 #include "lights.hpp"
+#include <iostream>
 
 sylib::Addrled intakeLED(22, 2, 28);
 sylib::Addrled doinkerLED(22, 8, 32);
 
 ryan::Solenoid doinker('G');
-//balls::Lights lights(intakeLED, doinkerLED, doinker);
 
 // Chassis constructor
 Drive chassis(
@@ -64,3 +64,5 @@ ryan::Solenoid blocker('E');
 
 std::shared_ptr<graphy::AsyncGrapher>
     velocityTime(new graphy::AsyncGrapher("cata vel"));
+
+balls::Lights lights(intakeLED, doinkerLED, doinker);

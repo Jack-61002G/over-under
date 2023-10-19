@@ -6,13 +6,10 @@
 #include <iostream>
 
 namespace balls {
+
 class Lights : public ryan::TaskWrapper {
 
 private:
-
-
-  //static unsigned char *readBMP();
-  //unsigned char *doinkerAnimData;
 
   int doinkerAnimTimestep = 0;
   sylib::Addrled &intakeLED;
@@ -23,13 +20,11 @@ public:
     Lights(sylib::Addrled &intakeLED, sylib::Addrled &doinkerLED, ryan::Solenoid &doinker)
         : intakeLED(intakeLED), doinkerLED(doinkerLED), doinker(doinker) 
         {
-            //doinkerAnimData = readBMP();
             intakeLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
             doinkerLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
         };
 
-    // void update( TEAM team, GAMESTATE gamestate );
-
     void loop() override;
+    unsigned char* readBMP(const char* filename);
 };
 } // namespace balls

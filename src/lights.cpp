@@ -1,18 +1,12 @@
 #include "lights.hpp"
 #include <fstream>
+#include <string>
 
 using namespace balls;
 
-/*
-enum class TEAM { Red, Blue, Skills };
-enum class GAMESTATE { Initializing, Disabled, Autonomous, Driver };
-TEAM team;
-*/
-/*
-unsigned char* Lights::readBMP()
-{   
+unsigned char* Lights::readBMP(const char* filename) {   
     int i;
-    FILE* f = fopen("/usd/doinkerAnim.BMP", "rb");
+    FILE* f = fopen(filename, "rb");
     unsigned char info[54];
 
     // read the 54-byte header
@@ -40,11 +34,11 @@ unsigned char* Lights::readBMP()
 
     return data;
 }
-*/
+
 
 void Lights::loop() {
     while (true) {
-        /*
+        
         // find what frame in the animation we are
         if (doinker.getState()) {
             doinkerAnimTimestep++;
@@ -54,14 +48,16 @@ void Lights::loop() {
             if (doinkerAnimTimestep < 0) {doinkerAnimTimestep = 0;}
         }
 
-        // retrieve the value of eaach pixel for that frame
+        unsigned char* doinkerAnimData = readBMP("/usd/doinkerAnim.BMP");
+
+        // retrieve the value of each pixel for that frame
         for(int i = 0; i<32; i++) {
             doinkerLED.set_pixel(sylib::Addrled::rgb_to_hex(doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep)],  // R
                                                                 doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) + 1], // G
                                                                 doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) + 2]),// B
                                                                 i ); // index of the pixel in the strip
         }
-*/
+
         pros::delay(10);
     }
 }
