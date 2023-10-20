@@ -9,7 +9,6 @@
 ASSET(cat_gif)
 
 void initialize() {
-  sylib::initialize();
 
   // Print our branding over your terminal :D
   ez::print_ez_template();
@@ -32,8 +31,6 @@ void initialize() {
   catapult.startTask();
   lights.startTask();
 
-  intakeLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
-            doinkerLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
 }
 
 void autonomous() {

@@ -37,10 +37,13 @@ unsigned char* Lights::readBMP(const char* filename) {
 
 
 void Lights::loop() {
+    intakeLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
+    doinkerLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
+
     while (true) {
         
         // find what frame in the animation we are
-        if (doinker.getState()) {
+        if (1) {
             doinkerAnimTimestep++;
             if (doinkerAnimTimestep > 31) {doinkerAnimTimestep = 29;}
         } else {

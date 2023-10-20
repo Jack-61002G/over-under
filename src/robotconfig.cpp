@@ -62,7 +62,4 @@ Intake intake(intakeMotor);
 
 ryan::Solenoid blocker('E');
 
-std::shared_ptr<graphy::AsyncGrapher>
-    velocityTime(new graphy::AsyncGrapher("cata vel"));
-
 balls::Lights lights(intakeLED, doinkerLED, doinker);
