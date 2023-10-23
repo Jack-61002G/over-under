@@ -4,6 +4,7 @@
 #include "autons.hpp"
 #include "gif-pros/gifclass.hpp"
 #include "pros/misc.h"
+#include "pros/motors.h"
 #include "robotconfig.h"
 
 ASSET(cat_gif)
@@ -20,9 +21,7 @@ void initialize() {
   modified_exit_condition();
 
   // Autonomous Selector using LLEMU
-  ez::as::auton_selector.add_autons({
-    {Auton("test", drivetest)}
-  });
+  ez::as::auton_selector.add_autons({{Auton("test", drivetest)}});
 
   // Initialize chassis and auton selector
   chassis.initialize();
@@ -30,7 +29,6 @@ void initialize() {
 
   catapult.startTask();
   lights.startTask();
-
 }
 
 void autonomous() {
@@ -59,7 +57,7 @@ void disabled() {
 void opcontrol() {
   ez::as::shutdown();
   blocker.toggle();
-   Gif *gif = new Gif(cat_gif, lv_scr_act());
+  Gif *gif = new Gif(cat_gif, lv_scr_act());
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 
   while (true) {
@@ -80,6 +78,21 @@ void opcontrol() {
     }
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
       doinker.toggle();
+    }
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+      blocker.toggle();
+    }
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+
+      hang.toggle();
+
+      if (!hang.getState()) {
+        chassis.set_active_brake(0);
+        chassis.set_drive_brake(MOTOR_BRAKE_COAST);
+      } else {
+        chassis.set_active_brake(0.1);
+        chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
+      }
     }
 
     pros::delay(ez::util::DELAY_TIME);
