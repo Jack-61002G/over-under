@@ -35,6 +35,13 @@ unsigned char* Lights::readBMP(const char* filename) {
     return data;
 }
 
+bool Lights::checkExists(const char* filename) {
+
+    FILE* f;
+    if ((f = fopen(filename, "r"))) return true;
+    
+    return false;
+}
 
 void Lights::loop() {
     intakeLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
@@ -51,14 +58,16 @@ void Lights::loop() {
             if (doinkerAnimTimestep < 0) {doinkerAnimTimestep = 0;}
         }
 
-        unsigned char* doinkerAnimData = readBMP("/usd/doinkerAnim.BMP");
+        if (checkExists("/usd/doinkerAnim.BMP")) {
+            unsigned char* doinkerAnimData = readBMP("/usd/doinkerAnim.BMP");
 
-        // retrieve the value of each pixel for that frame
-        for(int i = 0; i<32; i++) {
-            doinkerLED.set_pixel(sylib::Addrled::rgb_to_hex(doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep)],  // R
-                                                                doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) + 1], // G
-                                                                doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) + 2]),// B
-                                                                i ); // index of the pixel in the strip
+            // retrieve the value of each pixel for that frame
+            for(int i = 0; i<32; i++) {
+                doinkerLED.set_pixel(sylib::Addrled::rgb_to_hex(doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep)],  // R
+                                                                    doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) + 1], // G
+                                                                    doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) + 2]),// B
+                                                                    i ); // index of the pixel in the strip
+            }
         }
 
         pros::delay(10);
