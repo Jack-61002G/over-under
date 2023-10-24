@@ -53,10 +53,10 @@ void Lights::loop() {
         // find what frame in the animation we are
         if (!doinker.getState()) {
             doinkerAnimTimestep++;
-            if (doinkerAnimTimestep > 32) {doinkerAnimTimestep = 32;}
+            if (doinkerAnimTimestep > 33) {doinkerAnimTimestep = 33;}
         } else {
             doinkerAnimTimestep--;
-            if (doinkerAnimTimestep < 1) {doinkerAnimTimestep = 3;}
+            if (doinkerAnimTimestep < 2) {doinkerAnimTimestep = 4;}
         }
 
             // retrieve the value of each pixel for that frame
