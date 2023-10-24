@@ -59,8 +59,8 @@ void disabled() {
 void opcontrol() {
   ez::as::shutdown();
   blocker.toggle();
-  Gif *gif = new Gif(cat_gif, lv_scr_act());
-  chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
+   Gif *gif = new Gif(cat_gif, lv_scr_act());
+  chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 
   while (true) {
 
@@ -80,6 +80,21 @@ void opcontrol() {
     }
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
       doinker.toggle();
+    }
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+      blocker.toggle();
+    }
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+
+      hang.toggle();
+
+      if (!hang.getState()) {
+        chassis.set_active_brake(0);
+        chassis.set_drive_brake(MOTOR_BRAKE_COAST);
+      } else {
+        chassis.set_active_brake(0.1);
+        chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
+      }
     }
 
     pros::delay(ez::util::DELAY_TIME);

@@ -23,5 +23,6 @@ public:
 
     void loop() override;
     unsigned char* readBMP(const char* filename);
+    bool checkExists(const char* filename);
 };
 } // namespace balls
