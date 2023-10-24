@@ -4,7 +4,9 @@
 #include "autons.hpp"
 #include "gif-pros/gifclass.hpp"
 #include "pros/misc.h"
+#include "pros/motors.h"
 #include "robotconfig.h"
+#include "sylib/system.hpp"
 
 ASSET(cat_gif)
 
@@ -20,17 +22,15 @@ void initialize() {
   modified_exit_condition();
 
   // Autonomous Selector using LLEMU
-  ez::as::auton_selector.add_autons({
-    {Auton("test", drivetest)}
-  });
+  ez::as::auton_selector.add_autons({{Auton("test", drivetest)}});
 
   // Initialize chassis and auton selector
+  sylib::initialize();
   chassis.initialize();
   ez::as::initialize();
 
   catapult.startTask();
   lights.startTask();
-
 }
 
 void autonomous() {
@@ -59,8 +59,8 @@ void disabled() {
 void opcontrol() {
   ez::as::shutdown();
   blocker.toggle();
-   Gif *gif = new Gif(cat_gif, lv_scr_act());
-  chassis.set_drive_brake(MOTOR_BRAKE_COAST);
+  Gif *gif = new Gif(cat_gif, lv_scr_act());
+  chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
 
   while (true) {
 

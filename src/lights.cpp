@@ -39,11 +39,12 @@ unsigned char* Lights::readBMP(const char* filename) {
 void Lights::loop() {
     intakeLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
     doinkerLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
-
+/**/
+    unsigned char* doinkerAnimData = readBMP("/usd/doinkerAnim.BMP");
+    
     while (true) {
-        
         // find what frame in the animation we are
-        if (1) {
+        if (doinker.getState()) {
             doinkerAnimTimestep++;
             if (doinkerAnimTimestep > 31) {doinkerAnimTimestep = 29;}
         } else {
@@ -51,7 +52,6 @@ void Lights::loop() {
             if (doinkerAnimTimestep < 0) {doinkerAnimTimestep = 0;}
         }
 
-        unsigned char* doinkerAnimData = readBMP("/usd/doinkerAnim.BMP");
 
         // retrieve the value of each pixel for that frame
         for(int i = 0; i<32; i++) {
