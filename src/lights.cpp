@@ -53,14 +53,14 @@ void Lights::loop() {
         // find what frame in the animation we are
         if (doinker.getState()) {
             doinkerAnimTimestep++;
-            if (doinkerAnimTimestep > 31) {doinkerAnimTimestep = 29;}
+            if (doinkerAnimTimestep > 32) {doinkerAnimTimestep = 30;}
         } else {
             doinkerAnimTimestep--;
-            if (doinkerAnimTimestep < 0) {doinkerAnimTimestep = 0;}
+            if (doinkerAnimTimestep < 1) {doinkerAnimTimestep = 1;}
         }
 
             // retrieve the value of each pixel for that frame
-            for(int i = 0; i<32; i++) {
+            for(int i = 1; i<=32; i++) {
                 doinkerLED.set_pixel(sylib::Addrled::rgb_to_hex(doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep)],  // R
                                                                     doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) + 1], // G
                                                                     doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) + 2]),// B
