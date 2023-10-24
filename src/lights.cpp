@@ -59,9 +59,6 @@ void Lights::loop() {
             if (doinkerAnimTimestep < 0) {doinkerAnimTimestep = 0;}
         }
 
-        if (checkExists("/usd/doinkerAnim.BMP")) {
-            unsigned char* doinkerAnimData = readBMP("/usd/doinkerAnim.BMP");
-
             // retrieve the value of each pixel for that frame
             for(int i = 0; i<32; i++) {
                 doinkerLED.set_pixel(sylib::Addrled::rgb_to_hex(doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep)],  // R
@@ -69,7 +66,6 @@ void Lights::loop() {
                                                                     doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) + 2]),// B
                                                                     i ); // index of the pixel in the strip
             }
-        
 
         pros::delay(10);
     }
