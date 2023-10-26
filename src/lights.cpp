@@ -24,14 +24,6 @@ unsigned char* Lights::readBMP(const char* filename) {
     fread(data, sizeof(unsigned char), size, f); 
     fclose(f);
 
-    for(i = 0; i < size; i += 3)
-    {
-            // flip the order of every 3 bytes
-            unsigned char tmp = data[i];
-            data[i] = data[i+2];
-            data[i+2] = tmp;
-    }
-
     return data;
 }
 
@@ -46,29 +38,28 @@ bool Lights::checkExists(const char* filename) {
 void Lights::loop() {
     intakeLED.set_all(sylib::Addrled::rgb_to_hex(150, 0, 0));
     underglowLED.set_all(sylib::Addrled::rgb_to_hex(150, 0, 0));
-    doinkerLED.set_all(sylib::Addrled::rgb_to_hex(150, 0, 0));
-    /*
-    unsigned char* doinkerAnimData = readBMP("/usd/doinkerAnim.BMP");
+    doinkerAnimTimestep = 32;
+    
+    unsigned char* doinkerAnimData = readBMP("/usd/doinkerAnim2.BMP");
     
     while (true) {
         // find what frame in the animation we are
         if (!doinker.getState()) {
             doinkerAnimTimestep++;
-            if (doinkerAnimTimestep > 31) {doinkerAnimTimestep = 31;}
+            if (doinkerAnimTimestep > 32) {doinkerAnimTimestep = 32;}
         } else {
             doinkerAnimTimestep--;
-            if (doinkerAnimTimestep < 0) {doinkerAnimTimestep = 2;}
+            if (doinkerAnimTimestep < 1) {doinkerAnimTimestep = 3;}
         }
 
             // retrieve the value of each pixel for that frame
             for(int i = 0; i<32; i++) {
-                doinkerLED.set_pixel(sylib::Addrled::rgb_to_hex(doinkerAnimData[3 * ((i+1) * 32 + doinkerAnimTimestep)],  // R
-                                                                    doinkerAnimData[3 * ((i+1) * 32 + doinkerAnimTimestep) + 1], // G
-                                                                    doinkerAnimData[3 * ((i+1) * 32 + doinkerAnimTimestep) + 2]),// B
+                doinkerLED.set_pixel(sylib::Addrled::rgb_to_hex(doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) - 1],// B
+                                                                    doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) - 2],  // G
+                                                                    doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) - 3]), // R
                                                                     i ); // index of the pixel in the strip
             }
 
-        pros::delay(15);
+        pros::delay(18);
     }
-    */
 }

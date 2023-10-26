@@ -11,7 +11,7 @@ class Lights : public ryan::TaskWrapper {
 
 private:
 
-  int doinkerAnimTimestep = 1;
+  int doinkerAnimTimestep;
   sylib::Addrled &underglowLED;
   sylib::Addrled &intakeLED;
   sylib::Addrled &doinkerLED;
