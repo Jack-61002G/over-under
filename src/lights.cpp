@@ -67,6 +67,6 @@ void Lights::loop() {
                                                                     i ); // index of the pixel in the strip
             }
 
-        pros::delay(10);
+        pros::delay(20);
     }
 }

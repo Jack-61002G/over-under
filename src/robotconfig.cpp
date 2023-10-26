@@ -8,26 +8,26 @@
 #include "lights.hpp"
 #include <iostream>
 
-sylib::Addrled intakeLED(22, 2, 28);
-sylib::Addrled doinkerLED(22, 8, 32);
+sylib::Addrled intakeLED(22, 1, 28);
+sylib::Addrled doinkerLED(22, 5, 32);
 
-ryan::Solenoid doinker('G');
+ryan::Solenoid doinker('C');
 
 // Chassis constructor
 Drive chassis(
     // Left Chassis Ports (negative port will reverse it!)
     //   the first port is the sensored port (when trackers are not used!)
-    {-6, -5, 7}
+    {-11, -20, 10}
 
 
     // Right Chassis Ports (negative port will reverse it!)
     //   the first port is the sensored port (when trackers are not used!)
     ,
-    {10, 9, -8}
+    {8, 7, -2}
 
     // IMU Port
     ,
-    20
+    9
 
     // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
     //    (or tracking wheel diameter)
@@ -52,15 +52,15 @@ Drive chassis(
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 pros::Motor cataMotor(3, false);
-pros::Rotation cataRotation(19, false);
+pros::Rotation cataRotation(1, false);
 
 balls::Catapult catapult(cataMotor, cataRotation, 66);
 
-pros::Motor intakeMotor(2, true);
+pros::Motor intakeMotor(19, true);
 
 Intake intake(intakeMotor);
 
-ryan::Solenoid blocker('E');
+ryan::Solenoid blocker('D');
 
 ryan::Solenoid hang('H');
 

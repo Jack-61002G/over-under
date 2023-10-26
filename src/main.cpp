@@ -58,7 +58,6 @@ void disabled() {
 
 void opcontrol() {
   ez::as::shutdown();
-  blocker.toggle();
    Gif *gif = new Gif(cat_gif, lv_scr_act());
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 
@@ -75,7 +74,7 @@ void opcontrol() {
 
     intake.setState(meow);
 
-    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
       catapult.fire();
     }
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {

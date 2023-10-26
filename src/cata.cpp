@@ -11,10 +11,23 @@ using namespace balls;
 
 void Catapult::loop() {
 
+  int matchloadCount = 0;
+
   while (true) {
     int pos = cataRotation.get_angle() / 100;
 
     switch (cataState) {
+
+    case State::MatchloadSkills:
+      cataMotor.move(127);
+      if ((pos >= targetPos) && (pos < 100)) {
+        matchloadCount++;
+        pros::delay(250);
+      }
+      if (matchloadCount > 44) {
+        cataState = State::Reloading;
+      }
+      break;
 
     case State::Firing:
       cataMotor.move(127);
@@ -23,7 +36,7 @@ void Catapult::loop() {
     case State::Reloading:
       if ((pos >= targetPos) && (pos < 100)) {
         cataState = State::Ready;
-      } else { int power = 20 * (targetPos - pos); // I don't know what this does but I don't want to remove it
+      } else {
         cataMotor.move(127);
         break;
       }
