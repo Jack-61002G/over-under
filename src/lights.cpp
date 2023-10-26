@@ -44,9 +44,10 @@ bool Lights::checkExists(const char* filename) {
 }
 
 void Lights::loop() {
-    intakeLED.set_all(sylib::Addrled::rgb_to_hex(175, 0, 0));
-    underglowLED.set_all(sylib::Addrled::rgb_to_hex(175, 0, 0));
-/**/
+    intakeLED.set_all(sylib::Addrled::rgb_to_hex(150, 0, 0));
+    underglowLED.set_all(sylib::Addrled::rgb_to_hex(150, 0, 0));
+    doinkerLED.set_all(sylib::Addrled::rgb_to_hex(150, 0, 0));
+    /*
     unsigned char* doinkerAnimData = readBMP("/usd/doinkerAnim.BMP");
     
     while (true) {
@@ -69,4 +70,5 @@ void Lights::loop() {
 
         pros::delay(15);
     }
+    */
 }
