@@ -63,6 +63,6 @@ Intake intake(intakeMotor);
 
 ryan::Solenoid blocker('D');
 
-ryan::Solenoid hang('H');
+ryan::Solenoid hang('F');
 
 balls::Lights lights(underglowLED, doinkerLED, intakeLED, doinker);

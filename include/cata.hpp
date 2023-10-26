@@ -25,12 +25,13 @@ public:
 
   void fire();
 
+  void stop();
+
   void matchload();
 
   void loop() override;
 
-  void toggleTarget();
-
+  Catapult::State getState();
   
 };
 } // namespace balls

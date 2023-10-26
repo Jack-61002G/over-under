@@ -48,7 +48,7 @@ void modified_exit_condition() {
 }
 
 void drivetest() {
-  intake.setState(Intake::STATE::IN);
+  intake = Intake::STATE::IN;
   chassis.set_drive_pid(15, 70, true);
   chassis.wait_drive();
   chassis.set_drive_pid(-43, 110, true);
@@ -66,8 +66,9 @@ void drivetest() {
   chassis.set_turn_pid(90, 110);
   chassis.wait_drive();
   chassis.set_drive_pid(15, 110);
-  intake.setState(Intake::STATE::OUT);
+  intake = Intake::STATE::OUT;
   chassis.wait_drive();
   chassis.set_drive_pid(-12, 110);
   chassis.wait_drive();
+  intake = Intake::STATE::IDLE;
 }
