@@ -1,14 +1,16 @@
+#include "EZ-Template/util.hpp"
 #include "Solenoid.hpp"
 #include "cata.hpp"
-#include "EZ-Template/util.hpp"
 #include "graphy/Grapher.hpp"
 #include "intake.h"
+#include "lights.hpp"
 #include "main.h"
 #include "pros/motors.hpp"
-#include "lights.hpp"
 #include <iostream>
 
-sylib::Addrled intakeLED(22, 1, 28);
+
+sylib::Addrled underglowLED(22, 1, 28);
+sylib::Addrled intakeLED(22, 2, 22);
 sylib::Addrled doinkerLED(22, 5, 32);
 
 ryan::Solenoid doinker('C');
@@ -18,7 +20,6 @@ Drive chassis(
     // Left Chassis Ports (negative port will reverse it!)
     //   the first port is the sensored port (when trackers are not used!)
     {-11, -20, 10}
-
 
     // Right Chassis Ports (negative port will reverse it!)
     //   the first port is the sensored port (when trackers are not used!)
@@ -54,7 +55,7 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 pros::Motor cataMotor(3, false);
 pros::Rotation cataRotation(1, false);
 
-balls::Catapult catapult(cataMotor, cataRotation, 66);
+balls::Catapult catapult(cataMotor, cataRotation, 25);
 
 pros::Motor intakeMotor(19, true);
 
@@ -64,4 +65,4 @@ ryan::Solenoid blocker('D');
 
 ryan::Solenoid hang('H');
 
-balls::Lights lights(intakeLED, doinkerLED, doinker);
+balls::Lights lights(underglowLED, doinkerLED, intakeLED, doinker);

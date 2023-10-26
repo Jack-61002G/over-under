@@ -11,7 +11,6 @@
 ASSET(cat_gif)
 
 void initialize() {
-
   // Print our branding over your terminal :D
   ez::print_ez_template();
 
@@ -19,7 +18,7 @@ void initialize() {
       500); // Stop the user from doing anything while legacy ports configure.
 
   garage_constants();
-  modified_exit_condition();
+  exit_condition_defaults();
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons({{Auton("test", drivetest)}});
@@ -34,11 +33,10 @@ void initialize() {
 }
 
 void autonomous() {
-
   chassis.reset_pid_targets();               // Resets PID targets to 0
   chassis.reset_gyro();                      // Reset gyro position to 0
   chassis.reset_drive_sensor();              // Reset drive sensors to 0
-  chassis.set_drive_brake(MOTOR_BRAKE_HOLD); // Set motors to hold.  This helps
+  chassis.set_drive_brake(MOTOR_BRAKE_HOLD); // Set motors to hold. This helps
                                              // autonomous consistency.
 
   ez::as::auton_selector
@@ -46,11 +44,9 @@ void autonomous() {
 }
 
 void disabled() {
-
   // Store the time at the start of the loop
   std::uint32_t clock = sylib::millis();
   while (true) {
-
     // 10ms delay to allow other tasks to run
     sylib::delay_until(&clock, 10);
   }
@@ -58,11 +54,10 @@ void disabled() {
 
 void opcontrol() {
   ez::as::shutdown();
-   Gif *gif = new Gif(cat_gif, lv_scr_act());
+  Gif *gif = new Gif(cat_gif, lv_scr_act());
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 
   while (true) {
-
     chassis.arcade_standard(ez::SPLIT);
 
     Intake::STATE meow =
@@ -77,14 +72,16 @@ void opcontrol() {
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
       catapult.fire();
     }
+
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
       doinker.toggle();
     }
+
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
       blocker.toggle();
     }
-    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
 
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
       hang.toggle();
 
       if (!hang.getState()) {

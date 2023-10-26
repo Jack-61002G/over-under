@@ -12,13 +12,14 @@ class Lights : public ryan::TaskWrapper {
 private:
 
   int doinkerAnimTimestep = 1;
+  sylib::Addrled &underglowLED;
   sylib::Addrled &intakeLED;
   sylib::Addrled &doinkerLED;
   ryan::Solenoid &doinker;
 
 public:
-    Lights(sylib::Addrled &intakeLED, sylib::Addrled &doinkerLED, ryan::Solenoid &doinker)
-        : intakeLED(intakeLED), doinkerLED(doinkerLED), doinker(doinker) 
+    Lights(sylib::Addrled &underglowLED, sylib::Addrled &doinkerLED, sylib::Addrled &intakeLED, ryan::Solenoid &doinker)
+        : underglowLED(underglowLED), intakeLED(intakeLED), doinkerLED(doinkerLED), doinker(doinker) 
         {};
 
     void loop() override;

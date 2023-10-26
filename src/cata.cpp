@@ -46,7 +46,7 @@ void Catapult::loop() {
       break;
     }
 
-    pros::delay(10);
+    pros::delay(15);
 
   } // while loop
 };  // function
@@ -55,4 +55,8 @@ void Catapult::fire() {
   cataState = State::Firing;
   pros::delay(250);
   cataState = State::Reloading;
+}
+
+void Catapult::matchload() {
+  cataState = State::MatchloadSkills;
 }
