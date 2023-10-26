@@ -3,26 +3,30 @@
 
 Intake::STATE Intake::getState() { return this->state; }
 
-void Intake::setState(STATE newState) { this->state = newState; }
+void Intake::toggleTo(STATE newState) {
+  if (state != STATE::IDLE) {
+    state = STATE::IDLE;
+    update();
+  } else {
+    state = newState;
+    update();
+}}
 
-void Intake::operator=(STATE newState) { this->state = newState; }
+void Intake::update() {
+  switch (state) {
+  case STATE::IN:
+    intakeMotor.move(127);
+    break;
+  case STATE::OUT:
+    intakeMotor.move(-127);
+    break;
+  case STATE::IDLE:
+    intakeMotor.move(0);
+    break;
+}}
 
-void Intake::loop() {
-  while (true) {
-    switch (this->state) {
-    case STATE::IN:
-      intakeMotor = 127;
-      break;
-    case STATE::OUT:
-      intakeMotor = -127;
-      break;
-    case STATE::IDLE:
-      intakeMotor = 0;
-      break;
-    case STATE::LOADED:
-      intakeMotor = 0;
-      break;
-    }
-    pros::delay(20);
-  }
-};
+void Intake::operator=(STATE newState) { 
+  if (state != newState) { 
+    state = newState; 
+    update(); 
+}}

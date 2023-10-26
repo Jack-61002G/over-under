@@ -1,22 +1,20 @@
 #include "TaskWrapper.hpp"
 #include "main.h"
 
-class Intake : public ryan::TaskWrapper {
+class Intake {
 
 public:
-  enum class STATE { IN, OUT, IDLE, LOADED };
+  enum class STATE { IN, OUT, IDLE };
 
 private:
   STATE state = STATE::IDLE;
   pros::Motor &intakeMotor;
 
 public:
-  Intake(pros::Motor &intakeMotor) : intakeMotor(intakeMotor) {
-    this->startTask("Intake");
-  }
+  Intake(pros::Motor &intakeMotor) : intakeMotor(intakeMotor) {}
 
   STATE getState();
-  void setState(STATE newState);
-  void loop() override;
+  void toggleTo(STATE newState);
+  void update();
   void operator=(STATE newState);
 };

@@ -60,24 +60,29 @@ void opcontrol() {
   while (true) {
     chassis.arcade_standard(ez::SPLIT);
 
-    Intake::STATE meow =
-        controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1) // if
-            ? Intake::STATE::OUT
-            : (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) // else if
-                  ? Intake::STATE::IN
-                  : Intake::STATE::IDLE; // else
-
-    intake.setState(meow);
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+      intake = Intake::STATE::IN;
+    } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+      intake = Intake::STATE::OUT;
+    } else {
+      intake = Intake::STATE::IDLE;
+    }
 
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-      catapult.fire();
+      if (catapult.getState() == balls::Catapult::State::Reloading) {
+        catapult.fire();
+      }
+    } else {
+      if (catapult.getState() == balls::Catapult::State::Firing) {
+        catapult.stop();
+      }
     }
 
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
       doinker.toggle();
     }
 
-    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
       blocker.toggle();
     }
 
