@@ -50,16 +50,8 @@ void Catapult::loop() {
   } // while loop
 };  // function
 
-void Catapult::fire() {
-  cataState = State::Firing;
-}
-
-void Catapult::stop() {
-  cataState = State::Reloading;
-}
-
-void Catapult::matchload() {
-  cataState = State::MatchloadSkills;
+void Catapult::setState(State newState) {
+  cataState = newState;
 }
 
 Catapult::State Catapult::getState() {

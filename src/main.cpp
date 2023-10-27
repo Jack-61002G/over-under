@@ -70,11 +70,11 @@ void opcontrol() {
 
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
       if (catapult.getState() == balls::Catapult::State::Reloading) {
-        catapult.fire();
+        catapult.setState(balls::Catapult::State::Firing);
       }
     } else {
       if (catapult.getState() == balls::Catapult::State::Firing) {
-        catapult.stop();
+        catapult.setState(balls::Catapult::State::Reloading);
       }
     }
 

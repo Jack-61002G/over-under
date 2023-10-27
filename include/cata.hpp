@@ -23,11 +23,7 @@ public:
       cataState = State::Reloading;
     }
 
-  void fire();
-
-  void stop();
-
-  void matchload();
+  void setState(State newState);
 
   void loop() override;
 
