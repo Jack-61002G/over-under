@@ -20,7 +20,7 @@ public:
     : cataMotor(cataMotor), cataRotation(cataRotation), targetPos(targetPos) 
     {
       cataMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-      cataState = State::Reloading;
+      cataState = State::Ready;
     }
 
   void setState(State newState);

@@ -55,7 +55,7 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 pros::Motor cataMotor(3, false);
 pros::Rotation cataRotation(1, false);
 
-balls::Catapult catapult(cataMotor, cataRotation, 25);
+balls::Catapult catapult(cataMotor, cataRotation, 57);
 
 pros::Motor intakeMotor(19, true);
 

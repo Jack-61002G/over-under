@@ -47,28 +47,48 @@ void modified_exit_condition() {
   chassis.set_exit_condition(chassis.drive_exit, 80, 50, 300, 150, 500, 500);
 }
 
-void drivetest() {
+void closeSide3Ball() {
+
   intake = Intake::STATE::IN;
-  chassis.set_drive_pid(15, 70, true);
+  chassis.set_drive_pid(12, 50, true);
   chassis.wait_drive();
-  chassis.set_drive_pid(-43, 110, true);
-  chassis.wait_drive();
+  pros::delay(250);
+  chassis.set_drive_pid(-38, 110, true);
+  chassis.wait_until(35);
   chassis.set_turn_pid(-45, 110);
   chassis.wait_drive();
-  chassis.set_drive_pid(-28, 110);
-  chassis.wait_drive();
+  chassis.set_drive_pid(-30, 110);
+  chassis.wait_until(-28);
   chassis.set_turn_pid(-90, 110);
   chassis.wait_drive();
-  chassis.set_drive_pid(-18, 110);
+  chassis.set_drive_pid(-14, 110);
   chassis.wait_drive();
   chassis.set_drive_pid(10, 110);
   chassis.wait_drive();
   chassis.set_turn_pid(90, 110);
   chassis.wait_drive();
-  chassis.set_drive_pid(15, 110);
+  chassis.set_drive_pid(12, 110);
   intake = Intake::STATE::OUT;
   chassis.wait_drive();
   chassis.set_drive_pid(-12, 110);
   chassis.wait_drive();
   intake = Intake::STATE::IDLE;
+  chassis.set_turn_pid(13, 110);
+  chassis.wait_drive();
+  chassis.set_drive_pid(50, 110);
+  chassis.wait_until(25);
+  intake = Intake::STATE::IN;
+  chassis.wait_drive();
+  pros::delay(250);
+  chassis.set_drive_pid(-50, 110);
+  chassis.wait_drive();
+  chassis.set_turn_pid(90, 110);
+  chassis.wait_drive();
+  intake = Intake::STATE::OUT;
+  chassis.set_drive_pid(12, 110);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-12, 110);
+  chassis.wait_drive();
+  intake = Intake::STATE::IDLE;
+  
 }

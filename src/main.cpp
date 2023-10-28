@@ -21,7 +21,7 @@ void initialize() {
   exit_condition_defaults();
 
   // Autonomous Selector using LLEMU
-  ez::as::auton_selector.add_autons({{Auton("test", drivetest)}});
+  ez::as::auton_selector.add_autons({{Auton("close side, no mid", closeSide3Ball)}});
 
   // Initialize chassis and auton selector
   sylib::initialize();
@@ -69,14 +69,11 @@ void opcontrol() {
     }
 
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-      if (catapult.getState() == balls::Catapult::State::Reloading) {
         catapult.setState(balls::Catapult::State::Firing);
       }
-    } else {
-      if (catapult.getState() == balls::Catapult::State::Firing) {
-        catapult.setState(balls::Catapult::State::Reloading);
+    else {
+        catapult.setState(balls::Catapult::State::Ready);
       }
-    }
 
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
       doinker.toggle();
@@ -86,14 +83,12 @@ void opcontrol() {
       blocker.toggle();
     }
 
-    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
       hang.toggle();
 
       if (!hang.getState()) {
-        chassis.set_active_brake(0);
         chassis.set_drive_brake(MOTOR_BRAKE_COAST);
       } else {
-        chassis.set_active_brake(0.1);
         chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
       }
     }

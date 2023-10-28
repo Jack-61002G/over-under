@@ -27,6 +27,7 @@ void Catapult::loop() {
       if (matchloadCount > 44) {
         cataState = State::Reloading;
       }
+      break;
 
     case State::Firing:
       cataMotor.move(127);

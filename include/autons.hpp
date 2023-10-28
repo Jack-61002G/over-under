@@ -5,7 +5,7 @@
 
 extern Drive chassis;
 
-void drivetest();
+void closeSide3Ball();
 
 void garage_constants();
 void one_mogo_constants();
