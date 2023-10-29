@@ -1,46 +1,41 @@
 #include "main.h"
-#include "EZ-Template/auton.hpp"
-#include "EZ-Template/sdcard.hpp"
-#include "autons.hpp"
 #include "gif-pros/gifclass.hpp"
 #include "pros/misc.h"
 #include "pros/motors.h"
 #include "robotconfig.h"
 #include "sylib/system.hpp"
+#include "autoSelect/selection.h"
 
 ASSET(cat_gif)
+ASSET(path_txt)
 
 void initialize() {
-  // Print our branding over your terminal :D
-  ez::print_ez_template();
-
-  pros::delay(
-      500); // Stop the user from doing anything while legacy ports configure.
-
-  default_constants();
-  exit_condition_defaults();
-
-  // Autonomous Selector using LLEMU
-  ez::as::auton_selector.add_autons({{Auton("close side, no mid", closeSide3Ball)}});
 
   // Initialize chassis and auton selector
+  selector::init();
   sylib::initialize();
-  chassis.initialize();
-  ez::as::initialize();
+  chassis.calibrate();
 
   catapult.startTask();
   lights.startTask();
 }
 
 void autonomous() {
-  chassis.reset_pid_targets();               // Resets PID targets to 0
-  chassis.reset_gyro();                      // Reset gyro position to 0
-  chassis.reset_drive_sensor();              // Reset drive sensors to 0
-  chassis.set_drive_brake(MOTOR_BRAKE_HOLD); // Set motors to hold. This helps
-                                             // autonomous consistency.
-
-  ez::as::auton_selector
-      .call_selected_auton(); // Calls selected auton from autonomous selector.
+  if(selector::auton == 1){
+    chassis.setPose(-17, 59.5, 90);
+    intake = Intake::STATE::IN;
+    chassis.moveTo(-6, 59.5, 90, 1000);
+    chassis.moveTo(-64, 20, 0, 2350, false, false, 13, .6);
+    chassis.setPose(-64, 29.625, 0);
+    chassis.moveTo(-60, 34, 0, 5000);
+    chassis.turnTo(chassis.getPose().x, -60, 5000);
+    intake = Intake::STATE::OUT;
+    chassis.moveTo(chassis.getPose().x, 10, 180, 750);
+    intake = Intake::STATE::IDLE;
+    
+    
+  }
+  
 }
 
 void disabled() {
@@ -53,12 +48,12 @@ void disabled() {
 }
 
 void opcontrol() {
-  ez::as::shutdown();
+  std::uint32_t clock = sylib::millis();
+  
   Gif *gif = new Gif(cat_gif, lv_scr_act());
-  chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 
   while (true) {
-    chassis.arcade_standard(ez::SPLIT);
+    chassis.arcade(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), 4);
 
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
       intake = Intake::STATE::IN;
@@ -85,14 +80,8 @@ void opcontrol() {
 
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
       hang.toggle();
-
-      if (!hang.getState()) {
-        chassis.set_drive_brake(MOTOR_BRAKE_COAST);
-      } else {
-        chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
-      }
     }
 
-    pros::delay(ez::util::DELAY_TIME);
+    sylib::delay_until(&clock, 15);
   }
 }

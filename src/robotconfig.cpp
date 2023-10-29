@@ -1,54 +1,45 @@
-#include "EZ-Template/util.hpp"
 #include "Solenoid.hpp"
 #include "cata.hpp"
 #include "graphy/Grapher.hpp"
 #include "intake.h"
 #include "lights.hpp"
 #include "main.h"
+#include "pros/imu.hpp"
 #include "pros/motors.hpp"
 #include <iostream>
-
+#include "lemlib/api.hpp"
 
 sylib::Addrled underglowLED(22, 1, 28);
 sylib::Addrled intakeLED(22, 2, 22);
 sylib::Addrled doinkerLED(22, 5, 32);
 
+pros::Motor leftFront(11, true);
+pros::Motor leftBack(20, true);
+pros::Motor leftTop(10, false);
+
+pros::Motor rightFront(8, false);
+pros::Motor rightBack(7, false);
+pros::Motor rightTop(2, true);
+
+pros::Motor_Group leftMotors({leftFront, leftBack, leftTop});
+pros::Motor_Group rightMotors({rightFront, rightBack, rightTop});
+
+pros::Imu imu(9);
+// drivetrain
+lemlib::Drivetrain_t drivetrain {&leftMotors, &rightMotors, 10.375, lemlib::Omniwheel::NEW_325, 360, 13};
+
+// lateral motion controller
+lemlib::ChassisController_t lateralController {12, 30, 1, 100, 3, 500, 8};
+
+// angular motion controller
+lemlib::ChassisController_t angularController {2, 13.5, 1, 100, 3, 500, 20};
+
+// sensors for odometry
+lemlib::OdomSensors_t sensors {nullptr, nullptr, nullptr, nullptr, &imu};
+
+lemlib::Chassis chassis(drivetrain, lateralController, angularController, sensors);
+
 ryan::Solenoid doinker('C');
-
-// Chassis constructor
-Drive chassis(
-    // Left Chassis Ports (negative port will reverse it!)
-    //   the first port is the sensored port (when trackers are not used!)
-    {-11, -20, 10}
-
-    // Right Chassis Ports (negative port will reverse it!)
-    //   the first port is the sensored port (when trackers are not used!)
-    ,
-    {8, 7, -2}
-
-    // IMU Port
-    ,
-    9
-
-    // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
-    //    (or tracking wheel diameter)
-    ,
-    3.25
-
-    // Cartridge RPM
-    //   (or tick per rotation if using tracking wheels)
-    ,
-    600
-
-    // External Gear Ratio (MUST BE DECIMAL)
-    //    (or gear ratio of tracking wheel)
-    // eg. if your drive is 84:36 where the 36t is powered, your RATIO would
-    // be 2.333. eg. if your drive is 36:60 where the 60t is powered, your RATIO
-    // would be 0.6.
-    ,
-    1.666
-
-);
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
