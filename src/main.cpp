@@ -17,7 +17,7 @@ void initialize() {
   pros::delay(
       500); // Stop the user from doing anything while legacy ports configure.
 
-  garage_constants();
+  default_constants();
   exit_condition_defaults();
 
   // Autonomous Selector using LLEMU

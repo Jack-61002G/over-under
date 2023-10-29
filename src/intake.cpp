@@ -21,7 +21,7 @@ void Intake::update() {
     intakeMotor.move(-127);
     break;
   case STATE::IDLE:
-    intakeMotor.move(0);
+    intakeMotor.move_velocity(0);
     break;
 }}
 
