@@ -1,14 +1,13 @@
 #pragma once
-#include "EZ-Template/drive/drive.hpp"
 #include "Solenoid.hpp"
 #include "cata.hpp"
-#include "EZ-Template/util.hpp"
 #include "graphy/Grapher.hpp"
 #include "intake.h"
+#include "lemlib/chassis/chassis.hpp"
 #include "main.h"
 #include "lights.hpp"
 
-extern Drive chassis;
+extern lemlib::Chassis chassis;
 extern pros::Controller controller;
 extern balls::Catapult catapult;
 extern Intake intake;
