@@ -31,11 +31,8 @@ void autonomous() {
     chassis.turnTo(chassis.getPose().x, -60, 5000);
     intake = Intake::STATE::OUT;
     chassis.moveTo(chassis.getPose().x, 10, 180, 750);
-    intake = Intake::STATE::IDLE;
-    
-    
+    intake = Intake::STATE::IDLE; 
   }
-  
 }
 
 void disabled() {
@@ -63,12 +60,9 @@ void opcontrol() {
       intake = Intake::STATE::IDLE;
     }
 
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-        catapult.setState(balls::Catapult::State::Firing);
-      }
-    else {
-        catapult.setState(balls::Catapult::State::Ready);
-      }
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+      catapult.fire();
+    }
 
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
       doinker.toggle();

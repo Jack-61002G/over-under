@@ -18,17 +18,6 @@ void Catapult::loop() {
 
      switch (cataState) {
       
-    case State::MatchloadSkills:
-      cataMotor.move(127);
-      if ((pos >= targetPos) && (pos < 100)) {
-        matchloadCount++;
-        pros::delay(250);
-      }
-      if (matchloadCount > 44) {
-        cataState = State::Reloading;
-      }
-      break;
-
     case State::Firing:
       cataMotor.move(127);
       break;
@@ -51,10 +40,8 @@ void Catapult::loop() {
   } // while loop
 };  // function
 
-void Catapult::setState(State newState) {
-  cataState = newState;
-}
-
-Catapult::State Catapult::getState() {
-  return cataState;
+void Catapult::fire() {
+  cataState = State::Firing;
+  pros::delay(250);
+  cataState = State::Reloading;
 }

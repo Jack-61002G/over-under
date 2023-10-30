@@ -23,11 +23,9 @@ public:
       cataState = State::Ready;
     }
 
-  void setState(State newState);
-
   void loop() override;
 
-  Catapult::State getState();
+  void fire();
   
 };
 } // namespace balls
