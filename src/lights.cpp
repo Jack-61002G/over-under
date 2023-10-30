@@ -1,4 +1,5 @@
 #include "lights.hpp"
+#include "autoSelect/selection.h"
 #include <fstream>
 #include <string>
 
@@ -36,12 +37,25 @@ bool Lights::checkExists(const char* filename) {
 }
 
 void Lights::loop() {
-    intakeLED.set_all(sylib::Addrled::rgb_to_hex(150, 0, 0));
-    underglowLED.set_all(sylib::Addrled::rgb_to_hex(150, 0, 0));
+    unsigned char* doinkerAnimData;
+
+    if (selector::auton > 0) {
+        intakeLED.set_all(sylib::Addrled::rgb_to_hex(150, 0, 0));
+        underglowLED.set_all(sylib::Addrled::rgb_to_hex(150, 0, 0));
+        unsigned char* doinkerAnimData = readBMP("/usd/doinkerAnim.BMP");
+    } else if (selector::auton < 0) {
+        intakeLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 150));
+        underglowLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 150));
+        unsigned char* doinkerAnimData = readBMP("/usd/doinkerAnim2.BMP");
+    } else {
+        intakeLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
+        intakeLED.cycle(*intakeLED, 10);
+        underglowLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
+        underglowLED.cycle(*intakeLED, 10);
+    }
+    
     doinkerAnimTimestep = 32;
-    
-    unsigned char* doinkerAnimData = readBMP("/usd/doinkerAnim2.BMP");
-    
+
     while (true) {
         // find what frame in the animation we are
         if (!doinker.getState()) {
