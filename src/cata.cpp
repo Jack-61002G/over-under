@@ -30,7 +30,7 @@ void Catapult::loop() {
         matchloadCount++;
         if (matchloadCount >= 44) {
           cataState = State::Idle;
-        }
+        } else {break;}
       }
 
     case State::Idle:
@@ -39,7 +39,7 @@ void Catapult::loop() {
 
     case State::Firing:
       cataMotor.move(127);      
-
+      break;
     }
 
     pros::delay(15);
