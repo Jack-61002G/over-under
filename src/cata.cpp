@@ -12,36 +12,39 @@ using namespace balls;
 void Catapult::loop() {
 
   int matchloadCount = 0;
+  bool cataFireState = true;
 
   while (true) {
     int pos = cataRotation.get_angle() / 100;
-
-     switch (cataState) {
-      
-    case State::Firing:
+    switch (cataState) {
+    
+    case State::Matchload:
       cataMotor.move(127);
-      break;
 
-    case State::Reloading:
-      if ((pos >= targetPos) && (pos < 100)) {
-        cataState = State::Ready;
-      } else {
-        cataMotor.move(127);
+      if (cataFireState && pos > 30 && pos < 100) {
+        cataFireState = false;
         break;
       }
+      if (!cataFireState && pos < 30) {
+        cataFireState = true;
+        matchloadCount++;
+        if (matchloadCount >= 44) {
+          cataState = State::Idle;
+        }
+      }
 
-    case State::Ready:
+    case State::Idle:
       cataMotor.move(0);
       break;
+
+    case State::Firing:
+      cataMotor.move(127);      
+
     }
 
     pros::delay(15);
 
-  } // while loop
-};  // function
-
-void Catapult::fire() {
-  cataState = State::Firing;
-  pros::delay(250);
-  cataState = State::Reloading;
+  }
 }
+
+void Catapult::setState(Catapult::State newState) {cataState = newState;};

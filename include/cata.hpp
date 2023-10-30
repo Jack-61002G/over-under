@@ -7,7 +7,7 @@ namespace balls {
 class Catapult : public ryan::TaskWrapper {
 
 public:
-  enum class State { Ready, Reloading, Firing, MatchloadSkills};
+  enum class State { Idle, Firing, Matchload};
 
 private:
   State cataState;
@@ -20,12 +20,12 @@ public:
     : cataMotor(cataMotor), cataRotation(cataRotation), targetPos(targetPos) 
     {
       cataMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-      cataState = State::Ready;
+      cataState = State::Idle;
     }
 
   void loop() override;
 
-  void fire();
+  void setState(Catapult::State newState);
   
 };
 } // namespace balls

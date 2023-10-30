@@ -1,4 +1,5 @@
 #include "main.h"
+#include "cata.hpp"
 #include "gif-pros/gifclass.hpp"
 #include "pros/misc.h"
 #include "pros/motors.h"
@@ -49,6 +50,8 @@ void opcontrol() {
   
   Gif *gif = new Gif(cat_gif, lv_scr_act());
 
+  bool cata_button = false;
+
   while (true) {
     chassis.arcade(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), 4);
 
@@ -60,18 +63,24 @@ void opcontrol() {
       intake = Intake::STATE::IDLE;
     }
 
-    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
-      catapult.fire();
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+      if (!cata_button) {
+        catapult.setState(balls::Catapult::State::Firing);
+        cata_button = true;
+      }
+    } else {
+      if (cata_button) {
+        catapult.setState(balls::Catapult::State::Idle);
+        cata_button = false;
+      }
     }
 
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
       doinker.toggle();
     }
-
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
       blocker.toggle();
     }
-
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
       hang.toggle();
     }
