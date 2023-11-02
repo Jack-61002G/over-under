@@ -62,7 +62,7 @@ void opcontrol() {
     } else {
       intake = Intake::STATE::IDLE;
     }
-
+    /*
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
       if (!cata_button) {
         catapult.setState(balls::Catapult::State::Firing);
@@ -73,6 +73,11 @@ void opcontrol() {
         catapult.setState(balls::Catapult::State::Idle);
         cata_button = false;
       }
+    }
+    */
+
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+      catapult.setState(balls::Catapult::State::Firing);
     }
 
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
@@ -85,6 +90,6 @@ void opcontrol() {
       hang.toggle();
     }
 
-    sylib::delay_until(&clock, 15);
+    sylib::delay_until(&clock, 10);
   }
 }
