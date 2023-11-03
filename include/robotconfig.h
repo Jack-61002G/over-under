@@ -13,6 +13,7 @@ extern balls::Catapult catapult;
 extern Intake intake;
 extern sylib::Addrled intakeLED;
 extern sylib::Addrled doinkerLED;
+extern sylib::Addrled underglowLED;
 extern ryan::Solenoid blocker;
 
 extern ryan::Solenoid doinker;

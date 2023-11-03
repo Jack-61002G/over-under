@@ -26,6 +26,8 @@ public:
   void loop() override;
 
   void setState(Catapult::State newState);
+
+  Catapult::State getState();
   
 };
 } // namespace balls

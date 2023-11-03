@@ -21,7 +21,8 @@ public:
     Lights(sylib::Addrled &underglowLED, sylib::Addrled &doinkerLED, sylib::Addrled &intakeLED, ryan::Solenoid &doinker)
         : underglowLED(underglowLED), intakeLED(intakeLED), doinkerLED(doinkerLED), doinker(doinker) 
         {};
-
+        
+    void init();
     void loop() override;
     unsigned char* readBMP(const char* filename);
     bool checkExists(const char* filename);

@@ -23,15 +23,16 @@ void Catapult::loop() {
 
       if (cataFireState && pos > 30 && pos < 100) {
         cataFireState = false;
-        break;
       }
       if (!cataFireState && pos < 30) {
         cataFireState = true;
         matchloadCount++;
         if (matchloadCount >= 44) {
           cataState = State::Idle;
+          continue;
         }
       }
+      break;
 
     case State::Idle:
       cataMotor.move(0);
@@ -39,7 +40,7 @@ void Catapult::loop() {
 
     case State::Firing:
       cataMotor.move(127);      
-
+      break;
     }
 
     pros::delay(15);
@@ -48,3 +49,5 @@ void Catapult::loop() {
 }
 
 void Catapult::setState(Catapult::State newState) {cataState = newState;};
+
+Catapult::State Catapult::getState() { return cataState; };
