@@ -30,3 +30,4 @@ void Intake::operator=(STATE newState) {
     state = newState; 
     update(); 
 }}
+
