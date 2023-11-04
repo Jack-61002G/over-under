@@ -29,7 +29,7 @@ pros::Imu imu(9);
 lemlib::Drivetrain_t drivetrain {&leftMotors, &rightMotors, 10.375, lemlib::Omniwheel::NEW_325, 360, 13};
 
 // lateral motion controller
-lemlib::ChassisController_t lateralController {12, 30, 1, 100, 3, 500, 8};
+lemlib::ChassisController_t lateralController {12, 30, 1, 100, 3, 500, 3};
 
 // angular motion controller
 lemlib::ChassisController_t angularController {2, 13.5, 1, 100, 3, 500, 20};

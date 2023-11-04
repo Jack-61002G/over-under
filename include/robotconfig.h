@@ -6,6 +6,7 @@
 #include "lemlib/chassis/chassis.hpp"
 #include "main.h"
 #include "lights.hpp"
+#include "pros/motors.hpp"
 
 extern lemlib::Chassis chassis;
 extern pros::Controller controller;
@@ -15,6 +16,9 @@ extern sylib::Addrled intakeLED;
 extern sylib::Addrled doinkerLED;
 extern sylib::Addrled underglowLED;
 extern ryan::Solenoid blocker;
+
+extern pros::MotorGroup leftMotors;
+extern pros::MotorGroup rightMotors;
 
 extern ryan::Solenoid doinker;
 

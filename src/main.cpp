@@ -6,9 +6,9 @@
 #include "robotconfig.h"
 #include "sylib/system.hpp"
 #include "autoSelect/selection.h"
+#include "autons.hpp"
 
 ASSET(cat_gif)
-ASSET(path_txt)
 
 void initialize() {
 
@@ -22,17 +22,18 @@ void initialize() {
 }
 
 void autonomous() {
-  if(selector::auton == 1){
-    chassis.setPose(-17, 59.5, 90);
-    intake = Intake::STATE::IN;
-    chassis.moveTo(-6, 59.5, 90, 1000);
-    chassis.moveTo(-64, 20, 0, 2350, false, false, 13, .6);
-    chassis.setPose(-64, 29.625, 0);
-    chassis.moveTo(-60, 34, 0, 5000);
-    chassis.turnTo(chassis.getPose().x, -60, 5000);
-    intake = Intake::STATE::OUT;
-    chassis.moveTo(chassis.getPose().x, 10, 180, 750);
-    intake = Intake::STATE::IDLE; 
+
+  leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+  rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+
+  if(std::abs(selector::auton) == 1){
+    closeSideMid();
+  }
+  else if (std::abs(selector::auton) == 2) {
+    closeSide3();
+  }
+  else if (selector::auton == 0) {
+  
   }
 }
 
@@ -47,6 +48,9 @@ void disabled() {
 
 void opcontrol() {
   std::uint32_t clock = sylib::millis();
+
+  leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+  rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
   
   Gif *gif = new Gif(cat_gif, lv_scr_act());
 
