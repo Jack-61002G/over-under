@@ -27,21 +27,22 @@ void closeSideMid() {
 
   // drive into top mid ball with intake on
   intake = Intake::STATE::IN;
-  chassis.moveTo(-25, 0, 180, 1700);
+  chassis.moveTo(-25, -3, 180, 1700);
 
   // turn to face goal and outtake
-  chassis.turnTo(-65, 8, 350);
+  chassis.turnTo(-65, 9, 350);
   intake = Intake::STATE::OUT;
 
   // turn and drive to bottom mid ball
   chassis.turnTo(-4, 0, 250);
   intake = Intake::STATE::IN;
-  chassis.moveTo(-9, 0, 90, 500);
+  chassis.moveTo(0, 0, 90, 750);
 
   // turn to face goal and push both into goal
-  chassis.turnTo(-65, 17, 500);
+  chassis.turnTo(-65, 17, 350);
   intake = Intake::STATE::IDLE;
-  chassis.moveTo(-60, 12, -90, 800);
+  chassis.moveTo(-70, 12, -90, 800);
+  return;
 
   // turn and drive to bottom right side ball
   chassis.moveTo(-34, -4, 0, 650, false, false);
