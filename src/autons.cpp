@@ -22,7 +22,7 @@ void closeSide3() {
   chassis.moveTo(-60, -40, 180, 1500);
 }
 
-void closeSideMid() {
+void closeSideMid() { // this shawty does NOT work
 
   chassis.setPose(-40.75, 55, 180);
 
@@ -96,21 +96,28 @@ void closeSideMid() {
 void farSide() {
   chassis.setPose(-45, -54.25, 180);
 
+  //aim to slap the triball out
   chassis.turnTo(-60, -70, 750);
 
+  //slap the triball out
   doinker.toggle();
   pros::delay(500);
 
   chassis.turnTo(-30, -70, 750);
   doinker.toggle();
 
+  //score preload in goal
   chassis.moveTo(-59, 5, 180, 1500, false, false, 0, 0.75);
   pros::delay(500);
 
-  chassis.setPose(-70, -30, 180);
+  //wall reset on goal!
+  chassis.setPose(-70, -30, chassis.getPose().theta);
 
+  //move that jawn to the elevation bar and knock those triballs to the other side
   chassis.moveTo(4, -57, 90, 3000, false, true, 0, 0.85);
   doinker.toggle();
 }
+
+//need a far side mid auton still
 
 void skills() {}
