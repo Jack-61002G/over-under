@@ -50,6 +50,10 @@ void Lights::loop() {
   underglowLED.cycle(*underglowLED, 5);
   doinkerLED.gradient(0x750000, 0x750005, 0, 0, false, true);
   doinkerLED.cycle(*doinkerLED, 5);
+  leftDriveLED.gradient(0x750000, 0x750005, 0, 0, false, true);
+  leftDriveLED.cycle(*leftDriveLED, 5);
+  rightDriveLED.gradient(0x750000, 0x750005, 0, 0, false, true);
+  rightDriveLED.cycle(*rightDriveLED, 5);
 
   while(!pros::competition::is_disabled()) {pros::delay(100);}
   while(pros::competition::is_disabled()) {pros::delay(100);}
@@ -57,10 +61,14 @@ void Lights::loop() {
   if (selector::auton > 0) {
     intakeLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
     underglowLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
+    leftDriveLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
+    rightDriveLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
     doinkerAnimData = readBMP("/usd/doinkerAnim.BMP");
   } else if (selector::auton < 0) {
     intakeLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 200));
     underglowLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 200));
+    leftDriveLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 200));
+    rightDriveLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 200));
     doinkerAnimData = readBMP("/usd/doinkerAnim2.BMP");
   } else {
     pauseTask();

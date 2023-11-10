@@ -4,7 +4,7 @@
 class Intake {
 
 public:
-  enum class STATE { IN, OUT, IDLE };
+  enum class STATE { IN, HOLD, OUT, IDLE };
 
 private:
   STATE state = STATE::IDLE;

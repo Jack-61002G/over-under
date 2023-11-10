@@ -17,6 +17,9 @@ void Intake::update() {
   case STATE::IN:
     intakeMotor.move(127);
     break;
+  case STATE::HOLD:
+    intakeMotor.move_velocity(60);
+    break;
   case STATE::OUT:
     intakeMotor.move(-127);
     break;

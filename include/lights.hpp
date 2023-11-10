@@ -15,11 +15,13 @@ private:
   sylib::Addrled &underglowLED;
   sylib::Addrled &intakeLED;
   sylib::Addrled &doinkerLED;
+  sylib::Addrled &rightDriveLED;
+  sylib::Addrled &leftDriveLED;
   ryan::Solenoid &doinker;
 
 public:
-    Lights(sylib::Addrled &underglowLED, sylib::Addrled &doinkerLED, sylib::Addrled &intakeLED, ryan::Solenoid &doinker)
-        : underglowLED(underglowLED), intakeLED(intakeLED), doinkerLED(doinkerLED), doinker(doinker) 
+    Lights(sylib::Addrled &underglowLED, sylib::Addrled &doinkerLED, sylib::Addrled &intakeLED, sylib::Addrled &leftDriveLED, sylib::Addrled &rightDriveLED, ryan::Solenoid &doinker)
+        : underglowLED(underglowLED), intakeLED(intakeLED), doinkerLED(doinkerLED),leftDriveLED(leftDriveLED), rightDriveLED(rightDriveLED), doinker(doinker) 
         {};
         
     void init();

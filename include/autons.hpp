@@ -4,3 +4,5 @@
 
 extern void closeSide3();
 extern void closeSideMid();
+extern void farSide();
+extern void skills();

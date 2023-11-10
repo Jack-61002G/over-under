@@ -1,4 +1,5 @@
 #include "robotconfig.h"
+#include <iostream>
 
 void closeSide3() {
   chassis.setPose(-17, 59.5, 90);
@@ -23,41 +24,59 @@ void closeSide3() {
 
 void closeSideMid() {
 
-    chassis.setPose(-40.75, 55, 180);
+  chassis.setPose(-40.75, 55, 180);
 
   // drive into top mid ball with intake on
   intake = Intake::STATE::IN;
-  chassis.moveTo(-25, -3, 180, 1700);
+  chassis.moveTo(-25, -3, 180, 1400);
 
   // turn to face goal and outtake
-  chassis.turnTo(-65, 9, 350);
+  chassis.turnTo(-65, 4, 325);
+  pros::delay(150);
   intake = Intake::STATE::OUT;
+  pros::delay(50);
 
   // turn and drive to bottom mid ball
   chassis.turnTo(-4, 0, 250);
   intake = Intake::STATE::IN;
-  chassis.moveTo(0, 0, 90, 750);
+  chassis.moveTo(-6, 0, 90, 750);
+  pros::delay(50);
 
   // turn to face goal and push both into goal
-  chassis.turnTo(-65, 17, 350);
+  chassis.turnTo(-65, 17, 400);
+  pros::delay(50);
   intake = Intake::STATE::IDLE;
-  chassis.moveTo(-70, 12, -90, 800);
-  return;
+  chassis.moveTo(-73, 4, -90, 1000);
+  pros::delay(500);
+  std::cout << chassis.getPose().x << " " << chassis.getPose().y << std::endl;
 
   // turn and drive to bottom right side ball
-  chassis.moveTo(-34, -4, 0, 650, false, false);
+  chassis.moveTo(-38, 0, 0, 650, false, false);
   intake = Intake::STATE::IN;
-  chassis.moveTo(-8, 24, 90, 1500);
+  chassis.moveTo(-22, 19, 90, 1300);
+  pros::delay(150);
+  intake = Intake::STATE::HOLD;
+  pros::delay(500);
+  std::cout << chassis.getPose().x << " " << chassis.getPose().y << std::endl;
 
   // back up to goal and outtake it to the right of the goal
-  chassis.moveTo(-40, 40, 135, 1500, false, false);
+  chassis.moveTo(-40, 20, 110, 1000, false, false);
+  pros::delay(500);
+  std::cout << chassis.getPose().x << " " << chassis.getPose().y << std::endl;
+  chassis.moveTo(-42, 40, 150, 1000);
+  pros::delay(500);
+  std::cout << chassis.getPose().x << " " << chassis.getPose().y << std::endl;
   chassis.turnTo(-100, 38, 750);
+  pros::delay(100);
   intake = Intake::STATE::OUT;
+  pros::delay(150);
+  pros::delay(500);
+  std::cout << chassis.getPose().x << " " << chassis.getPose().y << std::endl;
 
   // get the side bar ball and intake it
   chassis.turnTo(-40, 100, 500);
   intake = Intake::STATE::IN;
-  chassis.moveTo(-6, 59.5, 90, 2000, false, true, 13, .9);
+  chassis.moveTo(6, 50, 90, 5000, false, true, 13, .9);
 
   // back up to the matchload zone
   intake = Intake::STATE::IDLE;
@@ -73,3 +92,25 @@ void closeSideMid() {
   intake = Intake::STATE::OUT;
   chassis.moveTo(-60, 10, 180, 1500);
 }
+
+void farSide() {
+  chassis.setPose(-45, -54.25, 180);
+
+  chassis.turnTo(-60, -70, 750);
+
+  doinker.toggle();
+  pros::delay(500);
+
+  chassis.turnTo(-30, -70, 750);
+  doinker.toggle();
+
+  chassis.moveTo(-59, 5, 180, 1500, false, false, 0, 0.75);
+  pros::delay(500);
+
+  chassis.setPose(-70, -30, 180);
+
+  chassis.moveTo(4, -57, 90, 3000, false, true, 0, 0.85);
+  doinker.toggle();
+}
+
+void skills() {}

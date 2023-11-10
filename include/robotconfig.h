@@ -4,9 +4,10 @@
 #include "graphy/Grapher.hpp"
 #include "intake.h"
 #include "lemlib/chassis/chassis.hpp"
-#include "main.h"
 #include "lights.hpp"
+#include "main.h"
 #include "pros/motors.hpp"
+
 
 extern lemlib::Chassis chassis;
 extern pros::Controller controller;
@@ -15,6 +16,8 @@ extern Intake intake;
 extern sylib::Addrled intakeLED;
 extern sylib::Addrled doinkerLED;
 extern sylib::Addrled underglowLED;
+extern sylib::Addrled rightDriveLED;
+extern sylib::Addrled leftDriveLED;
 extern ryan::Solenoid blocker;
 
 extern pros::MotorGroup leftMotors;

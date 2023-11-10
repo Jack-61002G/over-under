@@ -12,6 +12,8 @@
 sylib::Addrled underglowLED(22, 1, 28);
 sylib::Addrled intakeLED(22, 2, 22);
 sylib::Addrled doinkerLED(22, 5, 32);
+sylib::Addrled rightDriveLED(22,7, 36);
+sylib::Addrled leftDriveLED(22, 8, 36);
 
 pros::Motor leftFront(11, true);
 pros::Motor leftBack(20, true);
@@ -56,4 +58,4 @@ ryan::Solenoid blocker('D');
 
 ryan::Solenoid hang('F');
 
-balls::Lights lights(underglowLED, doinkerLED, intakeLED, doinker);
+balls::Lights lights(underglowLED, doinkerLED, intakeLED, leftDriveLED, rightDriveLED, doinker);
