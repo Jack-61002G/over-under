@@ -1,5 +1,8 @@
+#include "lemlib/asset.hpp"
 #include "robotconfig.h"
 #include <iostream>
+
+ASSET(skillspush_text)
 
 void closeSide3() {
   chassis.setPose(-17, 59.5, 90);
@@ -96,28 +99,48 @@ void closeSideMid() { // this shawty does NOT work
 void farSide() {
   chassis.setPose(-45, -54.25, 180);
 
-  //aim to slap the triball out
+  // aim to slap the triball out
   chassis.turnTo(-60, -70, 750);
 
-  //slap the triball out
+  // slap the triball out
   doinker.toggle();
   pros::delay(500);
 
   chassis.turnTo(-30, -70, 750);
   doinker.toggle();
 
-  //score preload in goal
+  // score preload in goal
   chassis.moveTo(-59, 5, 180, 1500, false, false, 0, 0.75);
   pros::delay(500);
 
-  //wall reset on goal!
+  // wall reset on goal!
   chassis.setPose(-70, -30, chassis.getPose().theta);
 
-  //move that jawn to the elevation bar and knock those triballs to the other side
+  // move that jawn to the elevation bar and knock those triballs to the other
+  // side
   chassis.moveTo(4, -57, 90, 3000, false, true, 0, 0.85);
   doinker.toggle();
 }
 
-//need a far side mid auton still
+void farSideMid() { // need a far side mid auton still
 
-void skills() {}
+  
+
+}
+
+void skills() {
+
+  // push preload into goal
+
+  // move to matchloader
+
+  // shoot matchloads
+  catapult.setState(balls::Catapult::State::Matchload);
+
+  while (catapult.getState() == balls::Catapult::State::Matchload) {
+    pros::delay(20);
+  }
+
+  // push time !!
+  chassis.follow(skillspush_text, 10000, 10);
+}
