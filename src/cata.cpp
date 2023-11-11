@@ -27,7 +27,7 @@ void Catapult::loop() {
       if (!cataFireState && pos < 30) {
         cataFireState = true;
         matchloadCount++;
-        if (matchloadCount >= 44) {
+        if (matchloadCount >= 46) {
           cataState = State::Idle;
           continue;
         }

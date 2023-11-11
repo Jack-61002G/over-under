@@ -1,12 +1,14 @@
 #include "main.h"
+#include "autoSelect/selection.h"
+#include "autons.hpp"
 #include "cata.hpp"
 #include "gif-pros/gifclass.hpp"
 #include "pros/misc.h"
 #include "pros/motors.h"
 #include "robotconfig.h"
 #include "sylib/system.hpp"
-#include "autoSelect/selection.h"
-#include "autons.hpp"
+#include <iostream>
+
 
 ASSET(cat_gif)
 
@@ -26,16 +28,13 @@ void autonomous() {
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
 
-  if(std::abs(selector::auton) == 1){
+  if (std::abs(selector::auton) == 1) {
     closeSideMid();
-  }
-  else if (std::abs(selector::auton) == 2) {
+  } else if (std::abs(selector::auton) == 2) {
     closeSide3();
-  }
-  else if (std::abs(selector::auton) == 3) {
+  } else if (std::abs(selector::auton) == 3) {
     farSide();
-  }
-  else if (selector::auton == 0) {
+  } else if (selector::auton == 0) {
     skills();
   }
 }
@@ -54,13 +53,14 @@ void opcontrol() {
 
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
-  
+
   Gif *gif = new Gif(cat_gif, lv_scr_act());
 
   bool cata_button = false;
 
   while (true) {
-    chassis.arcade(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), 4);
+    chassis.arcade(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),
+                   controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), 4);
 
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
       intake = Intake::STATE::IN;
@@ -76,13 +76,15 @@ void opcontrol() {
           catapult.setState(balls::Catapult::State::Idle);
         } else {
           catapult.setState(balls::Catapult::State::Firing);
-        } cata_button = true;
+        }
+        cata_button = true;
       }
     } else {
       if (cata_button) {
         if (catapult.getState() == balls::Catapult::State::Firing) {
           catapult.setState(balls::Catapult::State::Idle);
-        } cata_button = false;
+        }
+        cata_button = false;
       }
     }
 

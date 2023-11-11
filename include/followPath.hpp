@@ -1,27 +1,32 @@
 #include "main.h"
-namespace meow {
-    class Trapevel {
-    public:
-        Trapevel(double max_vel, double max_acc, double distance) :
-            max_vel_(max_vel), max_acc_(max_acc), distance_(distance) {}
+#include "pros/rtos.hpp"
+#include "robotconfig.h"
+#include <memory>
+#include "preplanning.h"
 
-        double getDuration() const {
-            double acc_time = max_vel_ / max_acc_;
-            double acc_distance = 0.5 * max_acc_ * acc_time * acc_time;
-            double const_distance = distance_ - 2 * acc_distance;
-            double const_time = const_distance / max_vel_;
-            return 2 * acc_time + const_time;
-        }
+void follow2d(trajectory path) {
 
-    private:
-        double max_vel_;
-        double max_acc_;
-        double distance_;
-    };
+  int i = 0;
+
+  while (i < path.points.size()) {
+
+    double leftVel = path.targetLinearVelocity[i] +
+                     path.targetAngularVelocity[i] * 10.375 / 2.0;
+    double rightVel = path.targetLinearVelocity[i] -
+                      path.targetAngularVelocity[i] * 10.375 / 2.0;
+
+    std::cout<<leftVel<<" "<<rightVel<<std::endl;
     
-    void follow2d(std::vector<std::vector<double>> path) {
 
-
-        
-    };
+    leftMotors = leftController->update(leftVel, leftMotors.get_actual_velocities()[0]);
+    rightMotors = rightController->update(rightVel, rightMotors.get_actual_velocities()[0]);
+    pros::delay(25);
+    i++;
+  }
+  leftMotors = 0;
+  rightMotors = 0;
+  leftMotors.brake();
+  rightMotors.brake();
+  leftController->reset();
+    rightController->reset();
 }

@@ -1,8 +1,10 @@
 #include "lemlib/asset.hpp"
 #include "robotconfig.h"
 #include <iostream>
+#include "followPath.hpp"
 
-ASSET(skillspush_text)
+ASSET(skillspush_txt)
+ASSET(sidepush_txt)
 
 void closeSide3() {
   chassis.setPose(-17, 59.5, 90);
@@ -129,18 +131,30 @@ void farSideMid() { // need a far side mid auton still
 }
 
 void skills() {
+  chassis.setPose(-40.5, 54.5, -90);
 
   // push preload into goal
 
   // move to matchloader
+  chassis.moveTo(-54, 48.2, -71, 1000);
+  doinker.toggle();
 
   // shoot matchloads
   catapult.setState(balls::Catapult::State::Matchload);
 
   while (catapult.getState() == balls::Catapult::State::Matchload) {
     pros::delay(20);
+    
   }
-
+  doinker.toggle();
   // push time !!
-  chassis.follow(skillspush_text, 10000, 10);
+  chassis.turnTo(-30, 60, 500);
+  chassis.follow(skillspush_txt, 5750, 17);
+  chassis.setPose(42,-7,90);
+  chassis.moveTo(0, 7, 90, 1500, false, false); 
+  chassis.moveTo(55, 7, 90, 800);
+  chassis.moveTo(-20, 7, 90, 1000, false, false);
+  pros::delay(250);
+  chassis.setPose(8, 7, 90);
+  chassis.follow(sidepush_txt, 10000, 15);
 }
