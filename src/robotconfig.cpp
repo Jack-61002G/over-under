@@ -8,7 +8,6 @@
 #include "pros/motors.hpp"
 #include <iostream>
 #include "lemlib/api.hpp"
-#include "trapevel.h"
 
 sylib::Addrled underglowLED(22, 1, 28);
 sylib::Addrled intakeLED(22, 2, 22);
@@ -60,8 +59,3 @@ ryan::Solenoid blocker('D');
 ryan::Solenoid hang('F');
 
 balls::Lights lights(underglowLED, doinkerLED, intakeLED, leftDriveLED, rightDriveLED, doinker);
-
-std::unique_ptr<trapevel> leftController =
-    std::make_unique<trapevel>(2.2, 1.7, 23, 7.5);
-std::unique_ptr<trapevel> rightController =
-    std::make_unique<trapevel>(2.2, 1.7, 23, 7.5);

@@ -7,7 +7,6 @@
 #include "lights.hpp"
 #include "main.h"
 #include "pros/motors.hpp"
-#include "trapevel.h"
 
 
 extern lemlib::Chassis chassis;
@@ -31,6 +30,3 @@ extern ryan::Solenoid hang;
 extern std::shared_ptr<graphy::AsyncGrapher> velocityTime;
 
 extern balls::Lights lights;
-
-extern std::unique_ptr<trapevel> leftController;
-extern std::unique_ptr<trapevel> rightController;

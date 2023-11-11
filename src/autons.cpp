@@ -1,7 +1,6 @@
 #include "lemlib/asset.hpp"
 #include "robotconfig.h"
 #include <iostream>
-#include "followPath.hpp"
 
 ASSET(skillspush_txt)
 ASSET(sidepush_txt)
