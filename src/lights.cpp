@@ -83,24 +83,23 @@ void Lights::loop() {
       // find what frame in the animation we are
       if (!doinker.getState()) {
         doinkerAnimTimestep++;
-        if (doinkerAnimTimestep > 32) {
-          doinkerAnimTimestep = 32;
+        if (doinkerAnimTimestep > 31) {
+          doinkerAnimTimestep = 31;
         }
       } else {
         doinkerAnimTimestep--;
-        if (doinkerAnimTimestep < 1) {
+        if (doinkerAnimTimestep < 0) {
           doinkerAnimTimestep = 3;
         }
       }
 
       // retrieve the value of each pixel for that frame
       for (int i = 0; i < 32; i++) {
-        doinkerLED.set_pixel(
-            sylib::Addrled::rgb_to_hex(
-                doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) - 1],  // B
-                doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) - 2],  // G
-                doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) - 3]), // R
-            i); // index of the pixel in the strip
+        doinkerLED.set_pixel(sylib::Addrled::rgb_to_hex(
+                doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep)],
+                doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) + 1],
+                doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) + 2]
+                ), i); // index of the pixel in the strip
       }
     }
     pros::delay(18);
