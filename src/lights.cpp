@@ -31,13 +31,17 @@ unsigned char *Lights::readBMP(const char *filename) {
   return data;
 }
 
-bool Lights::checkExists(const char *filename) {
+void Lights::rotate(){
 
-  FILE *f;
-  if ((f = fopen(filename, "r")))
-    return true;
+  leftDriveLED.clear();
+  leftDriveLED.set_pixel(0x600099, 0); leftDriveLED.set_pixel(0x990099, 1);
+  leftDriveLED.set_pixel(0x990099, 2); leftDriveLED.set_pixel(0x600099, 3);
+  leftDriveLED.cycle(*leftDriveLED, 5);
 
-  return false;
+  rightDriveLED.clear();
+  rightDriveLED.set_pixel(0x600099, 0); rightDriveLED.set_pixel(0x990099, 1);
+  rightDriveLED.set_pixel(0x990099, 2); rightDriveLED.set_pixel(0x600099, 3);
+  rightDriveLED.cycle(*rightDriveLED, 5);
 }
 
 void Lights::loop() {
