@@ -15,13 +15,12 @@ void initialize() {
 
   // Initialize chassis and auton selector
   sylib::initialize();
-  lights.rotate();
+  lights.startTask();
 
   selector::init();
 
   chassis.calibrate();
   catapult.startTask();
-  lights.startTask();
 }
 
 void autonomous() {
@@ -29,7 +28,15 @@ void autonomous() {
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
 
-  //skills();
+  if (std::abs(selector::auton) == 1) {
+    closeSideMid();
+  } else if (std::abs(selector::auton) == 2) {
+    closeSide3();
+  } else if (std::abs(selector::auton) == 3) {
+    farSide();
+  } else if (selector::auton == 0) {
+    skills();
+  }
 }
 
 void disabled() {

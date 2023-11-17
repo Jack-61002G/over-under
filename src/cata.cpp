@@ -1,4 +1,5 @@
 #include "cata.hpp"
+#include "autoSelect/selection.h"
 #include "pros/misc.hpp"
 #include "pros/rtos.hpp"
 #include "robotconfig.h"
@@ -33,6 +34,7 @@ void Catapult::loop() {
         }
         if (matchloadCount >= 46) {
           cataState = State::Idle;
+          lights.setColor(selector::auton);
           continue;
         }
       }

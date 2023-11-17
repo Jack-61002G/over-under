@@ -11,7 +11,10 @@ class Lights : public ryan::TaskWrapper {
 
 private:
 
+  enum class State { Disabled, Driver, Auton };
+  State gameState = State::Disabled;
   int doinkerAnimTimestep;
+  unsigned char *doinkerAnimData;
   sylib::Addrled &underglowLED;
   sylib::Addrled &intakeLED;
   sylib::Addrled &doinkerLED;
@@ -27,6 +30,8 @@ public:
     void init();
     void loop() override;
     void rotate();
+    void setColor(int auton);
+    void loadFile();
     unsigned char* readBMP(const char* filename);
     
 };
