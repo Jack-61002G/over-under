@@ -14,10 +14,12 @@ ASSET(cat_gif)
 void initialize() {
 
   // Initialize chassis and auton selector
-  selector::init();
   sylib::initialize();
-  chassis.calibrate();
+  lights.rotate();
 
+  selector::init();
+
+  chassis.calibrate();
   catapult.startTask();
   lights.startTask();
 }

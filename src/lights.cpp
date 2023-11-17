@@ -31,13 +31,17 @@ unsigned char *Lights::readBMP(const char *filename) {
   return data;
 }
 
-bool Lights::checkExists(const char *filename) {
+void Lights::rotate(){
 
-  FILE *f;
-  if ((f = fopen(filename, "r")))
-    return true;
+  leftDriveLED.clear();
+  leftDriveLED.set_pixel(0x600099, 0); leftDriveLED.set_pixel(0x990099, 1);
+  leftDriveLED.set_pixel(0x990099, 2); leftDriveLED.set_pixel(0x600099, 3);
+  leftDriveLED.cycle(*leftDriveLED, 5);
 
-  return false;
+  rightDriveLED.clear();
+  rightDriveLED.set_pixel(0x600099, 0); rightDriveLED.set_pixel(0x990099, 1);
+  rightDriveLED.set_pixel(0x990099, 2); rightDriveLED.set_pixel(0x600099, 3);
+  rightDriveLED.cycle(*rightDriveLED, 5);
 }
 
 void Lights::loop() {
@@ -83,24 +87,23 @@ void Lights::loop() {
       // find what frame in the animation we are
       if (!doinker.getState()) {
         doinkerAnimTimestep++;
-        if (doinkerAnimTimestep > 32) {
-          doinkerAnimTimestep = 32;
+        if (doinkerAnimTimestep > 31) {
+          doinkerAnimTimestep = 31;
         }
       } else {
         doinkerAnimTimestep--;
-        if (doinkerAnimTimestep < 1) {
+        if (doinkerAnimTimestep < 0) {
           doinkerAnimTimestep = 3;
         }
       }
 
       // retrieve the value of each pixel for that frame
       for (int i = 0; i < 32; i++) {
-        doinkerLED.set_pixel(
-            sylib::Addrled::rgb_to_hex(
-                doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) - 1],  // B
-                doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) - 2],  // G
-                doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) - 3]), // R
-            i); // index of the pixel in the strip
+        doinkerLED.set_pixel(sylib::Addrled::rgb_to_hex(
+                doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep)],
+                doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) + 1],
+                doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) + 2]
+                ), i); // index of the pixel in the strip
       }
     }
     pros::delay(18);
