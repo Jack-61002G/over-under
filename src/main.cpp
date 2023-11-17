@@ -9,7 +9,6 @@
 #include "sylib/system.hpp"
 #include <iostream>
 
-
 ASSET(cat_gif)
 
 void initialize() {
@@ -28,15 +27,7 @@ void autonomous() {
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
 
-  if (std::abs(selector::auton) == 1) {
-    closeSideMid();
-  } else if (std::abs(selector::auton) == 2) {
-    closeSide3();
-  } else if (std::abs(selector::auton) == 3) {
-    farSide();
-  } else if (selector::auton == 0) {
-    skills();
-  }
+  //skills();
 }
 
 void disabled() {
@@ -57,6 +48,20 @@ void opcontrol() {
   Gif *gif = new Gif(cat_gif, lv_scr_act());
 
   bool cata_button = false;
+
+
+/*
+  chassis.setPose(-40.5, 54.5, -90);
+  // move to matchloader
+  chassis.moveTo(-54, 48.2, -71, 1000);
+  doinker.toggle();
+  // shoot matchloads
+  catapult.setState(balls::Catapult::State::Matchload);
+  while (catapult.getState() == balls::Catapult::State::Matchload) {
+    pros::delay(20);
+  }
+*/
+
 
   while (true) {
     chassis.arcade(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),

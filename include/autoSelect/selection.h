@@ -4,7 +4,7 @@
 
 //selector configuration
 #define HUE 300
-#define DEFAULT 2
+#define DEFAULT 0
 #define AUTONS "Close mid", "close", "Far"
 
 namespace selector{

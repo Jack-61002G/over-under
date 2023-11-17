@@ -27,6 +27,10 @@ void Catapult::loop() {
       if (!cataFireState && pos < 30) {
         cataFireState = true;
         matchloadCount++;
+        if (matchloadCount >= 44) {
+          leftDriveLED.set_all(0x990000);
+          rightDriveLED.set_all(0x990000);
+        }
         if (matchloadCount >= 46) {
           cataState = State::Idle;
           continue;

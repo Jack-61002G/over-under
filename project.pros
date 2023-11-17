@@ -519,8 +519,9 @@
       }
     },
     "upload_options": {
-      "description": "driving",
-      "slot": 1
+      "description": "skilling",
+      "slot": 1,
+      "icon": "pros"
     }
   }
 }
