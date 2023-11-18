@@ -16,7 +16,7 @@ void initialize() {
   // Initialize chassis and auton selector
   sylib::initialize();
   lights.startTask();
-  lights.rotate();
+  lights.setColor(0);
 
   selector::init();
 
@@ -43,7 +43,7 @@ void autonomous() {
 }
 
 void disabled() {
-  lights.rotate();
+  lights.setColor(0);
   // Store the time at the start of the loop
   std::uint32_t clock = sylib::millis();
   while (true) {
