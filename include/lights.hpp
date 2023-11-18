@@ -11,9 +11,8 @@ class Lights : public ryan::TaskWrapper {
 
 private:
 
-  bool skills = true;
-  enum class State { Disabled, Enabled, Null};
-  State gameState = State::Null;
+  enum class State { Disabled, Driver, Skills};
+  State gameState = State::Disabled;
   int doinkerAnimTimestep;
   unsigned char *doinkerAnimData;
   sylib::Addrled &underglowLED;

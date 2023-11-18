@@ -16,6 +16,7 @@ void initialize() {
   // Initialize chassis and auton selector
   sylib::initialize();
   lights.startTask();
+  lights.rotate();
 
   selector::init();
 
@@ -25,6 +26,7 @@ void initialize() {
 }
 
 void autonomous() {
+  lights.setColor(selector::auton);
 
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
@@ -41,6 +43,7 @@ void autonomous() {
 }
 
 void disabled() {
+  lights.rotate();
   // Store the time at the start of the loop
   std::uint32_t clock = sylib::millis();
   while (true) {
@@ -51,6 +54,7 @@ void disabled() {
 
 void opcontrol() {
   std::uint32_t clock = sylib::millis();
+  lights.setColor(selector::auton);
 
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
