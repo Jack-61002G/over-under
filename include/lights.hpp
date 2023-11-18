@@ -11,6 +11,7 @@ class Lights : public ryan::TaskWrapper {
 
 private:
 
+  bool skills = true;
   enum class State { Disabled, Enabled, Null};
   State gameState = State::Null;
   int doinkerAnimTimestep;

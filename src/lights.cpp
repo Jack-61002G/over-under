@@ -69,8 +69,12 @@ void Lights::setColor(int auton) {
 void Lights::loadFile() {
   if (selector::auton > 0) {
     doinkerAnimData = readBMP("/usd/doinkerAnim.BMP");
+    skills = false;
   } else if (selector::auton < 0) {
     doinkerAnimData = readBMP("/usd/doinkerAnim2.BMP");
+    skills = false;
+  } else {
+    skills = true;
   }
 }
 
@@ -79,18 +83,17 @@ void Lights::loop() {
 
   while (true) {
 
-      if (pros::competition::is_disabled() && gameState != State::Disabled) {
-        rotate();
-        gameState = State::Disabled;
+    if (pros::competition::is_disabled() && gameState != State::Disabled) {
+      rotate();
+      gameState = State::Disabled;
+    }
+    else{
+      if (gameState != State::Enabled) {
+        setColor(selector::auton);
+        gameState = State::Enabled;
       }
 
-
-      else {
-        if (gameState != State::Enabled) {
-          setColor(selector::auton);
-          gameState = State::Enabled;
-        }
-
+      if (!skills && !pros::competition::is_disabled()) {
         // find what frame in the animation we are
         if (!doinker.getState()) {
           doinkerAnimTimestep++;
@@ -114,4 +117,5 @@ void Lights::loop() {
       }
     }
     pros::delay(18);
+  }
 }
