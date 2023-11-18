@@ -75,37 +75,42 @@ void Lights::loadFile() {
 }
 
 void Lights::loop() {
-  bool loop = true;
   doinkerAnimTimestep = 32;
 
-  rotate();
-
-  while (loop) {
+  while (true) {
 
       if (pros::competition::is_disabled() && gameState != State::Disabled) {
         rotate();
-      }
-      else if ()
-      // find what frame in the animation we are
-      if (!doinker.getState()) {
-        doinkerAnimTimestep++;
-        if (doinkerAnimTimestep > 31) {
-          doinkerAnimTimestep = 31;
-        }
-      } else {
-        doinkerAnimTimestep--;
-        if (doinkerAnimTimestep < 0) {
-          doinkerAnimTimestep = 3;
-        }
+        gameState = State::Disabled;
       }
 
-      // retrieve the value of each pixel for that frame
-      for (int i = 0; i < 32; i++) {
-        doinkerLED.set_pixel(sylib::Addrled::rgb_to_hex(
-                doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep)],
-                doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) + 1],
-                doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) + 2]
-                ), i); // index of the pixel in the strip
+
+      else {
+        if (gameState != State::Enabled) {
+          setColor(selector::auton);
+          gameState = State::Enabled;
+        }
+
+        // find what frame in the animation we are
+        if (!doinker.getState()) {
+          doinkerAnimTimestep++;
+          if (doinkerAnimTimestep > 31) {
+            doinkerAnimTimestep = 31;
+          }
+        } else {
+          doinkerAnimTimestep--;
+          if (doinkerAnimTimestep < 0) {
+            doinkerAnimTimestep = 3;
+          }
+        }
+        // retrieve the value of each pixel for that frame
+        for (int i = 0; i < 32; i++) {
+          doinkerLED.set_pixel(sylib::Addrled::rgb_to_hex(
+                  doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep)],
+                  doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) + 1],
+                  doinkerAnimData[3 * (i * 32 + doinkerAnimTimestep) + 2]
+                  ), i); // index of the pixel in the strip
+        }
       }
     }
     pros::delay(18);

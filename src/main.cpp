@@ -19,6 +19,7 @@ void initialize() {
 
   selector::init();
 
+  lights.loadFile();
   chassis.calibrate();
   catapult.startTask();
 }
