@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "real driver",
+    "project_name": "real",
     "target": "v5",
     "templates": {
       "Graphy": {
@@ -519,7 +519,7 @@
       }
     },
     "upload_options": {
-      "description": "skilling",
+      "description": "real ",
       "slot": 1,
       "icon": "pros"
     }

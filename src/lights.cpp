@@ -63,22 +63,27 @@ void Lights::setColor(int auton) {
     underglowLED.set_all(0x600060);
     leftDriveLED.set_all(0x600060);
     rightDriveLED.set_all(0x600060);
+    for (int i=17; i<28; i++) {
+      underglowLED.set_pixel(0x990099, i);
+    }
   }
 }
 
 void Lights::loadFile() {
-  if (selector::auton > 0) {
+  if (selector::auton < 0) {
     doinkerAnimData = readBMP("/usd/doinkerAnim.BMP");
-  } else if (selector::auton < 0) {
+  } else if (selector::auton > 0) {
     doinkerAnimData = readBMP("/usd/doinkerAnim2.BMP");
   }
 }
 
 void Lights::loop() {
   doinkerAnimTimestep = 32;
+  doinkerAnimData = readBMP("/usd/doinkerAnim.BMP");
 
   while (true) {
 
+      /*
       if (!pros::competition::is_autonomous() && !pros::competition::is_disabled()) {
         // find what frame in the animation we are
         if (!doinker.getState()) {
@@ -101,6 +106,7 @@ void Lights::loop() {
                   ), i); // index of the pixel in the strip
         }
       }
+      */
       pros::delay(18);
   }
 }

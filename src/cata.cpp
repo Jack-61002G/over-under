@@ -14,18 +14,18 @@ void Catapult::loop() {
 
   int matchloadCount = 0;
   bool cataFireState = true;
+  cataMotor.set_gearing(pros::E_MOTOR_GEARSET_36);
 
   while (true) {
-    int pos = cataRotation.get_angle() / 100;
     switch (cataState) {
     
     case State::Matchload:
-      cataMotor.move(127);
+      cataMotor.move_velocity(75);      
 
-      if (cataFireState && pos > 30 && pos < 100) {
+      if (cataFireState && cataMotor.get_efficiency() > 25) {
         cataFireState = false;
       }
-      if (!cataFireState && pos < 30) {
+      if (!cataFireState && cataMotor.get_efficiency() < 10) {
         cataFireState = true;
         matchloadCount++;
         if (matchloadCount >= 44) {
@@ -45,7 +45,7 @@ void Catapult::loop() {
       break;
 
     case State::Firing:
-      cataMotor.move(127);      
+      cataMotor.move_velocity(75);      
       break;
     }
 

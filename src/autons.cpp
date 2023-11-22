@@ -39,23 +39,23 @@ void farSide() {
   chassis.turnTo(-60, -70, 750);
 
   // slap the triball out
-  doinker.toggle();
+  //doinker.toggle();
   pros::delay(500);
 
   chassis.turnTo(-30, -70, 750);
-  doinker.toggle();
+  //doinker.toggle();
 
   // score preload in goal
-  chassis.moveTo(-59, 5, 180, 1500, false, false, 0, 0.75);
+  chassis.moveTo(-59, -12, 180, 1500, false, false, 0, 0.75);
   pros::delay(500);
 
   // wall reset on goal!
-  chassis.setPose(-70, -30, chassis.getPose().theta);
+  //chassis.setPose(-70, -30, chassis.getPose().theta);
 
   // move that jawn to the elevation bar and knock those triballs to the other
   // side
   chassis.moveTo(4, -57, 90, 3000, false, true, 0, 0.85);
-  doinker.toggle();
+  //doinker.toggle();
 }
 
 void farSideMid() { // need a far side mid auton still
@@ -68,7 +68,7 @@ void skills() {
 
   // move to matchloader
   chassis.moveTo(-54, 48.2, -71, 1000);
-  doinker.toggle();
+  //doinker.toggle();
 
   // shoot matchloads
   catapult.setState(balls::Catapult::State::Matchload);
@@ -76,15 +76,24 @@ void skills() {
   while (catapult.getState() == balls::Catapult::State::Matchload) {
     pros::delay(20);
   }
-  doinker.toggle();
+  //doinker.toggle();
   // push time !!
-  chassis.turnTo(-30, 60, 500);
-  chassis.follow(skillspush_txt, 5750, 17);
+  chassis.turnTo(-30, 60, 1000);
+  chassis.follow(skillspush_txt, 5300, 17);
+  chassis.tank(127, 127);
+  pros::delay(500);
+  chassis.tank(0,0);
   chassis.setPose(42, -7, 90);
   chassis.moveTo(0, 7, 90, 1500, false, false);
   chassis.moveTo(55, 7, 90, 800);
+  chassis.tank(127, 127);
+  pros::delay(500);
+  chassis.tank(0,0);
   chassis.moveTo(-20, 7, 90, 1000, false, false);
   pros::delay(250);
   chassis.setPose(8, 7, 90);
-  chassis.follow(sidepush_txt, 10000, 15);
+  chassis.follow(sidepush_txt, 4000, 15);
+  chassis.tank(127, 127);
+  pros::delay(500);
+  chassis.tank(0,0);
 }

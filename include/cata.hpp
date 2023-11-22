@@ -12,12 +12,10 @@ public:
 private:
   State cataState;
   pros::Motor &cataMotor;
-  pros::Rotation &cataRotation;
-  int targetPos;
 
 public:
-  Catapult(pros::Motor &cataMotor, pros::Rotation &cataRotation, int targetPos)
-    : cataMotor(cataMotor), cataRotation(cataRotation), targetPos(targetPos) 
+  Catapult(pros::Motor &cataMotor)
+    : cataMotor(cataMotor) 
     {
       cataMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
       cataState = State::Idle;

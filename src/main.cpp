@@ -16,16 +16,16 @@ void initialize() {
   // Initialize chassis and auton selector
   sylib::initialize();
   lights.startTask();
-  lights.setColor(0);
+  lights.rotate();
 
   selector::init();
 
-  lights.loadFile();
   chassis.calibrate();
   catapult.startTask();
 }
 
 void autonomous() {
+  lights.loadFile();
   lights.setColor(selector::auton);
 
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
@@ -43,7 +43,7 @@ void autonomous() {
 }
 
 void disabled() {
-  lights.setColor(0);
+  lights.rotate();
   // Store the time at the start of the loop
   std::uint32_t clock = sylib::millis();
   while (true) {
@@ -54,6 +54,7 @@ void disabled() {
 
 void opcontrol() {
   std::uint32_t clock = sylib::millis();
+  lights.loadFile();
   lights.setColor(selector::auton);
 
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
@@ -63,23 +64,24 @@ void opcontrol() {
 
   bool cata_button = false;
 
-
-/*
-  chassis.setPose(-40.5, 54.5, -90);
-  // move to matchloader
-  chassis.moveTo(-54, 48.2, -71, 1000);
-  doinker.toggle();
-  // shoot matchloads
-  catapult.setState(balls::Catapult::State::Matchload);
-  while (catapult.getState() == balls::Catapult::State::Matchload) {
-    pros::delay(20);
-  }
-*/
-
+  /*
+    chassis.setPose(-40.5, 54.5, -90);
+    // move to matchloader
+    chassis.moveTo(-54, 48.2, -71, 1000);
+    doinker.toggle();
+    // shoot matchloads
+    catapult.setState(balls::Catapult::State::Matchload);
+    while (catapult.getState() == balls::Catapult::State::Matchload) {
+      pros::delay(20);
+    }
+  */
+  
 
   while (true) {
     chassis.arcade(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),
                    controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), 4);
+
+    std::cout << cataMotor.get_efficiency() << std::endl;
 
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
       intake = Intake::STATE::IN;
@@ -107,18 +109,18 @@ void opcontrol() {
       }
     }
 
-    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
-      catapult.setState(balls::Catapult::State::Matchload);
-    }
+    //if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+    //  catapult.setState(balls::Catapult::State::Matchload);
+    //}
 
-    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
-      doinker.toggle();
-    }
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
       blocker.toggle();
     }
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+      Rwingus.toggle();
+    }
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-      hang.toggle();
+      Lwingus.toggle();
     }
 
     sylib::delay_until(&clock, 10);
