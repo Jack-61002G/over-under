@@ -5,6 +5,25 @@
 
 ASSET(skillspush_txt)
 ASSET(sidepush_txt)
+ASSET(farSideMidRush_txt)
+ASSET(farSideMidRushContact_txt)
+
+#define RAM(left_speed, right_speed, duration)                                 \
+  do {                                                                         \
+    chassis.tank(left_speed, right_speed);                                     \
+    pros::delay(duration);                                                     \
+    chassis.tank(0, 0);                                                        \
+  } while (0)
+
+#define WAIT_UNTIL_DONE chassis.waitUntilDist(-1);
+
+#define TOGGLE_WINGS                                                           \
+  Lwingus.toggle();                                                            \
+  Rwingus.toggle();
+
+#define TurnToAngle(desiredTheta, timeout)                                     \
+  chassis.moveTo(chassis.getPose().x, chassis.getPose().y, desiredTheta,       \
+                 timeout);
 
 void closeSide3() {
   chassis.setPose(-17, 59.5, 90);
@@ -39,36 +58,61 @@ void farSide() {
   chassis.turnTo(-60, -70, 750);
 
   // slap the triball out
-  //doinker.toggle();
+  Rwingus.toggle();
   pros::delay(500);
 
   chassis.turnTo(-30, -70, 750);
-  //doinker.toggle();
+  Rwingus.toggle();
 
   // score preload in goal
   chassis.moveTo(-59, -12, 180, 1500, false, false, 0, 0.75);
-  pros::delay(500);
-
-  // wall reset on goal!
-  //chassis.setPose(-70, -30, chassis.getPose().theta);
 
   // move that jawn to the elevation bar and knock those triballs to the other
   // side
-  chassis.moveTo(4, -57, 90, 3000, false, true, 0, 0.85);
-  //doinker.toggle();
+  chassis.moveTo(4, -57, 90, 3000, true, true, 0, 0.85);
+  chassis.waitUntilDist(10);
+  blocker.toggle();
+  WAIT_UNTIL_DONE;
 }
 
-void farSideMid() { // need a far side mid auton still
+void farSideMid() {
+
+  chassis.setPose(-40.75, -54.25, 180);
+
+  // GAS GAS GAS !!!
+  chassis.follow(farSideMidRush_txt, 5000, 12, true, false);
+  chassis.waitUntilDist(45);
+  TOGGLE_WINGS;
+  WAIT_UNTIL_DONE;
+
+  // score the baddie in the intake
+  chassis.moveTo(-15, chassis.getPose().y, -90, 750);
+  chassis.waitUntilDist(5);
+  intake = Intake::STATE::OUT;
+  WAIT_UNTIL_DONE;
+  intake = Intake::STATE::IDLE;
+  TurnToAngle(-90, 1000);
+  chassis.moveTo(-50, chassis.getPose().y, -90, 1000, false, false);
+
+  // try to descore the triball
+  chassis.follow(farSideMidRushContact_txt, 7000, 8, true);
+  chassis.waitUntilDist(82);
+  Rwingus.toggle();
+  chassis.waitUntilDist(100);
+  Rwingus.toggle();
+  chassis.waitUntilDist(120);
+  blocker.toggle();
+  WAIT_UNTIL_DONE;
 }
 
 void skills() {
-  chassis.setPose(-40.5, 54.5, -90);
+  chassis.setPose(-40.5, 54.5, 90);
 
   // push preload into goal
 
   // move to matchloader
-  chassis.moveTo(-54, 48.2, -71, 1000);
-  //doinker.toggle();
+  chassis.moveTo(-62, 48, 105, 1500);
+  Lwingus.toggle();
 
   // shoot matchloads
   catapult.setState(balls::Catapult::State::Matchload);
@@ -76,24 +120,10 @@ void skills() {
   while (catapult.getState() == balls::Catapult::State::Matchload) {
     pros::delay(20);
   }
-  //doinker.toggle();
+  Lwingus.toggle();
   // push time !!
-  chassis.turnTo(-30, 60, 1000);
-  chassis.follow(skillspush_txt, 5300, 17);
-  chassis.tank(127, 127);
-  pros::delay(500);
-  chassis.tank(0,0);
-  chassis.setPose(42, -7, 90);
-  chassis.moveTo(0, 7, 90, 1500, false, false);
-  chassis.moveTo(55, 7, 90, 800);
-  chassis.tank(127, 127);
-  pros::delay(500);
-  chassis.tank(0,0);
-  chassis.moveTo(-20, 7, 90, 1000, false, false);
-  pros::delay(250);
-  chassis.setPose(8, 7, 90);
-  chassis.follow(sidepush_txt, 4000, 15);
-  chassis.tank(127, 127);
-  pros::delay(500);
-  chassis.tank(0,0);
+  chassis.follow(skillspush_txt, 5300, 17, true, false);
+  chassis.waitUntilDist(110);
+  TOGGLE_WINGS;
+  WAIT_UNTIL_DONE;
 }

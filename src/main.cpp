@@ -34,9 +34,9 @@ void autonomous() {
   if (std::abs(selector::auton) == 1) {
     closeSideMid();
   } else if (std::abs(selector::auton) == 2) {
-    closeSide3();
-  } else if (std::abs(selector::auton) == 3) {
     farSide();
+  } else if (std::abs(selector::auton) == 3) {
+    farSideMid();
   } else if (selector::auton == 0) {
     skills();
   }
