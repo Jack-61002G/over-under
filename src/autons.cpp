@@ -84,6 +84,7 @@ void farSideMid() {
   chassis.waitUntilDist(45);
   TOGGLE_WINGS;
   WAIT_UNTIL_DONE;
+  return;
 
   // score the baddie in the intake
   chassis.moveTo(-15, chassis.getPose().y, -90, 750);
@@ -111,19 +112,23 @@ void skills() {
   // push preload into goal
 
   // move to matchloader
-  chassis.moveTo(-62, 48, 105, 1500);
+  chassis.moveTo(-62, 48, 105, 1500, false, false);
   Lwingus.toggle();
 
+  /*
   // shoot matchloads
   catapult.setState(balls::Catapult::State::Matchload);
 
   while (catapult.getState() == balls::Catapult::State::Matchload) {
     pros::delay(20);
   }
+  */
+  pros::delay(1000);
   Lwingus.toggle();
   // push time !!
-  chassis.follow(skillspush_txt, 5300, 17, true, false);
-  chassis.waitUntilDist(110);
+  TurnToAngle(-90, 1000);
+  chassis.follow(skillspush_txt, 7000, 17, true, false, 90);
+  chassis.waitUntilDist(115);
   TOGGLE_WINGS;
   WAIT_UNTIL_DONE;
 }

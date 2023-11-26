@@ -3,6 +3,7 @@
 #include "autons.hpp"
 #include "cata.hpp"
 #include "gif-pros/gifclass.hpp"
+#include "lemlib/chassis/chassis.hpp"
 #include "pros/misc.h"
 #include "pros/motors.h"
 #include "robotconfig.h"
@@ -75,14 +76,25 @@ void opcontrol() {
       pros::delay(20);
     }
   */
-  
 
   while (true) {
-    chassis.arcade(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),
-                   controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), 4);
 
-    std::cout << cataMotor.get_efficiency() << std::endl;
+    // chassis control
+    int turnVal = lemlib::defaultDriveCurve(
+        controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X), 4);
+    int latVal = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+    if (std::abs(latVal) > 114 && std::abs(turnVal) > 114) {
+      if (latVal < 0) {
+        latVal = -102;
+      } else {
+        latVal = 102;
+      }
+    }
+    chassis.arcade(latVal, turnVal);
 
+    // std::cout << cataMotor.get_efficiency() << std::endl;
+
+    // intake control
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
       intake = Intake::STATE::IN;
     } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
@@ -91,6 +103,7 @@ void opcontrol() {
       intake = Intake::STATE::IDLE;
     }
 
+    // catapult control
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
       if (!cata_button) {
         if (catapult.getState() == balls::Catapult::State::Matchload) {
@@ -109,10 +122,7 @@ void opcontrol() {
       }
     }
 
-    //if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
-    //  catapult.setState(balls::Catapult::State::Matchload);
-    //}
-
+    // pistons
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
       blocker.toggle();
     }
