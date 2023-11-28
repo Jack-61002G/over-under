@@ -81,8 +81,8 @@ void opcontrol() {
 
     // chassis control
     int turnVal = lemlib::defaultDriveCurve(
-        controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X), 4);
-    int latVal = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+        controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), 4);
+    int latVal = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
     if (std::abs(latVal) > 114 && std::abs(turnVal) > 114) {
       if (latVal < 0) {
         latVal = -102;
