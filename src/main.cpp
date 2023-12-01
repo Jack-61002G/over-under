@@ -3,6 +3,7 @@
 #include "autons.hpp"
 #include "cata.hpp"
 #include "gif-pros/gifclass.hpp"
+#include "lemlib/asset.hpp"
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/misc.h"
 #include "pros/motors.h"
@@ -16,7 +17,7 @@ void initialize() {
 
   // Initialize chassis and auton selector
   sylib::initialize();
-  //lights.startTask();
+  lights.startTask();
   lights.rotate();
 
   selector::init();
@@ -28,7 +29,6 @@ void initialize() {
 }
 
 void autonomous() {
-  //lights.loadFile();
   lights.setColor(selector::auton);
 
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
@@ -56,14 +56,14 @@ void disabled() {
 }
 
 void opcontrol() {
+  
+  Gif *gif = new Gif(cat_gif, lv_scr_act());
   std::uint32_t clock = sylib::millis();
   //lights.loadFile();
   lights.setColor(selector::auton);
 
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
-
-  Gif *gif = new Gif(cat_gif, lv_scr_act());
 
   bool cata_button = false;
 
