@@ -130,14 +130,7 @@ void skills() {
   // push time !!
   TurnToAngle(-90, 1000);
 
-  chassis.follow(skillspush_txt, 5400, 17, true, false, 90);
-  int timer = pros::millis();
-  chassis.waitUntilDist(115);
-  Rwingus.toggle();
-  while(pros::millis() - timer < 5400) {
-    pros::delay(10);
-  }
-  Rwingus.toggle();
+  chassis.follow(skillspush_txt, 5400, 17, false, false, 90);
 
   chassis.moveTo(chassis.getPose().x - 20, chassis.getPose().y, -90, 1200);
   std::cout << chassis.getPose().x << " " << chassis.getPose().y << std::endl;
@@ -158,11 +151,11 @@ void skills() {
   TurnToAngle(0, 500);
   pros::delay(100);
 
-  chassis.moveTo(chassis.getPose().x, chassis.getPose().y - 12, 0, 500, false, false);
-  TurnToAngle(-90, 500);
+  chassis.moveTo(chassis.getPose().x, chassis.getPose().y - 30, 0, 500, false, false);
+  TurnToAngle(-135, 500);
   TOGGLE_WINGS;
   pros::delay(100);
-  chassis.moveTo(chassis.getPose().x + 70, chassis.getPose().y, -85, 1600, false, false, 0, .8);
+  chassis.moveTo(chassis.getPose().x + 70, chassis.getPose().y+20, -90, 1600, false, false, 0, .8);
   std::cout << chassis.getPose().x << " " << chassis.getPose().y << std::endl;
 
   chassis.moveTo(chassis.getPose().x - 30, chassis.getPose().y, -90, 1600);
