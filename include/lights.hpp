@@ -17,12 +17,13 @@ private:
   unsigned char *doinkerAnimData;
   sylib::Addrled &underglowLED;
   sylib::Addrled &intakeLED;
+  sylib::Addrled &backLED;
   sylib::Addrled &rightDriveLED;
   sylib::Addrled &leftDriveLED;
 
 public:
-    Lights(sylib::Addrled &underglowLED, sylib::Addrled &intakeLED, sylib::Addrled &leftDriveLED, sylib::Addrled &rightDriveLED)
-        : underglowLED(underglowLED), intakeLED(intakeLED), leftDriveLED(leftDriveLED), rightDriveLED(rightDriveLED) 
+    Lights(sylib::Addrled &underglowLED, sylib::Addrled &intakeLED, sylib::Addrled &backLED, sylib::Addrled &leftDriveLED, sylib::Addrled &rightDriveLED)
+        : underglowLED(underglowLED), intakeLED(intakeLED), backLED(backLED), leftDriveLED(leftDriveLED), rightDriveLED(rightDriveLED) 
         {};
         
     void init();

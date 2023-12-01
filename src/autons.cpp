@@ -112,23 +112,58 @@ void skills() {
   // push preload into goal
 
   // move to matchloader
-  chassis.moveTo(-62, 48, 105, 1500, false, false);
+  chassis.moveTo(-60, 44, 107, 1500, false, false);
   Lwingus.toggle();
 
-  /*
+  
   // shoot matchloads
+  /*
   catapult.setState(balls::Catapult::State::Matchload);
 
   while (catapult.getState() == balls::Catapult::State::Matchload) {
     pros::delay(20);
   }
   */
+  
   pros::delay(1000);
   Lwingus.toggle();
   // push time !!
   TurnToAngle(-90, 1000);
-  chassis.follow(skillspush_txt, 7000, 17, true, false, 90);
+
+  chassis.follow(skillspush_txt, 5400, 17, true, false, 90);
+  int timer = pros::millis();
   chassis.waitUntilDist(115);
+  Rwingus.toggle();
+  while(pros::millis() - timer < 5400) {
+    pros::delay(10);
+  }
+  Rwingus.toggle();
+
+  chassis.moveTo(chassis.getPose().x - 20, chassis.getPose().y, -90, 1200);
+  std::cout << chassis.getPose().x << " " << chassis.getPose().y << std::endl;
+  TurnToAngle(0, 500);
+  pros::delay(100);
+
+  chassis.moveTo(chassis.getPose().x, chassis.getPose().y - 12, 0, 500, false, false);
+  TurnToAngle(-90, 500);
   TOGGLE_WINGS;
-  WAIT_UNTIL_DONE;
+  pros::delay(100);
+
+  chassis.moveTo(chassis.getPose().x + 70, chassis.getPose().y, -90, 1600, false, false);
+  std::cout << chassis.getPose().x << " " << chassis.getPose().y << std::endl;
+  TOGGLE_WINGS;
+  pros::delay(200);
+
+  chassis.moveTo(chassis.getPose().x - 26, chassis.getPose().y, -90, 1500);
+  TurnToAngle(0, 500);
+  pros::delay(100);
+
+  chassis.moveTo(chassis.getPose().x, chassis.getPose().y - 12, 0, 500, false, false);
+  TurnToAngle(-90, 500);
+  TOGGLE_WINGS;
+  pros::delay(100);
+  chassis.moveTo(chassis.getPose().x + 70, chassis.getPose().y, -85, 1600, false, false, 0, .8);
+  std::cout << chassis.getPose().x << " " << chassis.getPose().y << std::endl;
+
+  chassis.moveTo(chassis.getPose().x - 30, chassis.getPose().y, -90, 1600);
 }

@@ -48,7 +48,6 @@ void Catapult::loop() {
       cataMotor.move_velocity(75);      
       break;
     }
-
     pros::delay(15);
 
   }

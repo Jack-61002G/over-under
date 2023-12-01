@@ -16,17 +16,19 @@ void initialize() {
 
   // Initialize chassis and auton selector
   sylib::initialize();
-  lights.startTask();
+  //lights.startTask();
   lights.rotate();
 
   selector::init();
 
   chassis.calibrate();
   catapult.startTask();
+
+  //logo.set_all(0xFF0000);
 }
 
 void autonomous() {
-  lights.loadFile();
+  //lights.loadFile();
   lights.setColor(selector::auton);
 
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
@@ -55,7 +57,7 @@ void disabled() {
 
 void opcontrol() {
   std::uint32_t clock = sylib::millis();
-  lights.loadFile();
+  //lights.loadFile();
   lights.setColor(selector::auton);
 
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
@@ -81,8 +83,8 @@ void opcontrol() {
 
     // chassis control
     int turnVal = lemlib::defaultDriveCurve(
-        controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X), 4);
-    int latVal = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+        controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), 4);
+    int latVal = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
     if (std::abs(latVal) > 114 && std::abs(turnVal) > 114) {
       if (latVal < 0) {
         latVal = -102;

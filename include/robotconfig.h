@@ -19,6 +19,7 @@ extern sylib::Addrled intakeLED;
 extern sylib::Addrled underglowLED;
 extern sylib::Addrled rightDriveLED;
 extern sylib::Addrled leftDriveLED;
+extern sylib::Addrled logo;
 extern ryan::Solenoid blocker;
 
 extern pros::ADIEncoder enc;

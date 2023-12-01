@@ -11,10 +11,12 @@
 #include <iostream>
 #include "lemlib/api.hpp"
 
-sylib::Addrled underglowLED(22, 8, 28);
+sylib::Addrled underglowLED(10, 7, 28);
 sylib::Addrled intakeLED(22, 9, 22);
 sylib::Addrled rightDriveLED(22,6, 36);
 sylib::Addrled leftDriveLED(22, 7, 36);
+sylib::Addrled backLED(22, 8, 30);
+sylib::Addrled logo(10, 8, 48);
 
 pros::Motor leftFront(20, true);
 pros::Motor leftBack(18, true);
@@ -46,7 +48,7 @@ lemlib::Chassis chassis(drivetrain, lateralController, angularController, sensor
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
-pros::Motor cataMotor(10, false);
+pros::Motor cataMotor(21, false);
 
 balls::Catapult catapult(cataMotor);
 
@@ -59,4 +61,4 @@ ryan::Solenoid blocker('D');
 ryan::Solenoid Lwingus('C');
 ryan::Solenoid Rwingus('E');
 
-balls::Lights lights(underglowLED, intakeLED, leftDriveLED, rightDriveLED);
+balls::Lights lights(underglowLED, intakeLED, backLED, leftDriveLED, rightDriveLED);
