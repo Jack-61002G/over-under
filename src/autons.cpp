@@ -62,6 +62,7 @@ void closeSide3() {
   intake = Intake::STATE::OUT;
   chassis.moveTo(-60, 8, -90, 1000);
   intake = Intake::STATE::IDLE;
+  Rwingus.toggle();
   chassis.moveTo(-30, 8, -90, 1000, false, false);
 }
 
