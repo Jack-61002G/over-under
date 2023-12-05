@@ -1,15 +1,6 @@
 #include "main.h"
-#include "autoSelect/selection.h"
 #include "autons.hpp"
-#include "cata.hpp"
-#include "gif-pros/gifclass.hpp"
-#include "lemlib/asset.hpp"
-#include "lemlib/chassis/chassis.hpp"
-#include "pros/misc.h"
-#include "pros/motors.h"
 #include "robotconfig.h"
-#include "sylib/system.hpp"
-#include <iostream>
 
 ASSET(cat_gif)
 
@@ -25,7 +16,7 @@ void initialize() {
   chassis.calibrate();
   catapult.startTask();
 
-  //logo.set_all(0xFF0000);
+  // logo.set_all(0xFF0000);
 }
 
 void autonomous() {
@@ -33,6 +24,9 @@ void autonomous() {
 
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+
+  closeSideMid();
+  return;
 
   if (std::abs(selector::auton) == 1) {
     closeSideMid();
@@ -56,10 +50,10 @@ void disabled() {
 }
 
 void opcontrol() {
-  
+
   Gif *gif = new Gif(cat_gif, lv_scr_act());
   std::uint32_t clock = sylib::millis();
-  //lights.loadFile();
+  // lights.loadFile();
   lights.setColor(selector::auton);
 
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);

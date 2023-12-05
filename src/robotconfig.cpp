@@ -1,6 +1,5 @@
 #include "Solenoid.hpp"
 #include "cata.hpp"
-#include "graphy/Grapher.hpp"
 #include "intake.h"
 #include "lemlib/chassis/trackingWheel.hpp"
 #include "lights.hpp"
