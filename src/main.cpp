@@ -1,5 +1,6 @@
 #include "main.h"
 #include "autons.hpp"
+#include "pros/misc.h"
 #include "robotconfig.h"
 
 ASSET(cat_gif)
@@ -25,8 +26,8 @@ void autonomous() {
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
 
-  closeSideMid();
-  return;
+  //closeSideMid();
+  //return;
 
   if (std::abs(selector::auton) == 1) {
     closeSideMid();
@@ -61,17 +62,24 @@ void opcontrol() {
 
   bool cata_button = false;
 
-  /*
-    chassis.setPose(-40.5, 54.5, -90);
-    // move to matchloader
-    chassis.moveTo(-54, 48.2, -71, 1000);
-    doinker.toggle();
-    // shoot matchloads
-    catapult.setState(balls::Catapult::State::Matchload);
-    while (catapult.getState() == balls::Catapult::State::Matchload) {
-      pros::delay(20);
+  
+  chassis.setPose(-40.5, 54.5, 90);
+
+  // push preload into goal
+
+  // move to matchloader
+  chassis.moveTo(-60, 44, 107, 1500, false, false);
+  Lwingus.toggle();
+
+  catapult.setState(balls::Catapult::State::Matchload);
+
+  while (catapult.getState() == balls::Catapult::State::Matchload) {
+    pros::delay(20);
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+      catapult.setState(balls::Catapult::State::Idle);
     }
-  */
+  }
+  Lwingus.toggle();
 
   while (true) {
 

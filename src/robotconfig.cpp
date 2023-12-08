@@ -10,12 +10,14 @@
 #include <iostream>
 #include "lemlib/api.hpp"
 
-sylib::Addrled underglowLED(10, 7, 28);
-sylib::Addrled intakeLED(22, 9, 22);
+const int EXPANDER = 5;
+
+sylib::Addrled underglowLED(EXPANDER, 8, 28);
+sylib::Addrled intakeLED(EXPANDER, 7, 22);
 sylib::Addrled rightDriveLED(22,6, 36);
 sylib::Addrled leftDriveLED(22, 7, 36);
 sylib::Addrled backLED(22, 8, 30);
-sylib::Addrled logo(10, 8, 48);
+//sylib::Addrled logo(EXPANDER, 8, 48);
 
 pros::Motor leftFront(20, true);
 pros::Motor leftBack(18, true);

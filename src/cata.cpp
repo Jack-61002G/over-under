@@ -28,11 +28,11 @@ void Catapult::loop() {
       if (!cataFireState && cataMotor.get_efficiency() < 10) {
         cataFireState = true;
         matchloadCount++;
-        if (matchloadCount >= 44) {
+        if (matchloadCount >= 46) {
           leftDriveLED.set_all(0x990000);
           rightDriveLED.set_all(0x990000);
         }
-        if (matchloadCount >= 46) {
+        if (matchloadCount >= 48) {
           cataState = State::Idle;
           lights.setColor(selector::auton);
           continue;

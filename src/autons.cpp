@@ -6,6 +6,7 @@
 ASSET(skillspush_txt)
 ASSET(farSideMidRush_txt)
 ASSET(farSideMidRushContact_txt)
+ASSET(reallyjankpush_txt)
 
 #define RAM(left_speed, right_speed, duration)                                 \
   do {                                                                         \
@@ -122,14 +123,11 @@ void skills() {
   chassis.moveTo(-60, 44, 107, 1500, false, false);
   Lwingus.toggle();
 
-  // shoot matchloads
-  /*
-  catapult.setState(balls::Catapult::State::Matchload);
+  // catapult.setState(balls::Catapult::State::Matchload);
 
   while (catapult.getState() == balls::Catapult::State::Matchload) {
     pros::delay(20);
   }
-  */
 
   pros::delay(1000);
   Lwingus.toggle();
@@ -139,7 +137,6 @@ void skills() {
   chassis.follow(skillspush_txt, 5400, 17, false, false, 90);
 
   chassis.moveTo(chassis.getPose().x - 20, chassis.getPose().y, -90, 1200);
-  std::cout << chassis.getPose().x << " " << chassis.getPose().y << std::endl;
   TurnToAngle(0, 500);
   pros::delay(100);
 
@@ -151,7 +148,6 @@ void skills() {
 
   chassis.moveTo(chassis.getPose().x + 70, chassis.getPose().y, -90, 1600,
                  false, false);
-  std::cout << chassis.getPose().x << " " << chassis.getPose().y << std::endl;
   TOGGLE_WINGS;
   pros::delay(200);
 
@@ -166,7 +162,11 @@ void skills() {
   pros::delay(100);
   chassis.moveTo(chassis.getPose().x + 70, chassis.getPose().y + 20, -90, 1600,
                  false, false, 0, .8);
-  std::cout << chassis.getPose().x << " " << chassis.getPose().y << std::endl;
-
-  chassis.moveTo(chassis.getPose().x - 30, chassis.getPose().y, -90, 1600);
+  TOGGLE_WINGS;
+  chassis.follow(reallyjankpush_txt, 4000, 8);
+  TurnToAngle(0, 1500);
+  pros::delay(100);
+  chassis.moveTo(chassis.getPose().x+10, chassis.getPose().y-35, 0, 1500, false, false);
+  pros::delay(1000);
+  chassis.moveTo(chassis.getPose().x, chassis.getPose().y + 30, 180, 1000);
 }
