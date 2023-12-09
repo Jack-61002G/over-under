@@ -9,7 +9,7 @@ void initialize() {
 
   // Initialize chassis and auton selector
   sylib::initialize();
-  lights.startTask();
+  //lights.startTask();
   lights.rotate();
 
   selector::init();

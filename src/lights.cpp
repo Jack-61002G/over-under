@@ -33,6 +33,10 @@ unsigned char *Lights::readBMP(const char *filename) {
 
 void Lights::rotate(){
 
+  //intakeLED.clear();
+  underglowLED.clear();
+  backLED.clear();
+
   leftDriveLED.clear();
   leftDriveLED.set_pixel(0x600060, 0); leftDriveLED.set_pixel(0x990099, 1);
   leftDriveLED.set_pixel(0x990099, 2); leftDriveLED.set_pixel(0x600060, 3);
@@ -47,21 +51,21 @@ void Lights::rotate(){
 void Lights::setColor(int auton) {
 
   if (auton > 0) {
-    intakeLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
+    //intakeLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
     underglowLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
     backLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
     leftDriveLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
     rightDriveLED.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
   }
   else if (auton < 0) {
-    intakeLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 200));
+    //intakeLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 200));
     underglowLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 200));
     backLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 200));
     leftDriveLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 200));
     rightDriveLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 200));
   }
   else {
-    intakeLED.set_all(0x600060);
+    //intakeLED.set_all(0x600060);
     underglowLED.set_all(0x600060);
     backLED.set_all(0x600060);
     leftDriveLED.set_all(0x600060);
