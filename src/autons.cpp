@@ -123,7 +123,7 @@ void skills() {
   chassis.moveTo(-60, 44, 107, 1500, false, false);
   Lwingus.toggle();
 
-  // catapult.setState(balls::Catapult::State::Matchload);
+  catapult.setState(balls::Catapult::State::Matchload);
 
   while (catapult.getState() == balls::Catapult::State::Matchload) {
     pros::delay(20);

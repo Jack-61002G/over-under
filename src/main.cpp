@@ -63,11 +63,11 @@ void opcontrol() {
   bool cata_button = false;
 
   
-  chassis.setPose(-40.5, 54.5, 90);
+  //chassis.setPose(-40.5, 54.5, 90);
 
   // push preload into goal
 
-  // move to matchloader
+  /*// move to matchloader
   chassis.moveTo(-60, 44, 107, 1500, false, false);
   Lwingus.toggle();
 
@@ -75,11 +75,11 @@ void opcontrol() {
 
   while (catapult.getState() == balls::Catapult::State::Matchload) {
     pros::delay(20);
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-      catapult.setState(balls::Catapult::State::Idle);
-    }
+    //if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+    //  catapult.setState(balls::Catapult::State::Idle);
+    //}
   }
-  Lwingus.toggle();
+  Lwingus.toggle();*/
 
   while (true) {
 
