@@ -88,9 +88,8 @@ void farSide() {
 
   // move that jawn to the elevation bar and knock those triballs to the other
   // side
-  chassis.moveTo(13, -63, 90, 10000, true, true, 0, 0.85);
+  chassis.moveTo(7, -63, 90, 10000, true, true, 0, 0.85);
   chassis.waitUntilDist(10);
-  blocker.toggle();
   WAIT_UNTIL_DONE;
 }
 
@@ -115,12 +114,22 @@ void farSideMid() { // does not work
 }
 
 void skills() {
-  chassis.setPose(-40.5, 54.5, 90);
+  chassis.setPose(-41, 54.5, 180);
 
+  pros::Task task{[=] {
+    pros::delay(700);
+  intake = Intake::STATE::OUT;
+  }};
+   
   // push preload into goal
+  chassis.moveTo(-60, -5, 180, 1200);
+ 
+  intake = Intake::STATE::IDLE;
+
+  pros::delay(200);
 
   // move to matchloader
-  chassis.moveTo(-60, 44, 107, 1500, false, false);
+  chassis.moveTo(-57.5, 43.5, 108, 1500, false, false);
   Lwingus.toggle();
 
   catapult.setState(balls::Catapult::State::Matchload);
@@ -129,44 +138,100 @@ void skills() {
     pros::delay(20);
   }
 
-  pros::delay(1000);
   Lwingus.toggle();
-  // push time !!
-  TurnToAngle(-90, 1000);
+  pros::delay(250);
 
+  chassis.moveTo(-50, 40, 240, 1100);
+
+  pros::Task task2electricboogaloo{[=] {
+    pros::delay(2600);
+    Rwingus.toggle();
+    pros::delay(650);
+    Lwingus.toggle();
+    pros::delay(700);
+    Lwingus.toggle();
+  }};
+
+  // first push
   chassis.follow(skillspush_txt, 5400, 17, false, false, 90);
+  
+  Rwingus.toggle();
+  pros::delay(100);
 
+  // back out
   chassis.moveTo(chassis.getPose().x - 20, chassis.getPose().y, -90, 1200);
   TurnToAngle(0, 500);
   pros::delay(100);
 
-  chassis.moveTo(chassis.getPose().x, chassis.getPose().y - 12, 0, 500, false,
+  // move over
+  Lwingus.toggle();
+  chassis.moveTo(chassis.getPose().x, chassis.getPose().y - 13, 0, 500, false,
                  false);
   TurnToAngle(-90, 500);
-  TOGGLE_WINGS;
+  Rwingus.toggle();
   pros::delay(100);
 
-  chassis.moveTo(chassis.getPose().x + 70, chassis.getPose().y, -90, 1600,
-                 false, false);
+  // push in
+  chassis.moveTo(chassis.getPose().x + 70, chassis.getPose().y + 1, -88, 1600,
+                 false, false, 0, 0.6, 100);
   TOGGLE_WINGS;
   pros::delay(200);
 
+  // back out
   chassis.moveTo(chassis.getPose().x - 26, chassis.getPose().y, -90, 1500);
   TurnToAngle(0, 500);
   pros::delay(100);
 
-  chassis.moveTo(chassis.getPose().x, chassis.getPose().y - 60, 0, 500, false,
+  // move over
+  Lwingus.toggle();
+  chassis.moveTo(chassis.getPose().x, chassis.getPose().y - 62, 0, 500, false,
                  false);
   TurnToAngle(-135, 500);
-  TOGGLE_WINGS;
+  Rwingus.toggle();
   pros::delay(100);
-  chassis.moveTo(chassis.getPose().x + 70, chassis.getPose().y + 20, -90, 1600,
-                 false, false, 0, .8);
+
+  // push in
+  chassis.moveTo(chassis.getPose().x + 70, chassis.getPose().y + 23, -86, 1600,
+                 false, false, 0, .8, 90);
   TOGGLE_WINGS;
-  chassis.follow(reallyjankpush_txt, 4000, 8);
-  TurnToAngle(0, 1500);
+
+  pros::delay(200);
+  chassis.setPose(40, chassis.getPose().y, -90);
+
+  // side push
+  chassis.follow(reallyjankpush_txt, 4000, 12);
+
+
+  TurnToAngle(180, 500);
   pros::delay(100);
-  chassis.moveTo(chassis.getPose().x+10, chassis.getPose().y-35, 0, 1500, false, false);
-  pros::delay(1000);
-  chassis.moveTo(chassis.getPose().x, chassis.getPose().y + 30, 180, 1000);
+
+  chassis.tank(-100, -100);
+  pros::delay(200);
+
+  TurnToAngle(180, 500);
+  pros::delay(100);
+
+  chassis.tank(120, 120);
+  pros::delay(800);
+
+  TurnToAngle(180, 500);
+  pros::delay(100);
+
+  chassis.tank(-100, -100);
+  pros::delay(300);
+
+  TurnToAngle(0, 1000);
+  pros::delay(100);
+
+  chassis.tank(-127, -127);
+  pros::delay(800);
+
+  TurnToAngle(0, 500);
+  pros::delay(100);
+
+  chassis.tank(100, 100);
+  pros::delay(500);
+
+  chassis.tank(0, 0);
+
 }

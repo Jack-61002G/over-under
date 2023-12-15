@@ -1,6 +1,7 @@
 #include "main.h"
 #include "autons.hpp"
 #include "pros/misc.h"
+#include "pros/rtos.hpp"
 #include "robotconfig.h"
 
 ASSET(cat_gif)
@@ -16,6 +17,8 @@ void initialize() {
 
   chassis.calibrate();
   catapult.startTask();
+  
+  pros::delay(1000);
 
   // logo.set_all(0xFF0000);
 }
@@ -62,24 +65,34 @@ void opcontrol() {
 
   bool cata_button = false;
 
-  
-  //chassis.setPose(-40.5, 54.5, 90);
+  /*
+  chassis.setPose(-41, 54.5, 180);
 
+  pros::Task task{[=] {
+    pros::delay(700);
+  intake = Intake::STATE::OUT;
+  }};
+   
   // push preload into goal
+  chassis.moveTo(-60, -5, 180, 1200);
+ 
+  intake = Intake::STATE::IDLE;
 
-  /*// move to matchloader
-  chassis.moveTo(-60, 44, 107, 1500, false, false);
+  pros::delay(200);
+
+  // move to matchloader
+  chassis.moveTo(-57.5, 43.5, 108, 1500, false, false);
   Lwingus.toggle();
 
   catapult.setState(balls::Catapult::State::Matchload);
 
   while (catapult.getState() == balls::Catapult::State::Matchload) {
     pros::delay(20);
-    //if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-    //  catapult.setState(balls::Catapult::State::Idle);
-    //}
   }
-  Lwingus.toggle();*/
+
+  Lwingus.toggle();
+  */
+
 
   while (true) {
 

@@ -20,7 +20,7 @@ void Catapult::loop() {
     switch (cataState) {
     
     case State::Matchload:
-      cataMotor.move_velocity(75);      
+      cataMotor.move_velocity(80);      
 
       if (cataFireState && cataMotor.get_efficiency() > 25) {
         cataFireState = false;
@@ -28,11 +28,11 @@ void Catapult::loop() {
       if (!cataFireState && cataMotor.get_efficiency() < 10) {
         cataFireState = true;
         matchloadCount++;
-        if (matchloadCount >= 46) {
+        if (matchloadCount >= 44) {
           leftDriveLED.set_all(0x990000);
           rightDriveLED.set_all(0x990000);
         }
-        if (matchloadCount >= 48) {
+        if (matchloadCount >= 46) {
           cataState = State::Idle;
           lights.setColor(selector::auton);
           continue;
@@ -45,7 +45,7 @@ void Catapult::loop() {
       break;
 
     case State::Firing:
-      cataMotor.move_velocity(75);      
+      cataMotor.move_velocity(80);      
       break;
     }
     pros::delay(15);

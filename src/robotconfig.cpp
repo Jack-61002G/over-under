@@ -42,7 +42,7 @@ lemlib::ChassisController_t angularController {2, 13.5, 1, 100, 3, 500, 20};
 
 // sensors for odometry
 pros::ADIEncoder enc('A', 'B');
-lemlib::TrackingWheel tracking_wheel(&enc, 2.75, 0);
+lemlib::TrackingWheel tracking_wheel(&enc, 2.75, 0.25);
 lemlib::OdomSensors_t sensors {&tracking_wheel, nullptr, nullptr, nullptr, &imu};
 
 lemlib::Chassis chassis(drivetrain, lateralController, angularController, sensors);
