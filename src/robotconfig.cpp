@@ -1,6 +1,7 @@
 #include "Solenoid.hpp"
 #include "cata.hpp"
 #include "intake.h"
+#include "lemlib/chassis/chassis.hpp"
 #include "lemlib/chassis/trackingWheel.hpp"
 #include "lights.hpp"
 #include "main.h"
@@ -32,18 +33,16 @@ pros::Motor_Group rightMotors({rightFront, rightBack, rightTop});
 
 pros::Imu imu(13);
 // drivetrain
-lemlib::Drivetrain_t drivetrain {&leftMotors, &rightMotors, 10.375, lemlib::Omniwheel::NEW_325, 360, 13};
+lemlib::Drivetrain drivetrain {&leftMotors, &rightMotors, 10.375, lemlib::Omniwheel::NEW_275, 450, 25};
 
 // lateral motion controller
-lemlib::ChassisController_t lateralController {12, 30, 1, 100, 3, 500, 3};
+lemlib::ControllerSettings lateralController {12, 0, 30, 0, 1, 100, 3, 500, 3};
 
 // angular motion controller
-lemlib::ChassisController_t angularController {2, 13.5, 1, 100, 3, 500, 20};
+lemlib::ControllerSettings angularController {2, 0, 13.5, 0, 1, 100, 3, 500, 20};
 
 // sensors for odometry
-pros::ADIEncoder enc('A', 'B');
-lemlib::TrackingWheel tracking_wheel(&enc, 2.75, 0.25);
-lemlib::OdomSensors_t sensors {&tracking_wheel, nullptr, nullptr, nullptr, &imu};
+lemlib::OdomSensors sensors {nullptr, nullptr, nullptr, nullptr, &imu};
 
 lemlib::Chassis chassis(drivetrain, lateralController, angularController, sensors);
 
