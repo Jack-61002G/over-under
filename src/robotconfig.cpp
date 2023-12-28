@@ -19,41 +19,39 @@ sylib::Addrled leftDriveLED(22, 7, 36);
 sylib::Addrled backLED(22, 8, 30);
 //sylib::Addrled logo(EXPANDER, 8, 48);
 
-pros::Motor leftFront(20, true);
-pros::Motor leftBack(18, true);
-pros::Motor leftTop(19, false);
+pros::Motor leftFront(10, true);
+pros::Motor leftBack(8, true);
+pros::Motor leftTop(6, false);
 
-pros::Motor rightFront(11, false);
-pros::Motor rightBack(12, false);
-pros::Motor rightTop(14, true);
+pros::Motor rightFront(1, false);
+pros::Motor rightBack(3, false);
+pros::Motor rightTop(2, true);
 
 pros::Motor_Group leftMotors({leftFront, leftBack, leftTop});
 pros::Motor_Group rightMotors({rightFront, rightBack, rightTop});
 
-pros::Imu imu(13);
+pros::Imu imu(11);
 // drivetrain
-lemlib::Drivetrain_t drivetrain {&leftMotors, &rightMotors, 10.375, lemlib::Omniwheel::NEW_325, 360, 13};
+lemlib::Drivetrain drivetrain {&leftMotors, &rightMotors, 10.375, lemlib::Omniwheel::NEW_325, 360, 13};
 
 // lateral motion controller
-lemlib::ChassisController_t lateralController {12, 30, 1, 100, 3, 500, 3};
+lemlib::ControllerSettings lateralController {12, 0, 30, 0, 1, 100, 3, 500, 3};
 
 // angular motion controller
-lemlib::ChassisController_t angularController {2, 13.5, 1, 100, 3, 500, 20};
+lemlib::ControllerSettings angularController {2, 0, 13.5, 0, 1, 100, 3, 500, 20};
 
 // sensors for odometry
-pros::ADIEncoder enc('A', 'B');
-lemlib::TrackingWheel tracking_wheel(&enc, 2.75, 0.25);
-lemlib::OdomSensors_t sensors {&tracking_wheel, nullptr, nullptr, nullptr, &imu};
+lemlib::OdomSensors sensors {nullptr, nullptr, nullptr, nullptr, &imu};
 
 lemlib::Chassis chassis(drivetrain, lateralController, angularController, sensors);
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
-pros::Motor cataMotor(21, false);
+pros::Motor cataMotor(7, false);
 
 balls::Catapult catapult(cataMotor);
 
-pros::Motor intakeMotor(9, true);
+pros::Motor intakeMotor(15, true);
 
 Intake intake(intakeMotor);
 
