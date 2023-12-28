@@ -32,6 +32,6 @@ extern pros::MotorGroup rightMotors;
 
 extern ryan::Solenoid Rwingus;
 extern ryan::Solenoid Lwingus;
-extern ryan::Solenoid blocker;
+extern ryan::Solenoid doinker;
 
 extern balls::Lights lights;

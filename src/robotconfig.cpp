@@ -55,9 +55,9 @@ pros::Motor intakeMotor(15, true);
 
 Intake intake(intakeMotor);
 
-ryan::Solenoid blocker('D');
+ryan::Solenoid doinker('D');
 
-ryan::Solenoid Lwingus('C');
-ryan::Solenoid Rwingus('E');
+ryan::Solenoid Lwingus('E');
+ryan::Solenoid Rwingus('C');
 
 balls::Lights lights(underglowLED, intakeLED, backLED, leftDriveLED, rightDriveLED);

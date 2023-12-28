@@ -1,10 +1,11 @@
+#include "autons.hpp"
 #include "lemlib/asset.hpp"
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/rtos.hpp"
 #include "robotconfig.h"
 
 ASSET(skillspush_txt)
-ASSET(farSideMidRush_txt)
+ASSET(disrupt_txt)
 ASSET(farSideMidRushContact_txt)
 ASSET(reallyjankpush_txt)
 
@@ -29,19 +30,16 @@ void turnToAngle(double desiredTheta, double timeout) {
 
 // autos
 
-void closeSide3() {
+void sixBall() {
   chassis.setPose(-17, 59.5, 90);
   intake = Intake::STATE::IN;
   chassis.moveToPose(-6, 59.5, 90, 1000);
-
-  // clear matchloader and back up
-  pros::Task task{[=] {
-    pros::delay(1200);
-    Lwingus.toggle();
-  }};
+  chassis.waitUntil(25);
+  doinker.toggle();
+  
   chassis.moveToPose(-55, 40, 0, 1800, {false, 13, .5, 70});
-  Lwingus.toggle();
-  pros::delay(500);
+  doinker.toggle();
+  pros::delay(150);
   chassis.moveToPose(-64, 0, 0, 600, {false});
   chassis.moveToPose(-60, 25, 0, 750);
   chassis.turnTo(-60, 0, 750);
@@ -71,11 +69,7 @@ void closeSide3() {
   chassis.moveToPose(-30, 8, -90, 1000, {false});
 }
 
-void closeSideMid() { // this shawty does NOT work
-  closeSide3();
-}
-
-void farSide() {
+void descore() {
   chassis.setPose(-45, -54.25, 0);
   Lwingus.toggle();
   pros::delay(150);
@@ -97,24 +91,28 @@ void farSide() {
   chassis.waitUntilDone();
 }
 
-void farSideMid() { // does not work
+void disrupt() { // does not work
 
-  chassis.setPose(-40.5, -54, 180);
+  chassis.setPose(-31, -54.25, 0);
 
-  // GAS GAS GAS !!!
-  pros::Task task{[=] {
-    pros::delay(1000);
-    TOGGLE_WINGS;
-  }};
-  chassis.follow(farSideMidRush_txt, 12, 3000, false);
+  //51581s ball swap
+  chassis.moveToPoint(-24, -7, 1000);
+  chassis.waitUntil(15);
+  Lwingus.set(true);
+  intake = Intake::STATE::IN;
+  chassis.waitUntil(25);
+  Lwingus.set(false);
+  chassis.waitUntilDone();
 
-  // score the baddie in the intake
-  intake = Intake::STATE::OUT;
-  Rwingus.toggle();
-  chassis.moveToPose(-25, chassis.getPose().y - 10, -90, 1500);
-  intake = Intake::STATE::IDLE;
-  turnToAngle(90, 1000);
-  chassis.moveToPose(-50, chassis.getPose().y, -90, 1000, {false});
+  chassis.follow(disrupt_txt, 17, 5400, false);
+  intake = Intake::STATE::HOLD;
+  chassis.waitUntil(60);
+  doinker.set(true);
+  chassis.waitUntil(85);
+  doinker.set(false);
+  chassis.waitUntilDone();
+  turnToAngle(90, 500);
+  chassis.moveToPoint(-7, -58, 1000);
 }
 
 void skills() {

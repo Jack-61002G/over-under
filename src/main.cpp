@@ -33,11 +33,11 @@ void autonomous() {
   //return;
 
   if (std::abs(selector::auton) == 1) {
-    closeSideMid();
+    sixBall();
   } else if (std::abs(selector::auton) == 2) {
-    farSide();
+    descore();
   } else if (std::abs(selector::auton) == 3) {
-    farSideMid();
+    disrupt();
   } else if (selector::auton == 0) {
     skills();
   }
@@ -141,7 +141,7 @@ void opcontrol() {
 
     // pistons
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
-      blocker.toggle();
+      doinker.toggle();
     }
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
       Rwingus.toggle();
