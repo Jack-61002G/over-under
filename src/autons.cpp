@@ -53,22 +53,29 @@ void sixBall() {
   chassis.setPose(-64, 35.5, 90);
   pros::delay(250);
 
+  //mid balls
   intake = Intake::STATE::IN;
-  chassis.moveToPose(-20, 35.5, 90, 300);
-  chassis.moveToPose(-11, 22, 90, 1000, {false, 0, 0.2});
-  pros::delay(250);
+  chassis.moveToPoint(-7.678, 24.27, 1000);
 
-  chassis.moveToPose(-13, 8, 0, 1000, {false, 0, 0});
-  Rwingus.toggle();
-  chassis.moveToPose(-65, 8, 90, 1000, {false});
-  chassis.moveToPose(-30, 8, 90, 1000);
-  chassis.turnTo(-60, 8, 1000);
-  pros::delay(150);
+  intake = Intake::STATE::HOLD;
+  chassis.turnTo(-27, 13.5, 1000);
+  chassis.moveToPoint(-26.778, 13.466, 1000);
+
   intake = Intake::STATE::OUT;
-  chassis.moveToPose(-60, 8, -90, 1000);
+  pros::delay(100);
+
+  chassis.turnTo(-6.5, 1.5, 1000);
+  intake = Intake::STATE::IN;
+  chassis.moveToPoint(-6.328, 1.312, 1000);
+  chassis.turnTo(-45, 0, 1000);
+  intake = Intake::STATE::HOLD;
+  TOGGLE_WINGS;
+  chassis.moveToPoint(-45.491, 0.154, 1000);
+  chassis.waitUntil(20);
+  intake = Intake::STATE::OUT;
+  chassis.moveToPoint(-24, 0, 1000);
   intake = Intake::STATE::IDLE;
-  Rwingus.toggle();
-  chassis.moveToPose(-30, 8, -90, 1000, {false});
+  TOGGLE_WINGS;
 }
 
 void descore() {
