@@ -9,7 +9,8 @@ ASSET(disrupt_txt)
 ASSET(farSideMidRushContact_txt)
 ASSET(reallyjankpush_txt)
 
-void driveFor(float distance, float timeout = 1500, bool direction = true, float speed = 127, float minspeed = 0) {
+void driveFor(float distance, float timeout = 1500, bool direction = true,
+              float speed = 127, float minspeed = 0) {
   chassis.moveToPose(
       chassis.getPose().x + distance * std::sin(chassis.getPose().theta),
       chassis.getPose().y + distance * std::cos(chassis.getPose().theta),
@@ -36,7 +37,7 @@ void sixBall() {
   chassis.moveToPose(-6, 59.5, 90, 1000);
   chassis.waitUntil(25);
   doinker.toggle();
-  
+
   chassis.moveToPose(-55, 40, 0, 1800, {false, 13, .5, 70});
   doinker.toggle();
   pros::delay(150);
@@ -51,22 +52,29 @@ void sixBall() {
   chassis.setPose(-64, 35.5, 90);
   pros::delay(250);
 
+  //mid balls
   intake = Intake::STATE::IN;
-  chassis.moveToPose(-20, 35.5, 90, 300);
-  chassis.moveToPose(-11, 22, 90, 1000, {false, 0, 0.2});
-  pros::delay(250);
+  chassis.moveToPoint(-7.678, 24.27, 1000);
 
-  chassis.moveToPose(-13, 8, 0, 1000, {false, 0, 0});
-  Rwingus.toggle();
-  chassis.moveToPose(-65, 8, 90, 1000, {false});
-  chassis.moveToPose(-30, 8, 90, 1000);
-  chassis.turnTo(-60, 8, 1000);
-  pros::delay(150);
+  intake = Intake::STATE::HOLD;
+  chassis.turnTo(-27, 13.5, 1000);
+  chassis.moveToPoint(-26.778, 13.466, 1000);
+
   intake = Intake::STATE::OUT;
-  chassis.moveToPose(-60, 8, -90, 1000);
+  pros::delay(100);
+
+  chassis.turnTo(-6.5, 1.5, 1000);
+  intake = Intake::STATE::IN;
+  chassis.moveToPoint(-6.328, 1.312, 1000);
+  chassis.turnTo(-45, 0, 1000);
+  intake = Intake::STATE::HOLD;
+  TOGGLE_WINGS;
+  chassis.moveToPoint(-45.491, 0.154, 1000);
+  chassis.waitUntil(20);
+  intake = Intake::STATE::OUT;
+  chassis.moveToPoint(-24, 0, 1000);
   intake = Intake::STATE::IDLE;
-  Rwingus.toggle();
-  chassis.moveToPose(-30, 8, -90, 1000, {false});
+  TOGGLE_WINGS;
 }
 
 void descore() {
@@ -95,7 +103,7 @@ void disrupt() { // does not work
 
   chassis.setPose(-31, -54.25, 0);
 
-  //51581s ball swap
+  // 51581s ball swap
   chassis.moveToPoint(-24, -7, 1000);
   chassis.waitUntil(15);
   Lwingus.set(true);
@@ -164,5 +172,4 @@ void skills() {
   chassis.moveToPose(chassis.getPose().x - 20, chassis.getPose().y, -90, 1200);
   turnToAngle(0, 500);
   pros::delay(100);
-
 }
