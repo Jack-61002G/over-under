@@ -4,12 +4,14 @@
 #include "pros/rtos.hpp"
 #include "robotconfig.h"
 
+ASSET(disruptSwap_txt)
+ASSET(disruptClear_txt)
+
 ASSET(skillspush_txt)
-ASSET(disrupt_txt)
-ASSET(farSideMidRushContact_txt)
 ASSET(reallyjankpush_txt)
 
-void driveFor(float distance, float timeout = 1500, bool direction = true, float speed = 127, float minspeed = 0) {
+void driveFor(float distance, float timeout = 1500, bool direction = true,
+              float speed = 127, float minspeed = 0) {
   chassis.moveToPose(
       chassis.getPose().x + distance * std::sin(chassis.getPose().theta),
       chassis.getPose().y + distance * std::cos(chassis.getPose().theta),
@@ -36,7 +38,7 @@ void sixBall() {
   chassis.moveToPose(-6, 59.5, 90, 1000);
   chassis.waitUntil(25);
   doinker.toggle();
-  
+
   chassis.moveToPose(-55, 40, 0, 1800, {false, 13, .5, 70});
   doinker.toggle();
   pros::delay(150);
@@ -70,69 +72,62 @@ void sixBall() {
 }
 
 void descore() {
-  chassis.setPose(-45, -54.25, 0);
-  Lwingus.toggle();
+  chassis.setPose(-47.25, -55.5, 0);
+  doinker.toggle();
   pros::delay(150);
 
   // aim to slap the triball out
+  chassis.turnTo(chassis.getPose().x-30, -55.5, 500);
+  chassis.moveToPoint(-36, -60, 800, false);
+  doinker.toggle();
+
+  chassis.turnTo(chassis.getPose().x+30, -60, 1000);
+  chassis.moveToPoint(-14, -60, 3000, true, 70);
   intake = Intake::STATE::OUT;
-  turnToAngle(-90, 250);
-  turnToAngle(180, 1000);
-  Lwingus.toggle();
+  chassis.waitUntilDone();
+  pros::delay(500);
   intake = Intake::STATE::IDLE;
 
-  // score preload in goal
-  chassis.moveToPose(-59, -21, 180, 1500, {false, 0, 0.75});
-
-  // move that jawn to the elevation bar and knock those triballs to the other
-  // side
-  chassis.moveToPose(8.4, -62.5, 90, 10000, {true, 0, 0.85});
-  chassis.waitUntil(10);
-  chassis.waitUntilDone();
 }
 
 void disrupt() { // does not work
 
-  chassis.setPose(-31, -54.25, 0);
+  chassis.setPose(-31, -55.25, 0);
 
-  //51581s ball swap
-  chassis.moveToPoint(-24, -7, 1000);
-  chassis.waitUntil(15);
-  Lwingus.set(true);
+  // 51581s
+  chassis.follow(disruptSwap_txt, 10, 2000);
+  chassis.waitUntil(30);
   intake = Intake::STATE::IN;
-  chassis.waitUntil(25);
-  Lwingus.set(false);
   chassis.waitUntilDone();
 
-  chassis.follow(disrupt_txt, 17, 5400, false);
+  // clear and get ready to bowl
+  chassis.follow(disruptClear_txt, 10, 5400, false);
   intake = Intake::STATE::HOLD;
-  chassis.waitUntil(60);
+  chassis.waitUntil(10);
+  chassis.waitUntil(58);
   doinker.set(true);
-  chassis.waitUntil(85);
+  chassis.waitUntil(65);
   doinker.set(false);
-  chassis.waitUntilDone();
-  turnToAngle(90, 500);
-  chassis.moveToPoint(-7, -58, 1000);
+  chassis.turnTo(30, -58, 1000);
+  chassis.moveToPoint(-10, -58, 1000);
 }
 
 void skills() {
   chassis.setPose(-41, 54.5, 180);
 
-  pros::Task task{[=] {
-    pros::delay(700);
-    intake = Intake::STATE::OUT;
-  }};
-
   // push preload into goal
   chassis.moveToPose(-60, -5, 180, 1200);
+  chassis.waitUntil(10);
+  intake = Intake::STATE::OUT;
+  chassis.waitUntilDone();
 
   intake = Intake::STATE::IDLE;
 
   pros::delay(200);
 
   // move to matchloader
-  chassis.moveToPose(-57.5, 43.5, 108, 1500, {false});
-  Lwingus.toggle();
+  chassis.moveToPose(-57.5, 43.5, -78, 1500);
+  Rwingus.toggle();
 
   catapult.setState(balls::Catapult::State::Matchload);
 
@@ -140,29 +135,22 @@ void skills() {
     pros::delay(20);
   }
 
-  Lwingus.toggle();
-  pros::delay(250);
+  Rwingus.toggle();
 
   chassis.moveToPose(-50, 40, 240, 1100);
 
-  pros::Task task2electricboogaloo{[=] {
-    pros::delay(2600);
-    Rwingus.toggle();
-    pros::delay(650);
-    Lwingus.toggle();
-    pros::delay(700);
-    Lwingus.toggle();
-  }};
-
   // first push
-  chassis.follow(skillspush_txt, 17, 5400, false, false);
-
-  Rwingus.toggle();
-  pros::delay(100);
+  chassis.follow(skillspush_txt, 17, 5400);
+  chassis.waitUntil(85);
+  Lwingus.set(true);
+  chassis.waitUntil(135);
+  Rwingus.set(true);
+  chassis.waitUntilDone();
+  Lwingus.set(false);
+  Rwingus.set(false);
 
   // back out
-  chassis.moveToPose(chassis.getPose().x - 20, chassis.getPose().y, -90, 1200);
-  turnToAngle(0, 500);
+  driveFor(-24);
+  turnToAngle(180, 500);
   pros::delay(100);
-
 }

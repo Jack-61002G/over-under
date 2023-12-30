@@ -29,6 +29,9 @@ void autonomous() {
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
 
+  disrupt();
+  return;
+
   //closeSideMid();
   //return;
 

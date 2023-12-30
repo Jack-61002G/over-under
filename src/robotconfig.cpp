@@ -10,12 +10,10 @@
 #include <iostream>
 #include "lemlib/api.hpp"
 
-const int EXPANDER = 5;
-
-sylib::Addrled underglowLED(EXPANDER, 8, 28);
-sylib::Addrled intakeLED(EXPANDER, 7, 22);
-sylib::Addrled rightDriveLED(22,6, 36);
-sylib::Addrled leftDriveLED(22, 7, 36);
+sylib::Addrled underglowLED(22, 7, 28);
+sylib::Addrled intakeLED(22, 1, 22);
+sylib::Addrled rightDriveLED(22,2, 36);
+sylib::Addrled leftDriveLED(22, 3, 36);
 sylib::Addrled backLED(22, 8, 30);
 //sylib::Addrled logo(EXPANDER, 8, 48);
 
@@ -30,15 +28,15 @@ pros::Motor rightTop(2, true);
 pros::Motor_Group leftMotors({leftFront, leftBack, leftTop});
 pros::Motor_Group rightMotors({rightFront, rightBack, rightTop});
 
-pros::Imu imu(11);
+pros::Imu imu(5);
 // drivetrain
-lemlib::Drivetrain drivetrain {&leftMotors, &rightMotors, 10.375, lemlib::Omniwheel::NEW_325, 360, 13};
+lemlib::Drivetrain drivetrain {&leftMotors, &rightMotors, 9.75, lemlib::Omniwheel::NEW_275, 450, 100};
 
 // lateral motion controller
-lemlib::ControllerSettings lateralController {12, 0, 30, 0, 1, 100, 3, 500, 3};
+lemlib::ControllerSettings lateralController {15, 0, 30, 0, 1, 100, 3, 500, 10};
 
 // angular motion controller
-lemlib::ControllerSettings angularController {2, 0, 13.5, 0, 1, 100, 3, 500, 20};
+lemlib::ControllerSettings angularController {2.3, 0, 13.5, 0, 1, 100, 3, 500, 20};
 
 // sensors for odometry
 lemlib::OdomSensors sensors {nullptr, nullptr, nullptr, nullptr, &imu};
@@ -58,6 +56,6 @@ Intake intake(intakeMotor);
 ryan::Solenoid doinker('D');
 
 ryan::Solenoid Lwingus('E');
-ryan::Solenoid Rwingus('C');
+ryan::Solenoid Rwingus('F');
 
 balls::Lights lights(underglowLED, intakeLED, backLED, leftDriveLED, rightDriveLED);
