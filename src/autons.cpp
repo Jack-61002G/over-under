@@ -35,45 +35,49 @@ void turnToAngle(double desiredTheta, double timeout) {
 void sixBall() {
   chassis.setPose(-17, 59.5, 90);
   intake = Intake::STATE::IN;
-  chassis.moveToPose(-6, 59.5, 90, 1000);
-  chassis.waitUntil(25);
-  doinker.toggle();
+  chassis.moveToPose(-8, 59.5, 90, 1000);
 
-  chassis.moveToPose(-55, 40, 0, 1800, {false, 13, .5, 70});
-  doinker.toggle();
-  pros::delay(150);
-  chassis.moveToPose(-64, 0, 0, 600, {false});
-  chassis.moveToPose(-60, 25, 0, 750);
+
+  chassis.moveToPose(-60, 40, 0, 1800, {false, 13, .35, 127});
+  chassis.moveToPose(-60, 0, 0, 600, {false, 0, .6, 127, 127});
+  chassis.waitUntilDone();
+  chassis.setPose(chassis.getPose().x, 30.75, chassis.getPose().theta);
+  pros::delay(100);
+
+  chassis.moveToPose(-60, 36, 0, 750);
   chassis.turnTo(-60, 0, 750);
+  chassis.waitUntilDone();
   pros::delay(100);
   intake = Intake::STATE::OUT;
-  chassis.moveToPose(-60, 15, 180, 650);
+  chassis.moveToPose(-60, 24, 180, 650, {true, 0, .6, 127, 127});
   intake = Intake::STATE::IDLE;
-  chassis.moveToPose(-75, 30, 90, 1200, {false});
-  chassis.setPose(-64, 35.5, 90);
-  pros::delay(250);
+
+  chassis.moveToPoint(-40, 48, 500, false);
+  chassis.turnTo(-24, 24, 500);
 
   //mid balls
   intake = Intake::STATE::IN;
-  chassis.moveToPoint(-7.678, 24.27, 1000);
+  chassis.moveToPoint(-13, 30, 1000);
 
-  intake = Intake::STATE::HOLD;
-  chassis.turnTo(-27, 13.5, 1000);
-  chassis.moveToPoint(-26.778, 13.466, 1000);
 
+  chassis.turnTo(-20, 24, 1000);
+  chassis.waitUntilDone();
+  chassis.moveToPoint(-15, 24, 1000);
   intake = Intake::STATE::OUT;
-  pros::delay(100);
+  chassis.waitUntilDone();
+  pros::delay(350);
 
-  chassis.turnTo(-6.5, 1.5, 1000);
+  chassis.turnTo(0, 0, 1000);
   intake = Intake::STATE::IN;
-  chassis.moveToPoint(-6.328, 1.312, 1000);
-  chassis.turnTo(-45, 0, 1000);
+  chassis.moveToPose(0, 8, 115,1000, {true, 100000, 0.3});
+  chassis.turnTo(-45, 3, 1000);
+  chassis.waitUntilDone();
   intake = Intake::STATE::HOLD;
   TOGGLE_WINGS;
-  chassis.moveToPoint(-45.491, 0.154, 1000);
+  chassis.moveToPoint(-45.491, 3, 1000);
   chassis.waitUntil(20);
   intake = Intake::STATE::OUT;
-  chassis.moveToPoint(-24, 0, 1000);
+  chassis.moveToPoint(-24, 0, 1000, false);
   intake = Intake::STATE::IDLE;
   TOGGLE_WINGS;
 }
@@ -89,7 +93,7 @@ void descore() {
   doinker.toggle();
 
   chassis.turnTo(chassis.getPose().x+30, -60, 1000);
-  chassis.moveToPoint(-14, -60, 3000, true, 70);
+  chassis.moveToPoint(-14.5, -60, 3000, true, 70);
   intake = Intake::STATE::OUT;
   chassis.waitUntilDone();
   pros::delay(500);
