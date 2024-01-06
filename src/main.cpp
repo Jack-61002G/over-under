@@ -4,13 +4,10 @@
 #include "pros/rtos.hpp"
 #include "robotconfig.h"
 
-ASSET(cat_gif)
-
 void initialize() {
 
   // Initialize chassis and auton selector
   sylib::initialize();
-  //lights.startTask();
   lights.rotate();
 
   selector::init();
@@ -29,7 +26,7 @@ void autonomous() {
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
 
-  sixBall();
+  descore();
   return;
 
   if (std::abs(selector::auton) == 1) {
@@ -55,7 +52,9 @@ void disabled() {
 
 void opcontrol() {
 
-  Gif *gif = new Gif(cat_gif, lv_scr_act());
+  Lwingus.set(false);
+  Rwingus.set(false);
+
   std::uint32_t clock = sylib::millis();
   // lights.loadFile();
   lights.setColor(selector::auton);

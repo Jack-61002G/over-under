@@ -20,7 +20,7 @@ void Catapult::loop() {
     switch (cataState) {
     
     case State::Matchload:
-      cataMotor.move_velocity(85);      
+      cataMotor.move_velocity(83);      
 
       if (cataFireState && cataMotor.get_efficiency() > 25) {
         cataFireState = false;

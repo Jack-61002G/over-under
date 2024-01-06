@@ -8,7 +8,6 @@
 #include "pros/adi.hpp"
 #include "pros/motors.hpp"
 #include "autoSelect/selection.h"
-#include "gif-pros/gifclass.hpp"
 
 
 extern lemlib::Chassis chassis;
