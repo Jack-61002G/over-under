@@ -5,7 +5,6 @@
 #include "robotconfig.h"
 
 ASSET(disruptSwap_txt)
-ASSET(disruptClear_txt)
 
 ASSET(skillspush_txt)
 ASSET(reallyjankpush_txt)
@@ -122,6 +121,27 @@ void disrupt() { // does not work
 
   intake = Intake::STATE::IDLE;
   chassis.moveToPoint(-20, -12.5, 1000, false); // back into the center
+
+}
+
+void swap() {
+
+  chassis.setPose(-34, -54, 0);
+  intake = Intake::STATE::IN;
+  chassis.follow(disruptSwap_txt, 15, 1500);
+  chassis.waitUntilDone();
+  chassis.moveToPoint(chassis.getPose().x, -11.5, 1000);
+  chassis.turnTo(0, -11.5, 500);
+  chassis.waitUntilDone();
+  Lwingus.set(true);
+  intake = Intake::STATE::OUT;
+  chassis.moveToPoint(0, -11.5, 1000, true);
+  chassis.waitUntilDone();
+  Lwingus.set(false);
+  chassis.moveToPoint(-20, -11.5, 1000, false);
+
+
+
 
 }
 

@@ -3,9 +3,9 @@
 #include <string>
 
 // selector configuration
-#define HUE 300
+#define HUE 72
 #define DEFAULT 0
-#define AUTONS "6 ball", "descore", "disrupt"
+#define AUTONS "6 ball", "descore", "disrupt", "swap"
 
 namespace selector {
 

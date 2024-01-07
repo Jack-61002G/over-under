@@ -26,7 +26,7 @@ void autonomous() {
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
 
-  descore();
+  swap();
   return;
 
   if (std::abs(selector::auton) == 1) {
@@ -35,6 +35,8 @@ void autonomous() {
     descore();
   } else if (std::abs(selector::auton) == 3) {
     disrupt();
+  } else if (std::abs(selector::auton) == 4) {
+    swap();
   } else if (selector::auton == 0) {
     skills();
   }
@@ -43,6 +45,7 @@ void autonomous() {
 void disabled() {
   lights.rotate();
   // Store the time at the start of the loop
+  
   std::uint32_t clock = sylib::millis();
   while (true) {
     // 10ms delay to allow other tasks to run

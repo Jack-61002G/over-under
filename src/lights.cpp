@@ -59,10 +59,10 @@ void Lights::setColor(int auton) {
   }
   else if (auton < 0) {
     //intakeLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 200));
-    underglowLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 200));
-    backLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 200));
-    leftDriveLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 200));
-    rightDriveLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 200));
+    underglowLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 150));
+    backLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 150));
+    leftDriveLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 150));
+    rightDriveLED.set_all(sylib::Addrled::rgb_to_hex(0, 0, 150));
   }
   else {
     //intakeLED.set_all(0x600060);
