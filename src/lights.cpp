@@ -42,6 +42,30 @@ void Lights::setColor(sylib::Addrled &strip) {
   }
 }
 
+void Lights::flash(sylib::Addrled &strip) {
+  pros::Task task{[=] {
+
+    if (auton > 0) {
+      strip.set_all(0xBB0000);
+    }
+    else if (auton < 0) {
+      strip.set_all(0x0000BB);
+    }
+    else {
+      strip.set_all(0x800080);
+    }
+
+    pros::delay(150);
+
+    strip.clear();
+
+    pros::delay(150);
+
+    setColor(strip);
+
+  }};
+}
+
 
 void Lights::loop() {
 
@@ -51,7 +75,7 @@ void Lights::loop() {
   bool Lwing = false;
   bool Rwing = false;
 
-  int intakeVal = 0;
+  bool intakeVal = false;
 
   while (true) {
 
@@ -76,8 +100,40 @@ void Lights::loop() {
       gameState = State::Driver;
     }
 
-    if ()
+    if (Lwingus.getState() && !Lwing) {
+      flash(leftDriveLED);
+      Lwing = true;
+    } else if (!Lwingus.getState()) {
+      Lwing = false;
+    }
+
+    if (Rwingus.getState() && !Rwing) {
+      flash(rightDriveLED);
+      Rwing = true;
+    } else if (!Rwingus.getState()) {
+      Rwing = false;
+    }
+
+    if (intake.getState() != Intake::STATE::IDLE && !intakeVal) {
+      int color;
+      if (auton > 0) {color = 0xBB0000;}
+      else if (auton < 0) {color = 0x0000BB;}
+      else {color = 0x800080;}
+
+      for (int i = 0; i < 28; i++) {
+        if (i % 2 == 0) {
+          underglowLED.set_pixel(color, i);
+        } else {
+          underglowLED.set_pixel(0, i);
+        }
+      }
+      underglowLED.cycle(*underglowLED, 5);
+
+      intakeVal = true;
+    } else if (intake.getState() == Intake::STATE::IDLE) {
+      intakeVal = false;
+    }
     
-    pros::delay(18);
+    pros::delay(100);
   }
 }
