@@ -34,7 +34,8 @@ void Catapult::loop() {
         }
         if (matchloadCount >= 46) {
           cataState = State::Idle;
-          lights.setColor(selector::auton);
+          lights.setColor(leftDriveLED);
+          lights.setColor(rightDriveLED);
           continue;
         }
       }

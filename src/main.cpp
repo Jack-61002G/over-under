@@ -1,4 +1,5 @@
 #include "main.h"
+#include "autoSelect/selection.h"
 #include "autons.hpp"
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
@@ -14,19 +15,20 @@ void initialize() {
 
   chassis.calibrate();
   catapult.startTask();
-  
+  lights.startTask();
+
   pros::delay(1000);
 
   // logo.set_all(0xFF0000);
 }
 
 void autonomous() {
-  lights.setColor(selector::auton);
+  lights.auton = selector::auton;
 
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
 
-  swap();
+  skills();
   return;
 
   if (std::abs(selector::auton) == 1) {
@@ -43,9 +45,8 @@ void autonomous() {
 }
 
 void disabled() {
-  lights.rotate();
+
   // Store the time at the start of the loop
-  
   std::uint32_t clock = sylib::millis();
   while (true) {
     // 10ms delay to allow other tasks to run
@@ -59,42 +60,48 @@ void opcontrol() {
   Rwingus.set(false);
 
   std::uint32_t clock = sylib::millis();
-  // lights.loadFile();
-  lights.setColor(selector::auton);
-
-  leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
-  rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+  
+  lights.auton = selector::auton;
 
   bool cata_button = false;
 
   /*
-  chassis.setPose(-41, 54.5, 180);
 
-  pros::Task task{[=] {
-    pros::delay(700);
-  intake = Intake::STATE::OUT;
-  }};
-   
+  leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+  rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+
+  chassis.setPose(-47, 57.5, 225);
+
   // push preload into goal
-  chassis.moveTo(-60, -5, 180, 1200);
- 
+  chassis.moveToPose(-57.5, 5, 180, 1200);
+  chassis.waitUntil(10);
+  intake = Intake::STATE::OUT;
+  chassis.waitUntilDone();
+
   intake = Intake::STATE::IDLE;
 
   pros::delay(200);
 
   // move to matchloader
-  chassis.moveTo(-57.5, 43.5, 108, 1500, false, false);
-  Lwingus.toggle();
+  chassis.moveToPose(-54.5, 45, -71, 1500, {false, 0, 0.2});
+  chassis.waitUntilDone();
+
+  Rwingus.toggle();
 
   catapult.setState(balls::Catapult::State::Matchload);
+  chassis.setPose(-55, 47, chassis.getPose().theta);
+  pros::delay(1000);
 
   while (catapult.getState() == balls::Catapult::State::Matchload) {
     pros::delay(20);
   }
 
-  Lwingus.toggle();
+  Rwingus.toggle();
+
   */
 
+  leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+  rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
 
   while (true) {
 

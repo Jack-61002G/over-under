@@ -11,7 +11,6 @@
 #include "lemlib/api.hpp"
 
 sylib::Addrled underglowLED(22, 7, 28);
-sylib::Addrled intakeLED(22, 1, 22);
 sylib::Addrled rightDriveLED(22,2, 36);
 sylib::Addrled leftDriveLED(22, 3, 36);
 sylib::Addrled backLED(22, 8, 30);
@@ -58,4 +57,4 @@ ryan::Solenoid doinker('D');
 ryan::Solenoid Lwingus('E');
 ryan::Solenoid Rwingus('F');
 
-balls::Lights lights(underglowLED, intakeLED, backLED, leftDriveLED, rightDriveLED);
+balls::Lights lights(underglowLED, backLED, leftDriveLED, rightDriveLED);

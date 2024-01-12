@@ -1,4 +1,5 @@
 #include "autons.hpp"
+#include "cata.hpp"
 #include "lemlib/asset.hpp"
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/rtos.hpp"
@@ -8,6 +9,48 @@ ASSET(disruptSwap_txt)
 
 ASSET(skillspush_txt)
 ASSET(reallyjankpush_txt)
+
+void holdAngle(double angle) {
+  pros::Task task{[=] {
+
+            const int kP = 7;
+            const double kD = 12.0;
+            const double drift = 10.0;
+
+            double prevError = 0;
+
+            while (catapult.getState() == balls::Catapult::State::Matchload) {
+              double error = angle - chassis.getPose().theta;
+
+              double derivitive = error - prevError;
+              prevError = error;
+
+
+              double output = error * kP + derivitive * kD;
+
+              leftMotors = output + drift;
+              rightMotors = -output + drift;
+
+              pros::delay(20);
+  
+
+            
+            }
+    }};
+}
+
+
+void holdPose(double x, double y, double theta) {
+  pros::Task task{[=] {
+            
+            while(catapult.getState() == balls::Catapult::State::Matchload) {
+              chassis.moveToPose(x, y, theta, 500);
+              chassis.waitUntilDone();
+              pros::delay(50);
+            }
+
+  }};}
+
 
 void driveFor(float distance, float timeout = 1500, bool direction = true,
               float speed = 127, float minspeed = 0) {
@@ -146,6 +189,7 @@ void swap() {
 }
 
 void skills() { // borked
+
   chassis.setPose(-47, 57.5, 225);
 
   // push preload into goal
@@ -164,8 +208,9 @@ void skills() { // borked
 
   Rwingus.toggle();
 
-  //catapult.setState(balls::Catapult::State::Matchload);
+  catapult.setState(balls::Catapult::State::Matchload);
   chassis.setPose(-55, 47, chassis.getPose().theta);
+  holdAngle(289);
   pros::delay(1000);
   
   while (catapult.getState() == balls::Catapult::State::Matchload) {
@@ -174,21 +219,27 @@ void skills() { // borked
 
   Rwingus.toggle();
 
+  return;
+
   chassis.turnTo(-29, 60, 1000);
   chassis.waitUntilDone();
-  chassis.follow(skillspush_txt, 10, 5400);
+  chassis.follow(skillspush_txt, 11, 6000);
   chassis.waitUntilDone();
-  intake = Intake::STATE::OUT;
 
-  chassis.moveToPoint(chassis.getPose().x+40, chassis.getPose().y, 1000);
+  chassis.turnTo(60, 0, 1000);
+  chassis.waitUntilDone();
+  chassis.moveToPoint(60, 0, 1000);
+  chassis.waitUntilDone();
+
+  chassis.turnTo(100, chassis.getPose().y, 1000);
   chassis.waitUntilDone();
   
   // back out
   chassis.moveToPoint(12, 12, 1000, false);
 
   // scooch over
-  chassis.turnTo(10, 0, 1000);
-  chassis.moveToPoint(10, 0, 1000);
+  chassis.turnTo(12, -12, 1000);
+  chassis.moveToPoint(12, 0, 1000);
   chassis.turnTo(60, 0, 1000);
   chassis.waitUntilDone();
 
@@ -196,7 +247,15 @@ void skills() { // borked
   Rwingus.set(true);
 
   // second push
-  chassis.moveToPose(60, 0, 90, 1000);
+  chassis.moveToPose(65, 0, 90, 1200, {true, 0, 0.2, 127, 100});
+  chassis.waitUntilDone();
+
+  chassis.tank(-100, -100);
+  pros::delay(500);
+  chassis.tank(0, 0);
+  pros::delay(300);
+
+  chassis.moveToPose(65, 0, 90, 1000, {true, 0, 0.2, 127, 100});
   chassis.waitUntilDone();
 
   Lwingus.set(false);
@@ -204,11 +263,11 @@ void skills() { // borked
   pros::delay(100);
 
   // back out
-  chassis.moveToPoint(12, 0, 1000, false);
+  chassis.moveToPoint(11, 0, 1000, false);
 
   // scooch over
-  chassis.turnTo(10, -30, 1000);
-  chassis.moveToPoint(10, -30, 1000);
+  chassis.turnTo(12, -30, 1000);
+  chassis.moveToPoint(12, -30, 1000);
   chassis.turnTo(60, 0, 1000);
 
   // third push

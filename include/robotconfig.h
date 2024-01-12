@@ -16,7 +16,6 @@ extern pros::Motor cataMotor;
 extern balls::Catapult catapult;
 extern Intake intake;
 
-extern sylib::Addrled intakeLED;
 extern sylib::Addrled underglowLED;
 extern sylib::Addrled rightDriveLED;
 extern sylib::Addrled leftDriveLED;
