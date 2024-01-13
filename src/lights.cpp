@@ -8,6 +8,7 @@
 
 using namespace balls;
 
+
 void Lights::rotate() {
 
   // intakeLED.clear();
@@ -19,7 +20,7 @@ void Lights::rotate() {
   leftDriveLED.set_pixel(0x990099, 1);
   leftDriveLED.set_pixel(0x990099, 2);
   leftDriveLED.set_pixel(0x600060, 3);
-  leftDriveLED.cycle(*leftDriveLED, 5);
+  leftDriveLED.cycle(*leftDriveLED, 5, 0, true);
 
   rightDriveLED.clear();
   rightDriveLED.set_pixel(0x600060, 0);
@@ -28,6 +29,24 @@ void Lights::rotate() {
   rightDriveLED.set_pixel(0x600060, 3);
   rightDriveLED.cycle(*rightDriveLED, 5);
 }
+
+
+void Lights::flow(sylib::Addrled &strip) {
+  if (auton > 0) {
+    strip.gradient(0xFF0000, 0x000000, 0, 0);
+    strip.gradient(0x000000, 0xFF0000, 0, 18);
+  }
+  else if (auton < 0) {
+    strip.gradient(0x0000FF, 0x000000, 0, 0);
+    strip.gradient(0x000000, 0x0000FF, 0, 18);
+  }
+  else {
+    strip.gradient(0xBB00BB, 0x000000, 0, 0);
+    strip.gradient(0x000000, 0xBB00BB, 0, 18);
+  }
+  strip.cycle(*strip, 5);
+}
+
 
 void Lights::setColor(sylib::Addrled &strip) {
   
@@ -40,30 +59,6 @@ void Lights::setColor(sylib::Addrled &strip) {
   } else {
     strip.set_all(0x600060);
   }
-}
-
-void Lights::flash(sylib::Addrled &strip) {
-  pros::Task task{[=] {
-
-    if (auton > 0) {
-      strip.set_all(0xBB0000);
-    }
-    else if (auton < 0) {
-      strip.set_all(0x0000BB);
-    }
-    else {
-      strip.set_all(0x800080);
-    }
-
-    pros::delay(150);
-
-    strip.clear();
-
-    pros::delay(150);
-
-    setColor(strip);
-
-  }};
 }
 
 
@@ -101,17 +96,19 @@ void Lights::loop() {
     }
 
     if (Lwingus.getState() && !Lwing) {
-      flash(leftDriveLED);
+      //flash(leftDriveLED);
       Lwing = true;
     } else if (!Lwingus.getState()) {
       Lwing = false;
+      setColor(leftDriveLED);
     }
 
     if (Rwingus.getState() && !Rwing) {
-      flash(rightDriveLED);
+      //flash(rightDriveLED);
       Rwing = true;
     } else if (!Rwingus.getState()) {
       Rwing = false;
+      setColor(rightDriveLED);
     }
 
     if (intake.getState() != Intake::STATE::IDLE && !intakeVal) {
@@ -127,7 +124,7 @@ void Lights::loop() {
           underglowLED.set_pixel(0, i);
         }
       }
-      underglowLED.cycle(*underglowLED, 5);
+      underglowLED.cycle(*underglowLED, 2);
 
       intakeVal = true;
     } else if (intake.getState() == Intake::STATE::IDLE) {

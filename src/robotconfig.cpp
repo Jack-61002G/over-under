@@ -57,4 +57,4 @@ ryan::Solenoid doinker('D');
 ryan::Solenoid Lwingus('E');
 ryan::Solenoid Rwingus('F');
 
-balls::Lights lights(underglowLED, backLED, leftDriveLED, rightDriveLED);
+balls::Lights lights(underglowLED, backLED, leftDriveLED, rightDriveLED, Lwingus, Rwingus, intake);

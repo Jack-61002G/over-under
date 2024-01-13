@@ -36,6 +36,7 @@ public:
     void init();
     void loop() override;
     void rotate();
+    void flow(sylib::Addrled &strip);
     void setColor(sylib::Addrled &strip);
     void flash(sylib::Addrled &strip);
     void loadFile();
