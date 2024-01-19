@@ -1,5 +1,6 @@
 #include "autons.hpp"
 #include "cata.hpp"
+#include "intake.h"
 #include "lemlib/asset.hpp"
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/rtos.hpp"
@@ -78,25 +79,40 @@ void turnToAngle(double desiredTheta, double timeout) {
 void sixBall() {
 
   chassis.setPose(-17, 59.5, 90);
+
+  // grab ball under the elevation bar
   intake = Intake::STATE::IN;
   chassis.moveToPose(-8, 59.5, 90, 1000);
 
-  chassis.moveToPose(-60, 40, 0, 1800, {false, 13, .35, 127});
-  chassis.moveToPose(-60, 0, 0, 650, {false, 0, .6, 127, 127});
+  // back up into the goal
+  chassis.moveToPose(-66, 40, 0, 1800, {false, 13, .35, 90});
+  chassis.moveToPose(-66, 0, 0, 1100, {false, 0, .6, 127, 127});
   chassis.waitUntilDone();
+  
+  leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+  rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+  pros::delay(800);
+
+  // reset pos
   chassis.setPose(chassis.getPose().x, 30.75, chassis.getPose().theta);
+  leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+  rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
   pros::delay(100);
 
-  chassis.moveToPose(-60, 36, 0, 750);
-  chassis.turnTo(-60, 0, 750);
+  // out of the goal
+  chassis.moveToPose(-66, 36, 0, 750);
+  chassis.turnTo(-66, 0, 750);
   chassis.waitUntilDone();
+
+  // forward push into the goal
   pros::delay(100);
   intake = Intake::STATE::OUT;
-  chassis.moveToPose(-60, 24, 180, 650, {true, 0, .6, 127, 127});
+  chassis.moveToPose(-66, 0, 180, 1300, {true, 0, .6, 127, 127});
   intake = Intake::STATE::IDLE;
 
   chassis.moveToPoint(-40, 48, 500, false);
   chassis.turnTo(-24, 24, 500);
+
 
   // mid balls
   intake = Intake::STATE::IN;
@@ -124,6 +140,16 @@ void sixBall() {
   TOGGLE_WINGS;
 }
 
+void farSideSafe() {
+  chassis.tank(-127, -127);
+  pros::delay(1000);
+  chassis.tank(0, 0);
+  pros::delay(100);
+  chassis.tank(80, 80);
+  pros::delay(200);
+  chassis.tank(0, 0);
+}
+
 void descore() {
   chassis.setPose(-46.25, -54.5, 0);
   Lwingus.set(true);
@@ -139,7 +165,7 @@ void descore() {
   Lwingus.set(false);
   turnToAngle(100, 400);
 
-  chassis.moveToPose(0, -60, 90, 1500, {true, 0, 0.5, 80});
+  chassis.moveToPose(0.5, -62, 90, 1500, {true, 0, 0.5, 80});
   chassis.waitUntilDone();
 
   intake = Intake::STATE::OUT;
@@ -182,13 +208,15 @@ void swap() {
   chassis.waitUntilDone();
   Lwingus.set(false);
   chassis.moveToPoint(-20, -11.5, 1000, false);
+  pros::delay(200);
+  intake = Intake::STATE::IDLE;
 
-
-
+  chassis.turnTo(-20, -30, 1000);
+  chassis.moveToPoint(-20, -30, 1000);
 
 }
 
-void skills() { // borked
+void skills() {
 
   chassis.setPose(-47, 57.5, 225);
 
@@ -203,14 +231,15 @@ void skills() { // borked
   pros::delay(200);
 
   // move to matchloader
-  chassis.moveToPose(-54.5, 45, -71, 1500, {false, 0, 0.2});
+  chassis.moveToPose(-54.5, 45, -66.5, 1500, {false, 0, 0.2});
   chassis.waitUntilDone();
 
   Rwingus.toggle();
+  pros::delay(100);
 
   catapult.setState(balls::Catapult::State::Matchload);
   chassis.setPose(-55, 47, chassis.getPose().theta);
-  holdAngle(289);
+  holdAngle(294);
   pros::delay(1000);
   
   while (catapult.getState() == balls::Catapult::State::Matchload) {
@@ -219,16 +248,14 @@ void skills() { // borked
 
   Rwingus.toggle();
 
-  return;
-
-  chassis.turnTo(-29, 60, 1000);
+  chassis.turnTo(-29, 55, 1000, false);
   chassis.waitUntilDone();
-  chassis.follow(skillspush_txt, 11, 6000);
+  chassis.follow(skillspush_txt, 14, 6000, false);
   chassis.waitUntilDone();
 
-  chassis.turnTo(60, 0, 1000);
+  chassis.turnTo(60, 1, 1000);
   chassis.waitUntilDone();
-  chassis.moveToPoint(60, 0, 1000);
+  chassis.moveToPoint(60, 6, 1000);
   chassis.waitUntilDone();
 
   chassis.turnTo(100, chassis.getPose().y, 1000);
@@ -271,9 +298,43 @@ void skills() { // borked
   chassis.turnTo(60, 0, 1000);
 
   // third push
-  chassis.moveToPose(60, 0, 90, 2000);
+  chassis.moveToPose(60, -1, 90, 2000);
+  TOGGLE_WINGS;
+  chassis.waitUntilDone();
   TOGGLE_WINGS;
 
   // back out
-  chassis.moveToPoint(10, -12, 1000, false);
+  chassis.moveToPoint(10, chassis.getPose().y, 1000, false);
+
+  //barrier cross
+  chassis.turnTo(-2, -70, 1500);
+  chassis.waitUntilDone();
+  chassis.tank(127, 127);
+  pros::delay(2500);
+  chassis.tank(0, 0);
+
+  //wall reset
+  chassis.setPose(15, -64, 180);
+  chassis.tank(-100, -100);
+  pros::delay(150);
+  chassis.tank(0, 0);
+
+  //turn to path 
+  chassis.turnTo(100, -60, 1000);
+  chassis.waitUntilDone();
+
+  //follow path
+  chassis.follow(reallyjankpush_txt, 13, 2500);
+  chassis.waitUntilDone();
+
+  //get out
+  chassis.moveToPoint(chassis.getPose().x, chassis.getPose().y-18, 1200, false);
+  chassis.waitUntilDone();
+
+  chassis.moveToPoint(63.5, chassis.getPose().y+50, 1200);
+  chassis.waitUntilDone();
+
+  chassis.moveToPoint(63.5, chassis.getPose().y-18, 1200, false);
+
+
 }

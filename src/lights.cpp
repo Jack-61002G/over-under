@@ -1,5 +1,6 @@
 #include "lights.hpp"
 #include "autoSelect/selection.h"
+#include "display/lv_objx/lv_gauge.h"
 #include "pros/misc.hpp"
 #include "pros/rtos.hpp"
 #include <fstream>
@@ -30,7 +31,7 @@ void Lights::rotate() {
   rightDriveLED.cycle(*rightDriveLED, 5);
 }
 
-
+/*
 void Lights::flow(sylib::Addrled &strip) {
   if (auton > 0) {
     strip.gradient(0xFF0000, 0x000000, 0, 0);
@@ -46,7 +47,7 @@ void Lights::flow(sylib::Addrled &strip) {
   }
   strip.cycle(*strip, 5);
 }
-
+*/
 
 void Lights::setColor(sylib::Addrled &strip) {
   
@@ -64,7 +65,7 @@ void Lights::setColor(sylib::Addrled &strip) {
 
 void Lights::loop() {
 
-  enum class State { Disabled, Driver, Auto};
+  enum class State { Disabled, Driver, Auto, RAINBOW};
   State gameState = State::Disabled;
 
   bool Lwing = false;
@@ -72,7 +73,15 @@ void Lights::loop() {
 
   bool intakeVal = false;
 
+  int driverTime = 0;
+
   while (true) {
+    int time = pros::millis() - driverTime;
+
+    if (gameState == State::RAINBOW) {
+      pros::delay(100);
+      continue;
+    }
 
     if (pros::competition::is_disabled() && gameState != State::Disabled) {
       rotate();
@@ -87,48 +96,49 @@ void Lights::loop() {
       gameState = State::Auto;
     }
 
-    if (!pros::competition::is_disabled() && !pros::competition::is_autonomous() && gameState != State::Driver) {
-      setColor(underglowLED);
-      setColor(backLED);
-      setColor(leftDriveLED);
-      setColor(rightDriveLED);
-      gameState = State::Driver;
-    }
-
-    if (Lwingus.getState() && !Lwing) {
-      //flash(leftDriveLED);
-      Lwing = true;
-    } else if (!Lwingus.getState()) {
-      Lwing = false;
-      setColor(leftDriveLED);
-    }
-
-    if (Rwingus.getState() && !Rwing) {
-      //flash(rightDriveLED);
-      Rwing = true;
-    } else if (!Rwingus.getState()) {
-      Rwing = false;
-      setColor(rightDriveLED);
-    }
-
-    if (intake.getState() != Intake::STATE::IDLE && !intakeVal) {
-      int color;
-      if (auton > 0) {color = 0xBB0000;}
-      else if (auton < 0) {color = 0x0000BB;}
-      else {color = 0x800080;}
-
-      for (int i = 0; i < 28; i++) {
-        if (i % 2 == 0) {
-          underglowLED.set_pixel(color, i);
+    if (!pros::competition::is_disabled() && !pros::competition::is_autonomous()) {
+      if (gameState != State::Driver) {
+        setColor(underglowLED);
+        setColor(backLED);
+        setColor(leftDriveLED);
+        setColor(rightDriveLED);
+        gameState = State::Driver;
+        if (auton == 0) {
+          driverTime = pros::millis();
         } else {
-          underglowLED.set_pixel(0, i);
+          driverTime = pros::millis() + 45000;
         }
       }
-      underglowLED.cycle(*underglowLED, 2);
 
-      intakeVal = true;
-    } else if (intake.getState() == Intake::STATE::IDLE) {
-      intakeVal = false;
+      if (time > 30000 && time < 30700) {
+        underglowLED.set_all(0x00FF00);
+        backLED.set_all(0x00FF00);
+        leftDriveLED.set_all(0x00FF00);
+        rightDriveLED.set_all(0x00FF00);
+      }
+      else if (time > 45000 && time < 45700) {
+        underglowLED.set_all(0xAA8800);
+        backLED.set_all(0xAA8800);
+        leftDriveLED.set_all(0xAA8800);
+        rightDriveLED.set_all(0xAA8800);
+      }
+      else if (time > 55000) {
+        gameState = State::RAINBOW;
+        underglowLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
+        underglowLED.cycle(*underglowLED, 5);
+        backLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
+        backLED.cycle(*backLED, 5);
+        leftDriveLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
+        leftDriveLED.cycle(*leftDriveLED, 5);
+        rightDriveLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
+        rightDriveLED.cycle(*rightDriveLED, 5);
+      }
+      else {
+        setColor(underglowLED);
+        setColor(backLED);
+        setColor(leftDriveLED);
+        setColor(rightDriveLED);
+      }
     }
     
     pros::delay(100);

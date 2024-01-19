@@ -2,7 +2,11 @@
 
 #include "robotconfig.h"
 
+extern void holdAngle(double angle);
+
 extern void sixBall();
+
+extern void farSideSafe();
 
 extern void descore();
 

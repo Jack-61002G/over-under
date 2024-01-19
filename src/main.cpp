@@ -32,19 +32,20 @@ void autonomous() {
   return;
 
   if (std::abs(selector::auton) == 1) {
-    sixBall();
-  } else if (std::abs(selector::auton) == 2) {
-    descore();
-  } else if (std::abs(selector::auton) == 3) {
-    disrupt();
-  } else if (std::abs(selector::auton) == 4) {
-    swap();
-  } else if (selector::auton == 0) {
     skills();
+  } else if (std::abs(selector::auton) == 2) {
+    farSideSafe();
+  } else if (std::abs(selector::auton) == 3) {
+    swap();
+  } else if (std::abs(selector::auton) == 4) {
+    descore();
+  } else if (selector::auton == 0) {
+    descore();
   }
 }
 
 void disabled() {
+  lights.auton = selector::auton;
 
   // Store the time at the start of the loop
   std::uint32_t clock = sylib::millis();
@@ -60,13 +61,13 @@ void opcontrol() {
   Rwingus.set(false);
 
   std::uint32_t clock = sylib::millis();
-  
+
   lights.auton = selector::auton;
 
   bool cata_button = false;
 
-  /*
-
+  // Matchloading macro
+/*
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
 
@@ -83,22 +84,27 @@ void opcontrol() {
   pros::delay(200);
 
   // move to matchloader
-  chassis.moveToPose(-54.5, 45, -71, 1500, {false, 0, 0.2});
+  chassis.moveToPose(-54.5, 45, -66, 1500, {false, 0, 0.2});
   chassis.waitUntilDone();
 
   Rwingus.toggle();
+  pros::delay(100);
 
   catapult.setState(balls::Catapult::State::Matchload);
   chassis.setPose(-55, 47, chassis.getPose().theta);
+  holdAngle(293.3);
   pros::delay(1000);
-
+  
   while (catapult.getState() == balls::Catapult::State::Matchload) {
     pros::delay(20);
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+      catapult.setState(balls::Catapult::State::Idle);
+    }
   }
 
   Rwingus.toggle();
-
-  */
+*/
+  // end macro
 
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);

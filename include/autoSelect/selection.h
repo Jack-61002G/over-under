@@ -5,7 +5,7 @@
 // selector configuration
 #define HUE 72
 #define DEFAULT 0
-#define AUTONS "6 ball", "descore", "disrupt", "swap"
+#define AUTONS "skills", "far side safe", "swap", "descore"
 
 namespace selector {
 
