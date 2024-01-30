@@ -10,9 +10,16 @@
 using namespace balls;
 
 
-void Lights::rotate() {
+// Off State
+void Lights::OffTick() {
+  if (pros::competition::is_disabled()) { DisabledStart(); }
+}
 
-  // intakeLED.clear();
+
+// Disabled State
+void Lights::DisabledStart() {
+  lightState = State::Disabled;
+
   underglowLED.clear();
   backLED.clear();
 
@@ -30,117 +37,124 @@ void Lights::rotate() {
   rightDriveLED.set_pixel(0x600060, 3);
   rightDriveLED.cycle(*rightDriveLED, 5);
 }
-
-/*
-void Lights::flow(sylib::Addrled &strip) {
-  if (auton > 0) {
-    strip.gradient(0xFF0000, 0x000000, 0, 0);
-    strip.gradient(0x000000, 0xFF0000, 0, 18);
-  }
-  else if (auton < 0) {
-    strip.gradient(0x0000FF, 0x000000, 0, 0);
-    strip.gradient(0x000000, 0x0000FF, 0, 18);
-  }
-  else {
-    strip.gradient(0xBB00BB, 0x000000, 0, 0);
-    strip.gradient(0x000000, 0xBB00BB, 0, 18);
-  }
-  strip.cycle(*strip, 5);
+void Lights::DisabledTick() {
+  if (!pros::competition::is_disabled())  { EnabledStart(); driverStartTime = pros::millis();}
 }
-*/
 
-void Lights::setColor(sylib::Addrled &strip) {
+
+// Enabled State
+void Lights::EnabledStart() {
+  lightState = State::Enabled;
   
-  if (auton > 0) {
-    strip.set_all(0x990000);
-    
-  } else if (auton < 0) {
-    strip.set_all(0x000099);
-
-  } else {
-    strip.set_all(0x600060);
+  if (selector::auton > 0) {
+    underglowLED.set_all(0x990000);
+    backLED.set_all(0x990000);
+    leftDriveLED.set_all(0x990000);
+    rightDriveLED.set_all(0x990000);
+  } 
+  else if (selector::auton < 0) {
+    underglowLED.set_all(0x000099);
+    backLED.set_all(0x000099);
+    leftDriveLED.set_all(0x000099);
+    rightDriveLED.set_all(0x000099);
+  } 
+  else {
+    underglowLED.set_all(0x600060);
+    backLED.set_all(0x600060);
+    leftDriveLED.set_all(0x600060);
+    rightDriveLED.set_all(0x600060);
   }
 }
+void Lights::EnabledTick() {
+  if (pros::competition::is_disabled()) {DisabledStart(); return;}
+  if (pros::competition::is_autonomous()) {EnabledStart(); driverStartTime = 0; return;}
+  if (driverStartTime < 1) {return;}
+  int time = pros::millis() - driverStartTime;
+  if (time > 75000 && time < 75600) {GreenStart(); return;}
+  if (time > 90000 && time < 90600) {YellowStart(); return;}
+  if (time > 10000) {RainbowStart(); return;}
+}
+
+
+// Green State
+void Lights::GreenStart() {
+  lightState = State::Green;
+
+  underglowLED.set_all(0x00FF00);
+  backLED.set_all(0x00FF00);
+  leftDriveLED.set_all(0x00FF00);
+  rightDriveLED.set_all(0x00FF00);
+}
+void Lights::GreenTick() {
+  if (pros::competition::is_disabled()) {DisabledStart(); return;}
+  if (pros::competition::is_autonomous()) {EnabledStart(); driverStartTime = 0; return;}
+  if (pros::millis() - driverStartTime > 75600) {EnabledStart(); return;}
+}
+
+
+// Yellow State
+void Lights::YellowStart() {
+  lightState = State::Yellow;
+
+  underglowLED.set_all(0xAA8800);
+  backLED.set_all(0xAA8800);
+  leftDriveLED.set_all(0xAA8800);
+  rightDriveLED.set_all(0xAA8800);
+}
+void Lights::YellowTick() {
+  if (pros::competition::is_disabled()) {DisabledStart(); return;}
+  if (pros::competition:: is_autonomous()) {EnabledStart(); driverStartTime = 0; return;}
+  if (pros::millis() - driverStartTime > 90600) {EnabledStart(); return;}
+}
+
+
+//Rainbow State
+void Lights::RainbowStart() {
+  lightState = State::Rainbow;
+
+  underglowLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
+  underglowLED.cycle(*underglowLED, 5);
+  backLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
+  backLED.cycle(*backLED, 5);
+  leftDriveLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
+  leftDriveLED.cycle(*leftDriveLED, 5);
+  rightDriveLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
+  rightDriveLED.cycle(*rightDriveLED, 5);
+}
+void Lights::RainbowTick() {
+  if (pros::competition::is_disabled()) {driverStartTime = 0;}
+  if (!pros::competition::is_disabled() && driverStartTime == 0) {EnabledStart(); driverStartTime = pros::millis(); return;}
+}
+
 
 
 void Lights::loop() {
 
-  enum class State { Disabled, Driver, Auto, RAINBOW};
-  State gameState = State::Disabled;
+  enum class State { Off, Disabled, Enabled, Green, Yellow, Rainbow};
+  State lightState = State::Off;
 
-  bool Lwing = false;
-  bool Rwing = false;
-
-  bool intakeVal = false;
-
-  int driverTime = 0;
+  int driverStartTime;
 
   while (true) {
-    int time = pros::millis() - driverTime;
-
-    if (gameState == State::RAINBOW) {
-      pros::delay(100);
-      continue;
-    }
-
-    if (pros::competition::is_disabled() && gameState != State::Disabled) {
-      rotate();
-      gameState = State::Disabled;
-    }
-
-    if (!pros::competition::is_disabled() && pros::competition::is_autonomous() && gameState != State::Auto) {
-      setColor(underglowLED);
-      setColor(backLED);
-      setColor(leftDriveLED);
-      setColor(rightDriveLED);
-      gameState = State::Auto;
-    }
-
-    if (!pros::competition::is_disabled() && !pros::competition::is_autonomous()) {
-      if (gameState != State::Driver) {
-        setColor(underglowLED);
-        setColor(backLED);
-        setColor(leftDriveLED);
-        setColor(rightDriveLED);
-        gameState = State::Driver;
-        if (auton == 0) {
-          driverTime = pros::millis();
-        } else {
-          driverTime = pros::millis() + 45000;
-        }
-      }
-
-      if (time > 30000 && time < 30700) {
-        underglowLED.set_all(0x00FF00);
-        backLED.set_all(0x00FF00);
-        leftDriveLED.set_all(0x00FF00);
-        rightDriveLED.set_all(0x00FF00);
-      }
-      else if (time > 45000 && time < 45700) {
-        underglowLED.set_all(0xAA8800);
-        backLED.set_all(0xAA8800);
-        leftDriveLED.set_all(0xAA8800);
-        rightDriveLED.set_all(0xAA8800);
-      }
-      else if (time > 55000) {
-        gameState = State::RAINBOW;
-        underglowLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
-        underglowLED.cycle(*underglowLED, 5);
-        backLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
-        backLED.cycle(*backLED, 5);
-        leftDriveLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
-        leftDriveLED.cycle(*leftDriveLED, 5);
-        rightDriveLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
-        rightDriveLED.cycle(*rightDriveLED, 5);
-      }
-      else {
-        setColor(underglowLED);
-        setColor(backLED);
-        setColor(leftDriveLED);
-        setColor(rightDriveLED);
-      }
-    }
     
-    pros::delay(100);
-  }
-}
+    switch(lightState) {
+
+    case State::Off: {
+      OffTick();
+    }
+    case State::Disabled: {
+      DisabledTick();
+    }
+    case State::Enabled: {
+      EnabledTick();
+    }
+    case State::Green: {
+      GreenTick();
+    }
+    case State::Yellow: {
+      YellowTick();
+    }
+    case State::Rainbow: {
+      RainbowTick();
+    }}
+}}

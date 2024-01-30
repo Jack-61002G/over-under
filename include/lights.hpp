@@ -12,35 +12,34 @@ class Lights : public ryan::TaskWrapper {
 
 private:
 
-  enum class State { Disabled, Driver, Skills};
-  State gameState = State::Disabled;
-  int doinkerAnimTimestep;
-  unsigned char *doinkerAnimData;
+  enum class State { Off, Disabled, Enabled, Green, Yellow, Rainbow};
+  State lightState;
+  int driverStartTime;
   sylib::Addrled &underglowLED;
   sylib::Addrled &backLED;
   sylib::Addrled &rightDriveLED;
   sylib::Addrled &leftDriveLED;
-  ryan::Solenoid &Lwingus;
-  ryan::Solenoid &Rwingus;
-  Intake &intake;
 
 public:
     int auton = 0;
 
-    Lights(sylib::Addrled &underglowLED, sylib::Addrled &backLED, sylib::Addrled &leftDriveLED, sylib::Addrled &rightDriveLED,
-          ryan::Solenoid &Lwingus, ryan::Solenoid &Rwingus, Intake &intake)
-          : underglowLED(underglowLED), backLED(backLED), leftDriveLED(leftDriveLED), rightDriveLED(rightDriveLED),
-          Lwingus(Lwingus), Rwingus(Rwingus), intake(intake)
+    Lights(sylib::Addrled &underglowLED, sylib::Addrled &backLED, sylib::Addrled &leftDriveLED, sylib::Addrled &rightDriveLED)
+          : underglowLED(underglowLED), backLED(backLED), leftDriveLED(leftDriveLED), rightDriveLED(rightDriveLED)
           {};
         
-    void init();
     void loop() override;
-    void rotate();
-    void flow(sylib::Addrled &strip);
-    void setColor(sylib::Addrled &strip);
-    void flash(sylib::Addrled &strip);
-    void loadFile();
-    unsigned char* readBMP(const char* filename);
+
+    void OffTick();
+
+    void DisabledStart(); void DisabledTick();
+    
+    void EnabledStart(); void EnabledTick();
+
+    void GreenStart(); void GreenTick();
+
+    void YellowStart(); void YellowTick();
+
+    void RainbowStart(); void RainbowTick();
     
 };
 } // namespace balls
