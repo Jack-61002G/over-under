@@ -31,5 +31,6 @@ extern pros::MotorGroup rightMotors;
 extern ryan::Solenoid Rwingus;
 extern ryan::Solenoid Lwingus;
 extern ryan::Solenoid doinker;
+extern pros::ADIDigitalOut pto;
 
 extern balls::Lights lights;

@@ -10,24 +10,24 @@
 #include <iostream>
 #include "lemlib/api.hpp"
 
-sylib::Addrled underglowLED(22, 7, 28);
+sylib::Addrled underglowLED(22, 5, 31);
 sylib::Addrled rightDriveLED(22,2, 36);
-sylib::Addrled leftDriveLED(22, 3, 36);
-sylib::Addrled backLED(22, 8, 30);
+sylib::Addrled leftDriveLED(12, 6, 36);
+sylib::Addrled backLED(12, 7, 28);
 //sylib::Addrled logo(EXPANDER, 8, 48);
 
-pros::Motor leftFront(10, true);
-pros::Motor leftBack(8, true);
-pros::Motor leftTop(6, false);
+pros::Motor leftFront(8, true);
+pros::Motor leftBack(10, true);
+pros::Motor leftTop(9, false);
 
 pros::Motor rightFront(4, false);
-pros::Motor rightBack(3, false);
-pros::Motor rightTop(2, true);
+pros::Motor rightBack(11, false);
+pros::Motor rightTop(1, true);
 
 pros::Motor_Group leftMotors({leftFront, leftBack, leftTop});
 pros::Motor_Group rightMotors({rightFront, rightBack, rightTop});
 
-pros::Imu imu(5);
+pros::Imu imu(7);
 // drivetrain
 lemlib::Drivetrain drivetrain {&leftMotors, &rightMotors, 9.75, lemlib::Omniwheel::NEW_275, 450, 100};
 
@@ -44,17 +44,18 @@ lemlib::Chassis chassis(drivetrain, lateralController, angularController, sensor
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
-pros::Motor cataMotor(7, false);
+pros::Motor cataMotor(3, false);
 
 balls::Catapult catapult(cataMotor);
 
-pros::Motor intakeMotor(15, true);
+pros::Motor intakeMotor(20, true);
 
 Intake intake(intakeMotor);
 
-ryan::Solenoid doinker('D');
+ryan::Solenoid doinker('G');
 
-ryan::Solenoid Lwingus('E');
+ryan::Solenoid Lwingus('H');
 ryan::Solenoid Rwingus('F');
+pros::ADIDigitalOut pto ({{12, 'E'}});
 
 balls::Lights lights(underglowLED, backLED, leftDriveLED, rightDriveLED, Lwingus, Rwingus, intake);

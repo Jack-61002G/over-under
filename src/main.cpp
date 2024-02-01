@@ -59,6 +59,7 @@ void opcontrol() {
 
   Lwingus.set(false);
   Rwingus.set(false);
+  bool ptoState = false;
 
   std::uint32_t clock = sylib::millis();
 
@@ -163,6 +164,10 @@ void opcontrol() {
     }
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
       Lwingus.toggle();
+    }
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+      pto.set_value(!ptoState);
+      ptoState = !ptoState;
     }
 
     sylib::delay_until(&clock, 10);
