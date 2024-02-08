@@ -34,3 +34,5 @@ extern ryan::Solenoid doinker;
 extern pros::ADIDigitalOut pto;
 
 extern balls::Lights lights;
+
+extern void intakeButtonTask_func();

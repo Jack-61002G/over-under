@@ -40,6 +40,18 @@ void Catapult::loop() {
         }
       }
       break;
+    
+    case State::Single:
+      cataMotor.move_velocity(83);      
+
+      if (cataFireState && cataMotor.get_efficiency() > 25) {
+        cataFireState = false;
+      }
+      if (!cataFireState && cataMotor.get_efficiency() < 10) {
+        cataFireState = true;
+        cataState = State::Idle;
+      }
+      break;
 
     case State::Idle:
       cataMotor.move(0);

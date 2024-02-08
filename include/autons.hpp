@@ -14,4 +14,6 @@ extern void disrupt();
 
 extern void swap();
 
+extern void rush();
+
 extern void skills();

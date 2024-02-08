@@ -12,7 +12,7 @@ public:
    * @brief The State enum class represents the different states of an object.
    *        It can be either Idle, Firing, or Matchload.
    */
-  enum class State { Idle, Firing, Matchload };
+  enum class State { Idle, Firing, Matchload, Single };
 
 private:
   State cataState;

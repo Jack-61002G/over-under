@@ -16,6 +16,7 @@ void initialize() {
   chassis.calibrate();
   catapult.startTask();
   lights.startTask();
+  pros::Task intakeButtonTask(intakeButtonTask_func);
 
   pros::delay(1000);
 
@@ -28,7 +29,14 @@ void autonomous() {
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
 
-  skills();
+  // Release intake in a lambda task
+  pros::Task intakeReleaseTask([] {
+    catapult.setState(balls::Catapult::State::Firing);
+    pros::delay(600);
+    catapult.setState(balls::Catapult::State::Idle);
+  });
+
+  rush();
   return;
 
   if (std::abs(selector::auton) == 1) {

@@ -31,23 +31,6 @@ void Lights::rotate() {
   rightDriveLED.cycle(*rightDriveLED, 5);
 }
 
-/*
-void Lights::flow(sylib::Addrled &strip) {
-  if (auton > 0) {
-    strip.gradient(0xFF0000, 0x000000, 0, 0);
-    strip.gradient(0x000000, 0xFF0000, 0, 18);
-  }
-  else if (auton < 0) {
-    strip.gradient(0x0000FF, 0x000000, 0, 0);
-    strip.gradient(0x000000, 0x0000FF, 0, 18);
-  }
-  else {
-    strip.gradient(0xBB00BB, 0x000000, 0, 0);
-    strip.gradient(0x000000, 0xBB00BB, 0, 18);
-  }
-  strip.cycle(*strip, 5);
-}
-*/
 
 void Lights::setColor(sylib::Addrled &strip) {
   
@@ -83,11 +66,13 @@ void Lights::loop() {
       continue;
     }
 
+    // disabled
     if (pros::competition::is_disabled() && gameState != State::Disabled) {
       rotate();
       gameState = State::Disabled;
     }
 
+    // autonomous
     if (!pros::competition::is_disabled() && pros::competition::is_autonomous() && gameState != State::Auto) {
       setColor(underglowLED);
       setColor(backLED);
@@ -96,6 +81,7 @@ void Lights::loop() {
       gameState = State::Auto;
     }
 
+    // driver control
     if (!pros::competition::is_disabled() && !pros::competition::is_autonomous()) {
       if (gameState != State::Driver) {
         setColor(underglowLED);
@@ -111,16 +97,16 @@ void Lights::loop() {
       }
 
       if (time > 30000 && time < 30700) {
-        underglowLED.set_all(0x00FF00);
-        backLED.set_all(0x00FF00);
-        leftDriveLED.set_all(0x00FF00);
-        rightDriveLED.set_all(0x00FF00);
+        underglowLED.set_all(0x00AA00);
+        backLED.set_all(0x00AA00);
+        leftDriveLED.set_all(0x00AA00);
+        rightDriveLED.set_all(0x00AA00);
       }
       else if (time > 45000 && time < 45700) {
-        underglowLED.set_all(0xAA8800);
-        backLED.set_all(0xAA8800);
-        leftDriveLED.set_all(0xAA8800);
-        rightDriveLED.set_all(0xAA8800);
+        underglowLED.set_all(0xFFD800);
+        backLED.set_all(0xFFD800);
+        leftDriveLED.set_all(0xFFD800);
+        rightDriveLED.set_all(0xFFD800);
       }
       else if (time > 55000) {
         gameState = State::RAINBOW;
