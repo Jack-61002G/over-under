@@ -13,6 +13,7 @@ ASSET(skillspush_txt)
 ASSET(reallyjankpush_txt)
 ASSET(rush_txt)
 ASSET(rushfinalpush_txt)
+ASSET(kaboom_txt)
 
 void holdAngle(double angle) {
   pros::Task task{[=] {
@@ -243,23 +244,40 @@ void rush() {
                       false);
 }
 
-void disrupt() { // does not work
+void disrupt() {
 
   chassis.setPose(-34, -54, 0);
-
-  chassis.moveToPoint(-34, -12.5, 1000, true, 100); // rush in
-  chassis.waitUntilDone();
-
-  chassis.moveToPose(-34, -12.5, 90, 500); // turn
   Lwingus.set(true);
+  chassis.follow(disruptSwap_txt, 15, 1500);
+  chassis.waitUntil(8.75);
+  Lwingus.set(false);
+  intake = Intake::STATE::IN;
+  chassis.waitUntilDone();
+  chassis.follow(kaboom_txt, 17, 1250, false);
+
+  // outtake balls into the alley
+  chassis.turnTo(10, -60, 800);
   chassis.waitUntilDone();
 
   intake = Intake::STATE::OUT;
-  chassis.moveToPoint(0, -12.5, 1000, true, 100); // descore over barrier
+
+  pros::delay(400);
+  intake = Intake::STATE::IDLE;
+
+  Lwingus.set(true);
+  pros::delay(150);
+
+  // slap the triball out
+  chassis.turnTo(-50, 50, 200);
+  chassis.turnTo(-100, -55, 600);
   chassis.waitUntilDone();
 
-  intake = Intake::STATE::IDLE;
-  chassis.moveToPoint(-20, -12.5, 1000, false); // back into the center
+  Lwingus.set(false);
+
+  pros::delay(300);
+
+  chassis.moveToPose(-70, -67, 48, 600);
+  
 }
 
 void swap() {

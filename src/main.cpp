@@ -36,7 +36,7 @@ void autonomous() {
     catapult.setState(balls::Catapult::State::Idle);
   });
 
-  rush();
+  disrupt();
   return;
 
   if (std::abs(selector::auton) == 1) {
