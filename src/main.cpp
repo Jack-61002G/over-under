@@ -38,7 +38,7 @@ void autonomous() {
 
 
   if (std::abs(selector::auton) == 1) {
-    skills();
+    rush();
   } else if (std::abs(selector::auton) == 2) {
     farSideSafe();
   } else if (std::abs(selector::auton) == 3) {
@@ -46,7 +46,7 @@ void autonomous() {
   } else if (std::abs(selector::auton) == 4) {
     descore();
   } else if (selector::auton == 0) {
-    descore();
+    skills();
   }
 }
 
