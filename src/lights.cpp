@@ -48,7 +48,7 @@ void Lights::setColor(sylib::Addrled &strip) {
 
 void Lights::loop() {
 
-  enum class State { Disabled, Driver, Auto, RAINBOW};
+  enum class State { Disabled, Driver, Auto };
   State gameState = State::Disabled;
 
   bool Lwing = false;
@@ -60,11 +60,6 @@ void Lights::loop() {
 
   while (true) {
     int time = pros::millis() - driverTime;
-
-    if (gameState == State::RAINBOW) {
-      pros::delay(100);
-      continue;
-    }
 
     // disabled
     if (pros::competition::is_disabled() && gameState != State::Disabled) {
@@ -96,7 +91,7 @@ void Lights::loop() {
         }
       }
 
-      if (time > 30000 && time < 30700) {
+      if (time > 30000 && time < 30700 && auton != 0) {
         underglowLED.set_all(0x00AA00);
         backLED.set_all(0x00AA00);
         leftDriveLED.set_all(0x00AA00);
@@ -108,18 +103,7 @@ void Lights::loop() {
         leftDriveLED.set_all(0xFFD800);
         rightDriveLED.set_all(0xFFD800);
       }
-      else if (time > 55000) {
-        gameState = State::RAINBOW;
-        underglowLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
-        underglowLED.cycle(*underglowLED, 5);
-        backLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
-        backLED.cycle(*backLED, 5);
-        leftDriveLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
-        leftDriveLED.cycle(*leftDriveLED, 5);
-        rightDriveLED.gradient(0xFF0000, 0xFF0005, 0, 0, false, true);
-        rightDriveLED.cycle(*rightDriveLED, 5);
-      }
-      else {
+      else if (time > 45000 || auton != 0) {
         setColor(underglowLED);
         setColor(backLED);
         setColor(leftDriveLED);
@@ -127,6 +111,6 @@ void Lights::loop() {
       }
     }
     
-    pros::delay(100);
+    pros::delay(120);
   }
 }

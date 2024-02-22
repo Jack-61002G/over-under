@@ -2,6 +2,7 @@
 #include "autoSelect/selection.h"
 #include "autons.hpp"
 #include "pros/misc.h"
+#include "pros/motors.h"
 #include "pros/rtos.hpp"
 #include "robotconfig.h"
 
@@ -30,17 +31,25 @@ void autonomous() {
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
 
   // Release intake in a lambda task
+  /*
   pros::Task intakeReleaseTask([] {
-    catapult.setState(balls::Catapult::State::Firing);
-    pros::delay(600);
-    catapult.setState(balls::Catapult::State::Idle);
+    intake = Intake::STATE::OUT;
+    pros::delay(50);
+    intake = Intake::STATE::IDLE;
+    pros::delay(25);
+    intake = Intake::STATE::IN;
+    pros::delay(50);
+    intake = Intake::STATE::IDLE;
   });
+  */
 
+  rush();
+  return;
 
   if (std::abs(selector::auton) == 1) {
     rush();
   } else if (std::abs(selector::auton) == 2) {
-    farSideSafe();
+    disrupt();
   } else if (std::abs(selector::auton) == 3) {
     swap();
   } else if (std::abs(selector::auton) == 4) {
@@ -73,12 +82,22 @@ void opcontrol() {
 
   bool cata_button = false;
 
+
+
   // Matchloading macro
 /*
+  if (selector::auton == 0) {
+  
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
 
   chassis.setPose(-47, 57.5, 225);
+
+  pros::Task intakeReleaseTask([] {
+    catapult.setState(balls::Catapult::State::Firing);
+    pros::delay(600);
+    catapult.setState(balls::Catapult::State::Idle);
+  });
 
   // push preload into goal
   chassis.moveToPose(-57.5, 5, 180, 1200);
@@ -91,7 +110,7 @@ void opcontrol() {
   pros::delay(200);
 
   // move to matchloader
-  chassis.moveToPose(-54.5, 45, -66, 1500, {false, 0, 0.2});
+  chassis.moveToPose(-57.5, 37, -70, 1500, {false, 0, 0.2});
   chassis.waitUntilDone();
 
   Rwingus.toggle();
@@ -99,7 +118,7 @@ void opcontrol() {
 
   catapult.setState(balls::Catapult::State::Matchload);
   chassis.setPose(-55, 47, chassis.getPose().theta);
-  holdAngle(293.3);
+  holdAngle(290);
   pros::delay(1000);
   
   while (catapult.getState() == balls::Catapult::State::Matchload) {
@@ -110,8 +129,11 @@ void opcontrol() {
   }
 
   Rwingus.toggle();
-*/
+  }
+
   // end macro
+*/
+
 
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
@@ -164,6 +186,13 @@ void opcontrol() {
     // pistons
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
       doinker.toggle();
+      if (doinker.getState() == true) {
+        leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+        rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+      } else {
+        leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+        rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+      }
     }
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
       Rwingus.toggle();

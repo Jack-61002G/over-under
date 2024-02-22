@@ -147,7 +147,7 @@ void farSideSafe() {
 }
 
 void descore() {
-  chassis.setPose(-46.25, -54.5, 0);
+  chassis.setPose(-46.25, -53, 0);
   Lwingus.set(true);
   pros::delay(150);
 
@@ -157,11 +157,13 @@ void descore() {
   pros::delay(400);
 
   // turn back
-  turnToAngle(0, 50);
+  turnToAngle(0, 100);
   Lwingus.set(false);
-  turnToAngle(100, 400);
+  chassis.turnTo(-8, -60, 1000);
+  chassis.waitUntilDone();
 
-  chassis.moveToPose(0.5, -62, 90, 1500, {true, 0, 0.5, 80});
+  // touch bar
+  chassis.moveToPose(-19.75, -60.5, 90, 2500, {true, 0, 0.5, 70});
   chassis.waitUntilDone();
 
   intake = Intake::STATE::OUT;
@@ -170,31 +172,33 @@ void descore() {
 }
 
 void rush() {
-  chassis.setPose(34.5, -54, 0);
+  chassis.setPose(33.5, -53, 0);
 
   // rush first ball
   Rwingus.set(true); // kick preload
-  chassis.follow(rush_txt, 15, 1700);
   intake = Intake::STATE::IN;
+  chassis.follow(rush_txt, 15, 1700);
   chassis.waitUntil(6.4);
   Rwingus.set(false); // retract wing
   chassis.waitUntilDone();
 
   // back away
-  chassis.moveToPoint(40, -57, 1500, false);
+  chassis.moveToPoint(39, -55.5, 1500, false);
+
+  // huck the ball at the side of the goal
   chassis.turnTo(55, -30, 500);
   pros::delay(180);
-  intake = Intake::STATE::OUT; // ball to side of goal
+  intake = Intake::STATE::OUT;
   chassis.waitUntilDone();
 
   // grab ball under elevation bar
   chassis.turnTo(0, -70, 600);
-  chassis.moveToPoint(-4.5, -65, 2000);
+  chassis.moveToPoint(0, -65, 2000);
   intake = Intake::STATE::IN;
   chassis.waitUntilDone();
 
   // move towards goal
-  chassis.moveToPose(45, -48, 180, 2000, {false, 0, 0.3});
+  chassis.moveToPose(47, -45.5, 180, 2000, {false, 0, 0.3});
   chassis.waitUntil(23.5);
   Lwingus.set(true); // get ball from mathloader
   chassis.waitUntilDone();
@@ -216,7 +220,7 @@ void rush() {
 
   chassis.setPose(55, -34, 0);
 
-  chassis.moveToPoint(39, -44, 1500, false);
+  chassis.moveToPoint(39, -43, 1500, false);
   chassis.waitUntilDone();
   std::cout << chassis.getPose().x << "  " << chassis.getPose().y << "  "
             << chassis.getPose().theta << std::endl;
@@ -246,17 +250,18 @@ void rush() {
 
 void disrupt() {
 
-  chassis.setPose(-34, -54, 0);
-  Lwingus.set(true);
+  chassis.setPose(-34, -53, 0);
   chassis.follow(disruptSwap_txt, 15, 1500);
   chassis.waitUntil(8.75);
-  Lwingus.set(false);
   intake = Intake::STATE::IN;
   chassis.waitUntilDone();
-  chassis.follow(kaboom_txt, 17, 1250, false);
+  chassis.follow(kaboom_txt, 17, 1500, false);
+  chassis.waitUntilDone();
+
+  intake = Intake::STATE::IDLE;
 
   // outtake balls into the alley
-  chassis.turnTo(10, -60, 800);
+  chassis.turnTo(10, -60, 700);
   chassis.waitUntilDone();
 
   intake = Intake::STATE::OUT;
@@ -273,11 +278,23 @@ void disrupt() {
   chassis.waitUntilDone();
 
   Lwingus.set(false);
-
   pros::delay(300);
 
-  chassis.moveToPose(-70, -67, 48, 600);
-  
+  chassis.turnTo(-10, -62, 500);
+  chassis.waitUntilDone();
+
+  intake = Intake::STATE::OUT;
+
+  chassis.moveToPoint(-8, -58, 1100, true, 90);
+  chassis.waitUntilDone();
+
+  chassis.moveToPoint(-46, -53, 1500, false, 90);
+  intake = Intake::STATE::IDLE;
+  chassis.waitUntilDone();
+
+  chassis.turnTo(-69, -67, 500);
+  chassis.waitUntilDone();
+  chassis.moveToPoint(-69, -68, 900);
 }
 
 void swap() {
@@ -325,7 +342,7 @@ void skills() {
   pros::delay(200);
 
   // move to matchloader
-  chassis.moveToPose(-54.5, 45, -66.5, 1500, {false, 0, 0.2});
+  chassis.moveToPose(-57.5, 37, -70, 1500, {false, 0, 0.2});
   chassis.waitUntilDone();
 
   Rwingus.toggle();
@@ -333,7 +350,7 @@ void skills() {
 
   catapult.setState(balls::Catapult::State::Matchload);
   chassis.setPose(-55, 47, chassis.getPose().theta);
-  holdAngle(294);
+  holdAngle(290);
   pros::delay(1000);
 
   while (catapult.getState() == balls::Catapult::State::Matchload) {
@@ -418,20 +435,18 @@ void skills() {
   chassis.waitUntilDone();
 
   // follow path
-  chassis.follow(reallyjankpush_txt, 13, 2500);
+  chassis.follow(reallyjankpush_txt, 17, 2500);
   chassis.waitUntilDone();
 
-  // push again
-  chassis.moveToPose(
-      chassis.getPose().x + -15 * std::sin(chassis.getPose().theta),
-      chassis.getPose().y + -15 * std::cos(chassis.getPose().theta),
-      chassis.getPose().theta, 1000, {false, 0, 0, 127});
-  chassis.waitUntilDone();
-  chassis.arcade(127, 0);
-  pros::delay(1000);
-  chassis.arcade(0, 0);
 
   // get out
+  chassis.moveToPoint(chassis.getPose().x, chassis.getPose().y - 10, 1200,
+                      false);
+  chassis.waitUntilDone();
+
+  chassis.moveToPoint(63.5, chassis.getPose().y + 50, 1200);
+  chassis.waitUntilDone();
+
   chassis.moveToPoint(chassis.getPose().x, chassis.getPose().y - 10, 1200,
                       false);
   chassis.waitUntilDone();
