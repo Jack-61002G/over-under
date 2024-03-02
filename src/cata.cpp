@@ -29,13 +29,15 @@ void Catapult::loop() {
         cataFireState = true;
         matchloadCount++;
         if (matchloadCount >= 44) {
-          leftDriveLED.set_all(0x990000);
-          rightDriveLED.set_all(0x990000);
+          frontLED.set_all(0x990000);
+          backLED.set_all(0x990000);
+          intakeLED.set_all(0x990000);
         }
-        if (matchloadCount >= 46) {
+        if (matchloadCount >= 4) {
           cataState = State::Idle;
-          lights.setColor(leftDriveLED);
-          lights.setColor(rightDriveLED);
+          lights.setColor(frontLED);
+          lights.setColor(backLED);
+          lights.setColor(intakeLED);
           continue;
         }
       }

@@ -9,6 +9,11 @@
 ASSET(disruptSwap_txt)
 ASSET(descore_txt)
 
+ASSET(skillsPushOver_txt)
+ASSET(skillsToOtherSide_txt)
+ASSET(toFrontOfGoal_txt)
+ASSET(loop_txt)
+
 ASSET(skillspush_txt)
 ASSET(reallyjankpush_txt)
 ASSET(rush_txt)
@@ -163,7 +168,7 @@ void descore() {
   chassis.waitUntilDone();
 
   // touch bar
-  chassis.moveToPose(-19.75, -60.5, 90, 2500, {true, 0, 0.5, 70});
+  chassis.moveToPose(-20, -60.5, 90, 2500, {true, 0, 0.5, 70});
   chassis.waitUntilDone();
 
   intake = Intake::STATE::OUT;
@@ -288,13 +293,12 @@ void disrupt() {
   chassis.moveToPoint(-8, -58, 1100, true, 90);
   chassis.waitUntilDone();
 
-  chassis.moveToPoint(-46, -53, 1500, false, 90);
+  chassis.moveToPoint(-50, -51, 1500, false, 90);
   intake = Intake::STATE::IDLE;
   chassis.waitUntilDone();
 
-  chassis.turnTo(-69, -67, 500);
-  chassis.waitUntilDone();
-  chassis.moveToPoint(-69, -68, 900);
+  chassis.turnTo(50, chassis.getPose().y, 100, true, 50);
+
 }
 
 void swap() {
@@ -332,7 +336,7 @@ void skills() {
   chassis.setPose(-47, 57.5, 225);
 
   // push preload into goal
-  chassis.moveToPose(-57.5, 5, 180, 1200);
+  chassis.moveToPose(-57.5, 0, 180, 1200);
   chassis.waitUntil(10);
   intake = Intake::STATE::OUT;
   chassis.waitUntilDone();
@@ -455,4 +459,113 @@ void skills() {
   chassis.waitUntilDone();
 
   chassis.moveToPoint(63.5, chassis.getPose().y - 18, 1200, false);
+}
+
+void skillsNew() {
+  chassis.setPose(-47, 57.5, 225);
+
+  // push preload into goal
+  chassis.moveToPose(-57.5, 0, 180, 1200);
+  chassis.waitUntil(10);
+  intake = Intake::STATE::OUT;
+  chassis.waitUntilDone();
+
+  intake = Intake::STATE::IDLE;
+
+  pros::delay(200);
+
+  // move to matchloader
+  chassis.moveToPose(-57, 37, -70, 1500, {false, 0, 0.2});
+  chassis.waitUntilDone();
+
+  Rwingus.toggle();
+
+  catapult.setState(balls::Catapult::State::Matchload);
+  chassis.setPose(-55, 47, chassis.getPose().theta);
+  holdAngle(290);
+  pros::delay(1000);
+
+  while (catapult.getState() == balls::Catapult::State::Matchload) {
+    pros::delay(20);
+  }
+
+  Rwingus.toggle();
+
+  chassis.turnTo(-20, 38, 1000, true);
+  chassis.waitUntilDone();
+  chassis.follow(skillsPushOver_txt, 14, 3000, true);
+  intake = Intake::STATE::OUT;
+
+  chassis.waitUntil(36);
+  Rwingus.set(true);
+
+  chassis.waitUntilDone();
+  chassis.setPose(-10, -40, chassis.getPose().theta);
+  Rwingus.set(false);
+  pros::delay(100);
+
+  chassis.turnTo(chassis.getPose().x-90, chassis.getPose().y-2, 800);
+  chassis.waitUntilDone();
+
+  chassis.moveToPoint(-48, -48, 1000);
+  chassis.waitUntilDone();
+  chassis.turnTo(-35, -60, 800);
+  chassis.waitUntilDone();
+  chassis.follow(skillsToOtherSide_txt, 15, 3200);
+  chassis.waitUntilDone();
+
+//ram
+  intake = Intake::STATE::OUT;
+  chassis.moveToPoint(chassis.getPose().x, chassis.getPose().y+30, 500, true);
+  chassis.waitUntilDone();
+  chassis.moveToPoint(chassis.getPose().x, chassis.getPose().y-15, 500, false);
+  chassis.waitUntilDone();
+  chassis.moveToPoint(chassis.getPose().x, chassis.getPose().y+30, 500, true);
+  chassis.waitUntilDone();
+  intake = Intake::STATE::IDLE;
+
+  chassis.setPose(59.5, -30.5, chassis.getPose().theta);
+  pros::delay(100);
+  chassis.follow(toFrontOfGoal_txt, 15, 1800, false);
+  chassis.waitUntilDone();
+  chassis.turnTo(70, 0, 800);
+  
+  chassis.moveToPose(70, -13, 90, 1000, {true, 15, .6, 127, 127});
+  chassis.waitUntilDone();
+  chassis.follow(loop_txt, 10, 3000, false);
+
+  //last 2 front pushes
+  chassis.turnTo(60, 0, 1000);
+  chassis.waitUntilDone();
+  chassis.moveToPose(60, 6, 90, 1000);
+  chassis.waitUntilDone();
+
+  // back out
+  chassis.moveToPoint(0, 9, 1000, false);
+  chassis.waitUntilDone();
+
+
+  Lwingus.set(true);
+  Rwingus.set(true);
+
+  // second push
+  chassis.arcade(127, 0);
+  pros::delay(800);
+  chassis.arcade(0, 0);
+  pros::delay(100);
+  chassis.arcade(-127, 0);
+  pros::delay(500);
+  chassis.arcade(0, 0);
+  pros::delay(100);
+  chassis.arcade(127, 0);
+  pros::delay(800);
+
+
+  chassis.tank(-100, -100);
+  pros::delay(500);
+  chassis.tank(0, 0);
+  pros::delay(300);
+
+
+
 }

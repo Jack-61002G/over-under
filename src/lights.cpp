@@ -12,10 +12,11 @@ using namespace balls;
 
 void Lights::rotate() {
 
-  // intakeLED.clear();
-  underglowLED.clear();
+  intakeLED.clear();
+  frontLED.clear();
   backLED.clear();
 
+/*
   leftDriveLED.clear();
   leftDriveLED.set_pixel(0x600060, 0);
   leftDriveLED.set_pixel(0x990099, 1);
@@ -29,6 +30,7 @@ void Lights::rotate() {
   rightDriveLED.set_pixel(0x990099, 2);
   rightDriveLED.set_pixel(0x600060, 3);
   rightDriveLED.cycle(*rightDriveLED, 5);
+*/
 }
 
 
@@ -51,11 +53,6 @@ void Lights::loop() {
   enum class State { Disabled, Driver, Auto };
   State gameState = State::Disabled;
 
-  bool Lwing = false;
-  bool Rwing = false;
-
-  bool intakeVal = false;
-
   int driverTime = 0;
 
   while (true) {
@@ -69,20 +66,18 @@ void Lights::loop() {
 
     // autonomous
     if (!pros::competition::is_disabled() && pros::competition::is_autonomous() && gameState != State::Auto) {
-      setColor(underglowLED);
+      setColor(frontLED);
       setColor(backLED);
-      setColor(leftDriveLED);
-      setColor(rightDriveLED);
+      setColor(intakeLED);
       gameState = State::Auto;
     }
 
     // driver control
     if (!pros::competition::is_disabled() && !pros::competition::is_autonomous()) {
       if (gameState != State::Driver) {
-        setColor(underglowLED);
+        setColor(frontLED);
         setColor(backLED);
-        setColor(leftDriveLED);
-        setColor(rightDriveLED);
+        setColor(intakeLED);
         gameState = State::Driver;
         if (auton == 0) {
           driverTime = pros::millis();
@@ -92,22 +87,19 @@ void Lights::loop() {
       }
 
       if (time > 30000 && time < 30700 && auton != 0) {
-        underglowLED.set_all(0x00AA00);
+        frontLED.set_all(0x00AA00);
         backLED.set_all(0x00AA00);
-        leftDriveLED.set_all(0x00AA00);
-        rightDriveLED.set_all(0x00AA00);
+        intakeLED.set_all(0x00AA00);
       }
       else if (time > 45000 && time < 45700) {
-        underglowLED.set_all(0xFFD800);
+        frontLED.set_all(0xFFD800);
         backLED.set_all(0xFFD800);
-        leftDriveLED.set_all(0xFFD800);
-        rightDriveLED.set_all(0xFFD800);
+        intakeLED.set_all(0xFFD800);
       }
       else if (time > 45000 || auton != 0) {
-        setColor(underglowLED);
+        setColor(frontLED);
         setColor(backLED);
-        setColor(leftDriveLED);
-        setColor(rightDriveLED);
+        setColor(intakeLED);
       }
     }
     

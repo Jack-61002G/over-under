@@ -1,6 +1,7 @@
 #include "main.h"
 #include "autoSelect/selection.h"
 #include "autons.hpp"
+#include "cata.hpp"
 #include "pros/misc.h"
 #include "pros/motors.h"
 #include "pros/rtos.hpp"
@@ -31,31 +32,23 @@ void autonomous() {
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
 
   // Release intake in a lambda task
-  /*
-  pros::Task intakeReleaseTask([] {
-    intake = Intake::STATE::OUT;
-    pros::delay(50);
-    intake = Intake::STATE::IDLE;
-    pros::delay(25);
-    intake = Intake::STATE::IN;
-    pros::delay(50);
-    intake = Intake::STATE::IDLE;
+    pros::Task intakeReleaseTask([] {
+    catapult.setState(balls::Catapult::State::Firing);
+    pros::delay(750);
+    catapult.setState(balls::Catapult::State::Idle);
   });
-  */
-
-  rush();
-  return;
+  
 
   if (std::abs(selector::auton) == 1) {
     rush();
   } else if (std::abs(selector::auton) == 2) {
     disrupt();
   } else if (std::abs(selector::auton) == 3) {
-    swap();
+    farSideSafe();
   } else if (std::abs(selector::auton) == 4) {
     descore();
   } else if (selector::auton == 0) {
-    skills();
+    skillsNew();
   }
 }
 
@@ -100,7 +93,7 @@ void opcontrol() {
   });
 
   // push preload into goal
-  chassis.moveToPose(-57.5, 5, 180, 1200);
+  chassis.moveToPose(-57.5, 0, 180, 1200);
   chassis.waitUntil(10);
   intake = Intake::STATE::OUT;
   chassis.waitUntilDone();
@@ -130,9 +123,9 @@ void opcontrol() {
 
   Rwingus.toggle();
   }
-
-  // end macro
 */
+  // end macro
+
 
 
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);

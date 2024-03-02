@@ -12,9 +12,9 @@
 
 
 sylib::Addrled backLED(22, 1, 16);
-sylib::Addrled rightDriveLED(22, 2, 36);
-sylib::Addrled leftDriveLED(22, 4, 36);
-sylib::Addrled intakeLED(22, 5, 25);
+//sylib::Addrled rightDriveLED(22, 2, 1);
+sylib::Addrled frontLED(22, 2, 18);
+sylib::Addrled intakeLED(22, 4, 25);
 
 pros::Motor leftFront(8, true);
 pros::Motor leftBack(10, true);
@@ -27,7 +27,7 @@ pros::Motor rightTop(1, true);
 pros::Motor_Group leftMotors({leftFront, leftBack, leftTop});
 pros::Motor_Group rightMotors({rightFront, rightBack, rightTop});
 
-pros::Imu imu(14);
+pros::Imu imu(7);
 // drivetrain
 lemlib::Drivetrain drivetrain{
     &leftMotors, &rightMotors, 9.75, lemlib::Omniwheel::NEW_275, 450, 100};
@@ -70,8 +70,7 @@ ryan::Solenoid Lwingus('H');
 ryan::Solenoid Rwingus('F');
 pros::ADIDigitalOut pto({{12, 'E'}});
 
-balls::Lights lights(backLED, backLED, leftDriveLED, rightDriveLED,
-                     Lwingus, Rwingus, intake);
+balls::Lights lights(backLED, intakeLED, frontLED);
 
 pros::ADIDigitalIn intakeButton('C');
 void intakeButtonTask_func() {
