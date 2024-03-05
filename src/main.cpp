@@ -37,6 +37,9 @@ void autonomous() {
     pros::delay(750);
     catapult.setState(balls::Catapult::State::Idle);
   });
+
+  rush();
+  return;
   
 
   if (std::abs(selector::auton) == 1) {
@@ -55,6 +58,9 @@ void autonomous() {
 void disabled() {
   lights.auton = selector::auton;
 
+  Lwingus.set(false);
+  Rwingus.set(false);
+
   // Store the time at the start of the loop
   std::uint32_t clock = sylib::millis();
   while (true) {
@@ -65,8 +71,6 @@ void disabled() {
 
 void opcontrol() {
 
-  Lwingus.set(false);
-  Rwingus.set(false);
   bool ptoState = false;
 
   std::uint32_t clock = sylib::millis();
