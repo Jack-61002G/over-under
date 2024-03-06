@@ -12,11 +12,10 @@ using namespace balls;
 
 void Lights::rotate() {
 
-  intakeLED.clear();
   frontLED.clear();
   backLED.clear();
 
-/*
+
   leftDriveLED.clear();
   leftDriveLED.set_pixel(0x600060, 0);
   leftDriveLED.set_pixel(0x990099, 1);
@@ -30,7 +29,7 @@ void Lights::rotate() {
   rightDriveLED.set_pixel(0x990099, 2);
   rightDriveLED.set_pixel(0x600060, 3);
   rightDriveLED.cycle(*rightDriveLED, 5);
-*/
+
 }
 
 
@@ -66,18 +65,20 @@ void Lights::loop() {
 
     // autonomous
     if (!pros::competition::is_disabled() && pros::competition::is_autonomous() && gameState != State::Auto) {
+      setColor(leftDriveLED);
+      setColor(rightDriveLED);
       setColor(frontLED);
       setColor(backLED);
-      setColor(intakeLED);
       gameState = State::Auto;
     }
 
     // driver control
     if (!pros::competition::is_disabled() && !pros::competition::is_autonomous()) {
       if (gameState != State::Driver) {
+        setColor(leftDriveLED);
+        setColor(rightDriveLED);
         setColor(frontLED);
         setColor(backLED);
-        setColor(intakeLED);
         gameState = State::Driver;
         if (auton == 0) {
           driverTime = pros::millis();
@@ -87,19 +88,22 @@ void Lights::loop() {
       }
 
       if (time > 30000 && time < 30700 && auton != 0) {
+        leftDriveLED.set_all(0x00AA00);
+        rightDriveLED.set_all(0x00AA00);
         frontLED.set_all(0x00AA00);
         backLED.set_all(0x00AA00);
-        intakeLED.set_all(0x00AA00);
       }
       else if (time > 45000 && time < 45700) {
+        leftDriveLED.set_all(0xFFD800);
+        rightDriveLED.set_all(0xFFD800);
         frontLED.set_all(0xFFD800);
         backLED.set_all(0xFFD800);
-        intakeLED.set_all(0xFFD800);
       }
       else if (time > 45000 || auton != 0) {
+        setColor(leftDriveLED);
+        setColor(rightDriveLED);
         setColor(frontLED);
         setColor(backLED);
-        setColor(intakeLED);
       }
     }
     

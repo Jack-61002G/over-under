@@ -16,15 +16,16 @@ private:
   State gameState = State::Disabled;
   int doinkerAnimTimestep;
   unsigned char *doinkerAnimData;
-  sylib::Addrled &intakeLED;
+  sylib::Addrled &leftDriveLED;
+  sylib::Addrled &rightDriveLED;
   sylib::Addrled &backLED;
   sylib::Addrled &frontLED;
 
 public:
     int auton = 0;
 
-    Lights(sylib::Addrled &intakeLED, sylib::Addrled &backLED, sylib::Addrled &frontLED)
-          : intakeLED(intakeLED), backLED(backLED), frontLED(frontLED)
+    Lights(sylib::Addrled &rightDriveLED, sylib::Addrled &leftDriveLED, sylib::Addrled &backLED, sylib::Addrled &frontLED)
+          : leftDriveLED(leftDriveLED), rightDriveLED(rightDriveLED), backLED(backLED), frontLED(frontLED)
           {};
         
     void init();

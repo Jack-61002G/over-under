@@ -12,9 +12,9 @@
 
 
 sylib::Addrled backLED(22, 1, 16);
-//sylib::Addrled rightDriveLED(22, 2, 1);
+sylib::Addrled rightDriveLED(22, 5, 36);
+sylib::Addrled leftDriveLED(22, 4, 36);
 sylib::Addrled frontLED(22, 2, 18);
-sylib::Addrled intakeLED(22, 4, 25);
 
 pros::Motor leftFront(8, true);
 pros::Motor leftBack(10, true);
@@ -70,7 +70,7 @@ ryan::Solenoid Lwingus('H');
 ryan::Solenoid Rwingus('F');
 pros::ADIDigitalOut pto({{12, 'E'}});
 
-balls::Lights lights(backLED, intakeLED, frontLED);
+balls::Lights lights(leftDriveLED, rightDriveLED, backLED, frontLED);
 
 pros::ADIDigitalIn intakeButton('C');
 void intakeButtonTask_func() {

@@ -16,9 +16,11 @@ extern pros::Motor cataMotor;
 extern balls::Catapult catapult;
 extern Intake intake;
 
+
+extern sylib::Addrled leftDriveLED;
+extern sylib::Addrled rightDriveLED;
 extern sylib::Addrled frontLED;
 extern sylib::Addrled backLED;
-extern sylib::Addrled intakeLED;
 
 
 extern pros::ADIEncoder enc;
