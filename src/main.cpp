@@ -37,10 +37,9 @@ void autonomous() {
     pros::delay(750);
     catapult.setState(balls::Catapult::State::Idle);
   });
-
+  
   rush();
   return;
-  
 
   if (std::abs(selector::auton) == 1) {
     rush();
@@ -84,20 +83,14 @@ void opcontrol() {
   // Matchloading macro
 /*
   if (selector::auton == 0) {
-  
+
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
 
   chassis.setPose(-47, 57.5, 225);
 
-  pros::Task intakeReleaseTask([] {
-    catapult.setState(balls::Catapult::State::Firing);
-    pros::delay(600);
-    catapult.setState(balls::Catapult::State::Idle);
-  });
-
   // push preload into goal
-  chassis.moveToPose(-57.5, 0, 180, 1200);
+  chassis.moveToPose(-58, -10, 180, 1200);
   chassis.waitUntil(10);
   intake = Intake::STATE::OUT;
   chassis.waitUntilDone();
@@ -113,17 +106,23 @@ void opcontrol() {
   Rwingus.toggle();
   pros::delay(100);
 
-  catapult.setState(balls::Catapult::State::Matchload);
+  catapult.setState(balls::Catapult::State::Firing);
+
   chassis.setPose(-55, 47, chassis.getPose().theta);
   holdAngle(290);
-  pros::delay(1000);
-  
-  while (catapult.getState() == balls::Catapult::State::Matchload) {
-    pros::delay(20);
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-      catapult.setState(balls::Catapult::State::Idle);
-    }
-  }
+  pros::delay(20100);
+
+  leftDriveLED.set_all(0x990000);
+  rightDriveLED.set_all(0x990000);
+  frontLED.set_all(0x990000);
+  backLED.set_all(0x990000);
+  pros::delay(1500);
+
+  lights.setColor(leftDriveLED);
+  lights.setColor(rightDriveLED);
+  lights.setColor(frontLED);
+  lights.setColor(backLED);
+  catapult.setState(balls::Catapult::State::Idle);
 
   Rwingus.toggle();
   }
@@ -164,11 +163,7 @@ void opcontrol() {
     // catapult control
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
       if (!cata_button) {
-        if (catapult.getState() == balls::Catapult::State::Matchload) {
-          catapult.setState(balls::Catapult::State::Idle);
-        } else {
-          catapult.setState(balls::Catapult::State::Firing);
-        }
+        catapult.setState(balls::Catapult::State::Firing);
         cata_button = true;
       }
     } else {
