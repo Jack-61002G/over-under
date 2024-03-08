@@ -6,6 +6,7 @@
 #include "lights.hpp"
 #include "main.h"
 #include "pros/adi.hpp"
+#include "pros/imu.hpp"
 #include "pros/motors.hpp"
 #include "autoSelect/selection.h"
 
@@ -15,6 +16,8 @@ extern pros::Controller controller;
 extern pros::Motor cataMotor;
 extern balls::Catapult catapult;
 extern Intake intake;
+
+extern pros::IMU imu;
 
 
 extern sylib::Addrled leftDriveLED;

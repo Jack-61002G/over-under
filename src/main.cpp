@@ -38,8 +38,6 @@ void autonomous() {
     catapult.setState(balls::Catapult::State::Idle);
   });
   
-  rush();
-  return;
 
   if (std::abs(selector::auton) == 1) {
     rush();
@@ -50,7 +48,7 @@ void autonomous() {
   } else if (std::abs(selector::auton) == 4) {
     descore();
   } else if (selector::auton == 0) {
-    skillsNew();
+    skills();
   }
 }
 
@@ -81,7 +79,7 @@ void opcontrol() {
 
 
   // Matchloading macro
-/*
+
   if (selector::auton == 0) {
 
   leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
@@ -126,7 +124,7 @@ void opcontrol() {
 
   Rwingus.toggle();
   }
-*/
+
   // end macro
 
 
