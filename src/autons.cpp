@@ -377,7 +377,7 @@ void skills() {
 
   chassis.setPose(-55, 47, chassis.getPose().theta);
   holdAngle(290);
-  pros::delay(1000);
+  pros::delay(22500);
 
   leftDriveLED.set_all(0x990000);
   rightDriveLED.set_all(0x990000);
@@ -399,14 +399,21 @@ void skills() {
   chassis.waitUntilDone();
   
   // push
-  chassis.turnTo(60, 1, 1000);
+  chassis.turnTo(60, 2, 1000);
   chassis.waitUntilDone();
   Rwingus.set(true);
-  chassis.moveToPoint(60, 8, 1000);
+  chassis.moveToPoint(60, 10, 1000);
 
   chassis.waitUntil(24);
   Rwingus.set(false);
   chassis.waitUntilDone();
+
+  //second push (no wings)
+  chassis.moveToPoint(chassis.getPose().x-8, chassis.getPose().y, 1000, false);
+  chassis.waitUntilDone();
+  chassis.arcade(127, 0);
+  pros::delay(700);
+  chassis.arcade(0, 0);
 
   chassis.turnTo(100, chassis.getPose().y, 1000);
   chassis.waitUntilDone();
@@ -417,16 +424,18 @@ void skills() {
 
   // scooch over
   chassis.turnTo(chassis.getPose().x, -60, 1000);
-  chassis.moveToPoint(chassis.getPose().x, -7, 1000);
+  chassis.moveToPoint(chassis.getPose().x, 0, 1000);
   chassis.turnTo(60, 0, 1000);
   chassis.waitUntilDone();
 
   Lwingus.set(true);
-  Rwingus.set(false);
+  Rwingus.set(true);
+  pros::delay(100);
 
   // second push
   chassis.moveToPose(65, 0, 90, 1200, {true, 0, 0.2, 127, 100});
   chassis.waitUntilDone();
+  Rwingus.set(false);
 
   chassis.tank(-100, -100);
   pros::delay(500);
@@ -445,13 +454,21 @@ void skills() {
 
   // scooch over
   chassis.turnTo(12, -30, 1000);
-  chassis.moveToPoint(12, -30, 1000);
+  chassis.moveToPoint(12, -35, 1000);
   chassis.turnTo(60, 0, 1000);
 
   // third push
-  chassis.moveToPose(60, -1, 90, 2000);
+  chassis.moveToPose(60, -5, 90, 1500);
   Lwingus.set(true);
   chassis.waitUntilDone();
+
+  //second push
+  Lwingus.set(false);
+  chassis.moveToPoint(chassis.getPose().x-8, chassis.getPose().y, 1000, false);
+  chassis.waitUntilDone();
+  chassis.arcade(127, 0);
+  pros::delay(700);
+  chassis.arcade(0, 0);
 
   // back out
   chassis.moveToPoint(7, chassis.getPose().y, 1200, false);
@@ -461,9 +478,10 @@ void skills() {
   chassis.setPose(8, chassis.getPose().y, 90);
 
   // push into corner
-  chassis.turnTo(60, -60, 800);
+  Lwingus.set(true);
+  chassis.turnTo(60, -70, 800);
   chassis.waitUntilDone();
-  chassis.moveToPoint(44, -44, 1500);
+  chassis.moveToPoint(44, -53, 2500, true, 70);
   chassis.waitUntilDone();
 
   Lwingus.set(false);
@@ -476,7 +494,8 @@ void skills() {
   pros::delay(400);
   
   // push
-  chassis.moveToPose(60, 0, 0, 2500);
+  chassis.moveToPose(60, 0, 0, 1500);
+  intake = Intake::STATE::OUT;
   chassis.waitUntilDone();
 
   // get out
