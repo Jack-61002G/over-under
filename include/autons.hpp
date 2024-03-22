@@ -2,20 +2,15 @@
 
 #include "robotconfig.h"
 
-extern void holdAngle(double angle);
+#include "EZ-Template/drive/drive.hpp"
 
-extern void sixBall();
+void matchLeftFull();
+void matchNoAuton();
+void rightSide();
+void left8Disc();
 
-extern void farSideSafe();
-
-extern void descore();
-
-extern void disrupt();
-
-extern void swap();
-
-extern void rush();
-
-extern void skills();
-
-extern void skillsNew();
+void garage_constants();
+void one_mogo_constants();
+void two_mogo_constants();
+void exit_condition_defaults();
+void modified_exit_condition();

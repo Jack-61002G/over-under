@@ -1,6 +1,7 @@
 #pragma once
 #include "TaskWrapper.hpp"
 #include "main.h"
+#include "pros/motors.hpp"
 
 /**
  * @class Intake
@@ -16,18 +17,18 @@ public:
    * @enum STATE
    * @brief Represents the possible states of the intake mechanism.
    */
-  enum class STATE { IN, HOLD, OUT, IDLE, AUTOIN };
+  enum class STATE { IN, HOLD, OUT, IDLE, };
 
 private:
   STATE state = STATE::IDLE; /**< The current state of the intake mechanism. */
-  pros::Motor &intakeMotor; /**< The motor used for the intake mechanism. */
+  pros::MotorGroup &intakeMotors; /**< The motor used for the intake mechanism. */
 
 public:
   /**
    * @brief Constructs an Intake object with the specified intake motor.
    * @param intakeMotor The motor used for the intake mechanism.
    */
-  Intake(pros::Motor &intakeMotor) : intakeMotor(intakeMotor) {}
+  Intake(pros::MotorGroup &intakeMotors) : intakeMotors(intakeMotors) {}
 
   /**
    * @brief Gets the current state of the intake mechanism.

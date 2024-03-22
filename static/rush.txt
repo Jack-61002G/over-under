@@ -1,37 +1,37 @@
 32.665, -50.744, 126.102
-31.99, -48.861, 126.209
-31.344, -46.969, 126.312
-30.722, -45.068, 126.508
-30.123, -43.159, 126.602
-29.54, -41.246, 126.695
-28.968, -39.33, 126.877
-28.405, -37.411, 126.968
-27.844, -35.491, 126.942
-27.282, -33.572, 126.757
-26.714, -31.654, 126.661
-26.137, -29.739, 126.563
-25.545, -27.829, 126.357
-24.932, -25.925, 126.247
-24.295, -24.029, 126.132
-23.628, -22.144, 125.884
-22.924, -20.272, 125.75
-22.181, -18.415, 125.459
-21.384, -16.581, 125.302
-20.538, -14.769, 125.137
-19.623, -12.99, 124.784
-18.643, -11.247, 121.562
-17.582, -9.552, 118.242
-16.442, -7.909, 114.825
-15.206, -6.337, 111.304
-13.883, -4.838, 107.668
-12.456, -3.437, 103.904
-10.94, -2.134, 100
-9.7, -1.2, 0
-9.7, -1.2, 0
--6.272, 10.837, 0
+31.99, -48.861, 126.208
+31.344, -46.969, 126.311
+30.722, -45.068, 126.506
+30.124, -43.159, 126.6
+29.54, -41.246, 126.693
+28.969, -39.33, 126.874
+28.406, -37.411, 126.964
+27.845, -35.491, 126.946
+27.284, -33.571, 126.763
+26.717, -31.653, 126.668
+26.141, -29.738, 126.572
+25.551, -27.827, 126.368
+24.939, -25.923, 126.26
+24.305, -24.026, 126.148
+23.641, -22.139, 125.906
+22.941, -20.266, 125.775
+22.203, -18.407, 125.493
+21.412, -16.57, 125.342
+20.572, -14.756, 125.182
+19.667, -12.972, 124.795
+18.698, -11.223, 121.562
+17.651, -9.519, 118.242
+16.525, -7.866, 114.825
+15.309, -6.279, 111.304
+14.007, -4.762, 107.668
+12.604, -3.337, 103.905
+11.116, -2.001, 100
+9.7, -0.9, 0
+9.7, -0.9, 0
+-6.09, 11.375, 0
 endData
 199.1
 127
 200
-32.665, -50.744, 25.984, -32.672, 23.604, -11, 9.7, -1.2
-#PATH.JERRYIO-DATA {"appVersion":"0.6.0","format":"LemLib v0.4.x (inch, byte-voltage)","gc":{"robotWidth":12,"robotHeight":12,"robotIsHolonomic":false,"showRobot":false,"uol":2.54,"pointDensity":2,"controlMagnetDistance":1.968503937007874,"fieldImage":{"displayName":"VRC 2024 - Over Under","signature":"VRC 2024 - Over Under","origin":{"__type":"built-in"}}},"paths":[{"segments":[{"controls":[{"uid":"12vJ3snWXW","x":32.664723236864276,"y":-50.7438887327901,"lock":false,"visible":true,"heading":0,"__type":"end-point"},{"uid":"MKDz2rjeoD","x":25.98386004267669,"y":-32.67187732379312,"lock":false,"visible":true,"__type":"control"},{"uid":"NXtQbs6ePn","x":23.603775946216643,"y":-11,"lock":false,"visible":true,"__type":"control"},{"uid":"tVP6hMu8bK","x":9.7,"y":-1.2,"lock":false,"visible":true,"heading":0,"__type":"end-point"}],"speedProfiles":[],"lookaheadKeyframes":[],"uid":"mL6cODiCtJ"}],"pc":{"speedLimit":{"minLimit":{"value":0,"label":"0"},"maxLimit":{"value":127,"label":"127"},"step":1,"from":100,"to":127},"bentRateApplicableRange":{"minLimit":{"value":0,"label":"0"},"maxLimit":{"value":1,"label":"1"},"step":0.001,"from":0,"to":0.1},"maxDecelerationRate":199.1},"name":"Path","uid":"r7K20c67Nf","lock":false,"visible":true}]}
+32.665, -50.744, 25.984, -32.672, 23.604, -11, 9.7, -0.9
+#PATH.JERRYIO-DATA {"appVersion":"0.6.0","format":"LemLib v0.4.x (inch, byte-voltage)","gc":{"robotWidth":12,"robotHeight":12,"robotIsHolonomic":false,"showRobot":false,"uol":2.54,"pointDensity":2,"controlMagnetDistance":1.968503937007874,"fieldImage":{"displayName":"VRC 2024 - Over Under","signature":"VRC 2024 - Over Under","origin":{"__type":"built-in"}}},"paths":[{"segments":[{"controls":[{"uid":"12vJ3snWXW","x":32.664723236864276,"y":-50.7438887327901,"lock":false,"visible":true,"heading":0,"__type":"end-point"},{"uid":"MKDz2rjeoD","x":25.98386004267669,"y":-32.67187732379312,"lock":false,"visible":true,"__type":"control"},{"uid":"NXtQbs6ePn","x":23.603775946216643,"y":-11,"lock":false,"visible":true,"__type":"control"},{"uid":"tVP6hMu8bK","x":9.7,"y":-0.9,"lock":false,"visible":true,"heading":0,"__type":"end-point"}],"speedProfiles":[],"lookaheadKeyframes":[],"uid":"mL6cODiCtJ"}],"pc":{"speedLimit":{"minLimit":{"value":0,"label":"0"},"maxLimit":{"value":127,"label":"127"},"step":1,"from":100,"to":127},"bentRateApplicableRange":{"minLimit":{"value":0,"label":"0"},"maxLimit":{"value":1,"label":"1"},"step":0.001,"from":0,"to":0.1},"maxDecelerationRate":199.1},"name":"Path","uid":"r7K20c67Nf","lock":false,"visible":true}]}

@@ -15,19 +15,16 @@ void Intake::toggleTo(STATE newState) {
 void Intake::update() {
   switch (state) {
   case STATE::IN:
-    intakeMotor.move(127);
-    break;
-  case STATE::AUTOIN:
-    intakeMotor.move_velocity(70);
+    intakeMotors.move(127);
     break;
   case STATE::HOLD:
-    intakeMotor.move(10);
+    intakeMotors.move(10);
     break;
   case STATE::OUT:
-    intakeMotor.move(-127);
+    intakeMotors.move(-127);
     break;
   case STATE::IDLE:
-    intakeMotor.move_velocity(0);
+    intakeMotors.move_velocity(0);
     break;
 }}
 
