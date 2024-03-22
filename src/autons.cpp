@@ -4,18 +4,9 @@
 #include "lemlib/chassis/chassis.hpp"
 #include "robotconfig.h"
 
-const int DRIVE_SPEED =
-    110; // This is 110/127 (around 87% of max speed).  We don't suggest making
-        // this 127. If this is 127 and the robot tries to heading correct, it's
-        // only correcting by making one side slower.  When this is 87%, it's
-        // correcting by making one side faster and one side slower, giving
-        // better heading correction.
+const int DRIVE_SPEED = 110;
 const int TURN_SPEED = 110;
 const int SWING_SPEED = 100;
-
-// It's best practice to tune constants when the robot is empty and with heavier
-// game objects, or with lifts up vs down. If the objects are light or the cog
-// doesn't change much, then there isn't a concern here.
 
 void garage_constants() {
   chassis.set_slew_min_power(70, 70);
@@ -39,11 +30,38 @@ void modified_exit_condition() {
   chassis.set_exit_condition(chassis.drive_exit, 80, 50, 300, 150, 500, 500);
 }
 
-void descore(){
+void WPclose() {
 
-    chassis.set_drive_pid(24, DRIVE_SPEED);
+    chassis.set_drive_pid(50, 127);
+    intake = Intake::STATE::IN;
     chassis.wait_drive();
-    chassis.set_drive_pid(-24, DRIVE_SPEED);
-    chassis.wait_drive();
+    // come back to matchloader
 
-};
+    // extend wing and kick triball out of matchload zone
+
+    // outtake ball and push down alley
+}
+
+void WPfar() {
+
+    // back into goal
+
+    // swing around goal and intake first ball
+
+    // outtake towards goal
+
+    // intake second ball
+
+    // wing push into goal
+
+    // turn around and push in second ball
+}
+
+void RUSHclose() {
+
+  WPclose();
+
+  // drive back and set up for bowling
+}
+
+void RUSHfar() {}

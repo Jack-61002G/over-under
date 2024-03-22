@@ -21,8 +21,9 @@ private:
   sylib::Addrled &backLED;
   sylib::Addrled &frontLED;
 
+
+
 public:
-    int auton = 0;
 
     Lights(sylib::Addrled &rightWingLED, sylib::Addrled &leftWingLED, sylib::Addrled &backLED, sylib::Addrled &frontLED)
           : leftWingLED(leftWingLED), rightWingLED(rightWingLED), backLED(backLED), frontLED(frontLED)
@@ -30,7 +31,7 @@ public:
         
     void init();
     void loop() override;
-    void setColor(sylib::Addrled &strip);
+    static void setColor(sylib::Addrled &strip);
     
 };
 } // namespace balls

@@ -3,9 +3,9 @@
 #include <string>
 
 // selector configuration
-#define HUE 72
+#define HUE 300
 #define DEFAULT 0
-#define AUTONS "rush", "disrupt", "farsidesafe", "descore"
+#define AUTONS "WPclose", "WPfar", "RUSHclose", "RUSHfar"
 
 namespace selector {
 
