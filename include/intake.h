@@ -17,7 +17,7 @@ public:
    * @enum STATE
    * @brief Represents the possible states of the intake mechanism.
    */
-  enum class STATE { IN, HOLD, OUT, IDLE, };
+  enum class STATE { IN, HOLD, OUT, SPIT, IDLE, };
 
 private:
   STATE state = STATE::IDLE; /**< The current state of the intake mechanism. */

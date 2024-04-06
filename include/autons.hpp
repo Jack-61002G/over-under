@@ -10,5 +10,6 @@ void modified_exit_condition();
 
 void WPclose();
 void WPfar();
+void SAFEclose();
 void RUSHclose();
 void RUSHfar();

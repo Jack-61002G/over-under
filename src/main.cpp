@@ -1,4 +1,5 @@
 #include "main.h"
+#include "EZ-Template/util.hpp"
 #include "autoSelect/selection.h"
 #include "autons.hpp"
 #include "pros/misc.h"
@@ -11,32 +12,34 @@
 void initialize() {
 
   // initializing auton selector
-  sylib::initialize();
+  
   pros::delay(500);
-
+  sylib::initialize();
 
   // initializing objects
   chassis.initialize();
   
-  lemChassis.calibrate(false);
-
-  lights.startTask();
+  //lemChassis.calibrate(false);
 
 
   // setting up the drive constants
   garage_constants();
   exit_condition_defaults();
   selector::init();
+  lights.startTask();
 }
 
 
 
 void autonomous() {
 
-  // setting up the drive for autonomous
-  leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
-  rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+  chassis.reset_pid_targets();               // Resets PID targets to 0
+  chassis.reset_gyro();                      // Reset gyro position to 0
+  chassis.reset_drive_sensor();              // Reset drive sensors to 0
+  chassis.set_drive_brake(MOTOR_BRAKE_HOLD); // Set motors to hold.  This helps autonomous consistency.
 
+  RUSHfar();
+  return;
 
   // running the selected autonomous route
   if (std::abs(selector::auton) == 1) {
@@ -44,11 +47,11 @@ void autonomous() {
   } else if (std::abs(selector::auton) == 2) {
     WPfar();
   } else if (std::abs(selector::auton) == 3) {
-    RUSHclose();
+    SAFEclose();
   } else if (std::abs(selector::auton) == 4) {
+    RUSHclose();
+  } else if (selector::auton == 5) {
     RUSHfar();
-  } else if (selector::auton == 0) {
-    return;
   }
 }
 
@@ -76,6 +79,11 @@ void opcontrol() {
 
   // Storing the current time
   std::uint32_t clock = sylib::millis();
+
+  chassis.set_drive_brake(pros::E_MOTOR_BRAKE_COAST);
+  chassis.set_mode(ez::DISABLE);
+  leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+  rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
 
 
   // Driver control loop
@@ -111,6 +119,9 @@ void opcontrol() {
     }
     if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
       Lwingus.toggle();
+    }
+    if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+      hook.set(true);
     }
 
 

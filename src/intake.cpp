@@ -18,10 +18,13 @@ void Intake::update() {
     intakeMotors.move(127);
     break;
   case STATE::HOLD:
-    intakeMotors.move(10);
+    intakeMotors.move(20);
     break;
   case STATE::OUT:
     intakeMotors.move(-127);
+    break;
+  case STATE::SPIT:
+    intakeMotors.move(-72);
     break;
   case STATE::IDLE:
     intakeMotors.move_velocity(0);

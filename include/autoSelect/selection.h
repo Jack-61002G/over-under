@@ -5,7 +5,7 @@
 // selector configuration
 #define HUE 300
 #define DEFAULT 0
-#define AUTONS "WPclose", "WPfar", "RUSHclose", "RUSHfar"
+#define AUTONS "WP cls", "WP far", "SF cls", "RS cls", "RS far"
 
 namespace selector {
 
