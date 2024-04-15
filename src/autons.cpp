@@ -26,7 +26,7 @@ void garage_constants() {
 }
 
 void exit_condition_defaults() {
-  chassis.set_exit_condition(chassis.turn_exit, 35, 1, 150, 3, 250, 500);
+  chassis.set_exit_condition(chassis.turn_exit, 35, 1, 100, 3, 250, 500);
   chassis.set_exit_condition(chassis.swing_exit, 50, 2, 250, 5, 250, 500);
   chassis.set_exit_condition(chassis.drive_exit, 35, 30, 150, 150, 250, 500);
 }
@@ -228,7 +228,7 @@ void RUSHfar() { // six ball rush
   intake = Intake::STATE::IDLE;
   chassis.wait_drive();
 
-  chassis.set_drive_pid(36, 127); // grab ball
+  chassis.set_drive_pid(37.5, 127); // grab ball
   intake = Intake::STATE::IN;
   chassis.wait_drive();
 
