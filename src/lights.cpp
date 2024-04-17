@@ -36,10 +36,11 @@ void Lights::loop() {
   enum class State { Start, Disabled, Enabled };
   State gameState = State::Start;
 
-  int timeEnabled = 0; // time in msec
-  int heatlevel = 0;   // 0, 1, 2
-  int timewarning = 0; // 0, 1, 2
-  bool frontAni = false;
+  int timeEnabled; // time in msec
+  int timewarning; // 0, 1, 2
+  bool intakeAnim;
+  bool LwingState;
+  bool RwingState;
 
   while (true) {
 
@@ -76,104 +77,62 @@ void Lights::loop() {
 
 
       // color changing for time warnings
-      if (75000 < pros::millis() - timeEnabled &&
-          pros::millis() - timeEnabled < 75700) {
+      if (75000 < pros::millis() - timeEnabled && pros::millis() - timeEnabled < 75700) {
         timewarning = 1;
         frontLED.set_all(0x00AA00);
         backLED.set_all(0x00AA00);
         leftWingLED.set_all(0x00AA00);
         rightWingLED.set_all(0x00AA00);
-      } else if (90000 < pros::millis() - timeEnabled &&
-                 pros::millis() - timeEnabled < 90700) {
+      
+      } else if (90000 < pros::millis() - timeEnabled && pros::millis() - timeEnabled < 90700) {
         timewarning = 2;
         frontLED.set_all(0xFFD800);
         backLED.set_all(0xFFD800);
         leftWingLED.set_all(0xFFD800);
         rightWingLED.set_all(0xFFD800);
+      
       } else if (timewarning != 0) {
         timewarning = 0;
-        heatlevel = 0;
         setColor(frontLED);
         setColor(backLED);
         setColor(leftWingLED);
         setColor(rightWingLED);
       }
 
-      //intake animation with front light strip only
-      if (intake.getState() == Intake::STATE::IN) {
 
-        if (selector::auton > 0 && !frontAni) {
-          frontAni = true;
-          frontLED.gradient(0xCC0000, 0x836953, 0, 0);
-            
-        frontLED.cycle(*frontLED, 10);
+      // starting intake animation
+      if (intake.getState() != Intake::STATE::IDLE && !intakeAnim && timewarning == 0) {
+        intakeAnim = true;
+
+        if (selector::auton > 0) {
+          frontLED.gradient(0x600000, 0xFF0000);
+          frontLED.cycle(*frontLED, 10);
+        }  
+
+        else if (selector::auton < 0) {
+          frontLED.gradient(0x000060, 0x0000FF);
+          frontLED.cycle(*frontLED, 10);
         }
-        if (selector::auton < 0 && !frontAni) {
-          frontAni = true;
-          frontLED.gradient(0x000099, 0x87CEEB, 0, 0);
-            
-        frontLED.cycle(*frontLED, 10);
+
+        else {
+          frontLED.gradient(0x400040, 0x990099);
+          frontLED.cycle(*frontLED, 10);
         }
-      
-      } else if (intake.getState() == Intake::STATE::OUT) {
-                if (selector::auton > 0 && !frontAni) {
-          frontAni = true;
-          frontLED.gradient(0xCC0000, 0x836953, 0, 0, true);
-            
-        frontLED.cycle(*frontLED, 10, 0, true);
-        }
-        if (selector::auton < 0 && !frontAni) {
-          frontAni = true;
-          frontLED.gradient(0x000099, 0x87CEEB, 0, 0, true);
-            
-        frontLED.cycle(*frontLED, 10,0,true);
-        }
-      } else {
-        frontLED.clear();
+      }
+      // stopping intake animation
+      if (intake.getState() == Intake::STATE::IDLE && intakeAnim && timewarning == 0) {
+        intakeAnim = false;
         setColor(frontLED);
-        frontAni = false;
       }
-      
-      
 
 
-
-      // motor temperature display
-      if (timewarning == 0) {
-        int temp =
-            std::max({leftFront.get_temperature(), leftBack.get_temperature(),
-                      leftTop.get_temperature(), rightFront.get_temperature(),
-                      rightBack.get_temperature(), rightTop.get_temperature()});
-        /*
-                if (temp >= 55 and heatlevel != 2) {
-                  heatlevel = 2;
-                  leftWingLED.clear();
-                  leftWingLED.gradient(0x000000, 0xFF00FF, 0, 3);
-                  leftWingLED.cycle(*leftWingLED, 6);
-                  rightWingLED.clear();
-                  rightWingLED.gradient(0x000000, 0xFF00FF, 0, 3);
-                  rightWingLED.cycle(*rightWingLED, 6);
-                }
-                else if (temp >= 40 and heatlevel != 1) {
-                  heatlevel = 1;
-                  leftWingLED.clear();
-                  leftWingLED.gradient(0x000000, 0x990099, 0, 1);
-                  leftWingLED.cycle(*leftWingLED, 3);
-                  rightWingLED.clear();
-                  rightWingLED.gradient(0x000000, 0x990099, 0, 1);
-                  rightWingLED.cycle(*rightWingLED, 3);
-                }
-                else */
-        if (heatlevel != 0) {
-          heatlevel = 0;
-          setColor(leftWingLED);
-          setColor(rightWingLED);
-        }
-      }
+      // wing animation
+      //if (Lwingus.getState() && !LwingState) {
+      //  LwingState = true;
+      //  leftWingLED.set_all(0x00FF00);
+      //}
     }
 
-
-    // 10ms delay to allow other tasks to run
-    pros::delay(50);
+  pros::delay(50);
   }
 }
