@@ -39,7 +39,7 @@ void Lights::loop() {
   int timeEnabled = 0; // time in msec
   int heatlevel = 0;   // 0, 1, 2
   int timewarning = 0; // 0, 1, 2
-
+  bool frontAni = false;
 
   while (true) {
 
@@ -98,6 +98,44 @@ void Lights::loop() {
         setColor(leftWingLED);
         setColor(rightWingLED);
       }
+
+      //intake animation with front light strip only
+      if (intake.getState() == Intake::STATE::IN) {
+
+        if (selector::auton > 0 && !frontAni) {
+          frontAni = true;
+          frontLED.gradient(0xCC0000, 0x836953, 0, 0);
+            
+        frontLED.cycle(*frontLED, 10);
+        }
+        if (selector::auton < 0 && !frontAni) {
+          frontAni = true;
+          frontLED.gradient(0x000099, 0x87CEEB, 0, 0);
+            
+        frontLED.cycle(*frontLED, 10);
+        }
+      
+      } else if (intake.getState() == Intake::STATE::OUT) {
+                if (selector::auton > 0 && !frontAni) {
+          frontAni = true;
+          frontLED.gradient(0xCC0000, 0x836953, 0, 0, true);
+            
+        frontLED.cycle(*frontLED, 10, 0, true);
+        }
+        if (selector::auton < 0 && !frontAni) {
+          frontAni = true;
+          frontLED.gradient(0x000099, 0x87CEEB, 0, 0, true);
+            
+        frontLED.cycle(*frontLED, 10,0,true);
+        }
+      } else {
+        frontLED.clear();
+        setColor(frontLED);
+        frontAni = false;
+      }
+      
+      
+
 
 
       // motor temperature display
