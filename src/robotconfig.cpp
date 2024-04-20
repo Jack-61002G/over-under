@@ -13,8 +13,8 @@
 
 // LED strips
 sylib::Addrled backLED(22, 2, 17);
-sylib::Addrled rightWingLED(22, 4, 18);
-sylib::Addrled leftWingLED(22, 6, 18);
+sylib::Addrled rightWingLED(22, 6, 18);
+sylib::Addrled leftWingLED(22, 4, 18);
 sylib::Addrled frontLED(22, 1, 28);
 // lights object
 balls::Lights lights(leftWingLED, rightWingLED, backLED, frontLED);

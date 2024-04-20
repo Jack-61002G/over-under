@@ -37,9 +37,7 @@ void autonomous() {
   chassis.reset_gyro();                      // Reset gyro position to 0
   chassis.reset_drive_sensor();              // Reset drive sensors to 0
   chassis.set_drive_brake(MOTOR_BRAKE_HOLD); // Set motors to hold.  This helps autonomous consistency.
-
-  RUSHfar();
-  return;
+  
 
   // running the selected autonomous route
   if (std::abs(selector::auton) == 1) {
