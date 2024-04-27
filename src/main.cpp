@@ -2,6 +2,7 @@
 #include "EZ-Template/util.hpp"
 #include "autoSelect/selection.h"
 #include "autons.hpp"
+#include "intake.h"
 #include "pros/misc.h"
 #include "pros/motors.h"
 #include "pros/rtos.hpp"
@@ -40,6 +41,9 @@ void autonomous() {
   
 
   // running the selected autonomous route
+  if (selector::auton == 0) {
+    RUSHclose();
+  }
   if (std::abs(selector::auton) == 1) {
     WPclose();
   } else if (std::abs(selector::auton) == 2) {
@@ -103,9 +107,17 @@ void opcontrol() {
 
     // intake control
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-      intake = Intake::STATE::IN;
+      if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) || controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+        intake = Intake::STATE::HOLD;
+      } else {
+        intake = Intake::STATE::IN;
+      }
     } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-      intake = Intake::STATE::OUT;
+      if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) || controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+        intake = Intake::STATE::BOWL;
+      } else {
+        intake = Intake::STATE::OUT;
+      }
     } else {
       intake = Intake::STATE::IDLE;
     }

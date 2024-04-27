@@ -8,9 +8,9 @@
 
 
 
-const int DRIVE_SPEED = 110;
-const int TURN_SPEED = 102;
-const int SWING_SPEED = 97;
+const int DRIVE_SPEED = 115;
+const int TURN_SPEED = 110;
+const int SWING_SPEED = 105;
 
 
 
@@ -43,17 +43,17 @@ void WPclose() { // descore
 
   chassis.set_angle(190);
 
-  chassis.set_drive_pid(48.3, 127); // grab middle ball
+  chassis.set_drive_pid(46.8, 127); // grab middle ball
   intake = Intake::STATE::IN;
   chassis.wait_drive();
 
-  chassis.set_turn_pid(209, TURN_SPEED); // turn to matchloader
+  chassis.set_turn_pid(213, TURN_SPEED); // turn to matchloader
   chassis.wait_drive();
 
   pros::delay(150);
   intake = Intake::STATE::IDLE;
 
-  chassis.set_drive_pid(-52, DRIVE_SPEED); // back up
+  chassis.set_drive_pid(-51, DRIVE_SPEED); // back up
   chassis.wait_drive();
 
   Lwingus.set(true);
@@ -61,9 +61,9 @@ void WPclose() { // descore
   chassis.set_turn_pid(180, TURN_SPEED);
   chassis.wait_drive();
 
-  chassis.set_swing_pid(ez::LEFT_SWING, 93, SWING_SPEED); // descore
+  chassis.set_swing_pid(ez::LEFT_SWING, 94, 127); // descore
   chassis.wait_drive();
-  chassis.set_drive_pid(-9, DRIVE_SPEED);
+  chassis.set_drive_pid(-10.5, DRIVE_SPEED);
   chassis.wait_drive();
 
   Lwingus.set(false);
@@ -74,7 +74,7 @@ void WPclose() { // descore
   chassis.set_drive_pid(30, DRIVE_SPEED); // touch the bar
   intake = Intake::STATE::OUT;
   chassis.wait_drive();
-  pros::delay(1000);
+  pros::delay(600);
   intake = Intake::STATE::IDLE;
 }
 
@@ -117,7 +117,7 @@ void WPfar() { // five ball safe
 
   pros::delay(200);
   intake = Intake::STATE::SPIT; // outtake to goal
-  pros::delay(400);
+  pros::delay(600);
   intake = Intake::STATE::IDLE;
 
   chassis.set_turn_pid(170, TURN_SPEED); // turn to mid ball
@@ -128,7 +128,7 @@ void WPfar() { // five ball safe
   chassis.wait_drive();
 
   pros::delay(500);
-  intake = Intake::STATE::IDLE;
+  intake = Intake::STATE::HOLD;
 
   chassis.set_turn_pid(90, TURN_SPEED); // turn away from goal
   chassis.wait_drive();
@@ -137,7 +137,7 @@ void WPfar() { // five ball safe
   Rwingus.set(true);
 
   chassis.set_drive_pid(-38, 127); // push balls into goal
-  chassis.wait_drive();
+  pros::delay(900);
   chassis.set_drive_pid(12, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_turn_pid(-90, TURN_SPEED);
@@ -159,20 +159,23 @@ void WPfar() { // five ball safe
 
 void SAFEclose() { // non-rush WP descore
 
+  intake = Intake::STATE::IN;
+
   chassis.set_drive_pid(4, 100);
   chassis.wait_drive();
 
   Lwingus.set(true);
 
-  chassis.set_swing_pid(ez::LEFT_SWING, -45, SWING_SPEED);
+  chassis.set_swing_pid(ez::LEFT_SWING, -42, SWING_SPEED);
   chassis.wait_drive();
 
   chassis.set_drive_pid(-15, DRIVE_SPEED);
   pros::delay(200);
   Lwingus.set(false);
+  intake = Intake::STATE::IDLE;
   chassis.wait_drive();
 
-  chassis.set_turn_pid(137, TURN_SPEED);
+  chassis.set_turn_pid(142, TURN_SPEED);
   chassis.wait_drive();
   chassis.set_drive_pid(28, DRIVE_SPEED);
   intake = Intake::STATE::OUT;
@@ -187,9 +190,45 @@ void SAFEclose() { // non-rush WP descore
 
 void RUSHclose() { // disrupt
 
-  WPclose();
+  chassis.set_angle(190);
 
-  chassis.set_drive_pid(-56, DRIVE_SPEED); // back up to matchload
+  chassis.set_drive_pid(46.8, 127); // grab middle ball
+  intake = Intake::STATE::IN;
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(213, TURN_SPEED); // turn to matchloader
+  chassis.wait_drive();
+
+  pros::delay(150);
+  intake = Intake::STATE::IDLE;
+
+  chassis.set_drive_pid(-51.3, DRIVE_SPEED); // back up
+  chassis.wait_drive();
+
+  Lwingus.set(true);
+
+  chassis.set_turn_pid(180, TURN_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_swing_pid(ez::LEFT_SWING, 94, 127); // descore
+  chassis.wait_drive();
+  chassis.set_drive_pid(-10.5, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  Lwingus.set(false);
+
+  chassis.set_turn_pid(-90, TURN_SPEED); // turn to alley
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(30, DRIVE_SPEED); // touch the bar
+  intake = Intake::STATE::OUT;
+  chassis.wait_drive();
+  pros::delay(600);
+  intake = Intake::STATE::IDLE;
+
+  chassis.set_drive_pid(-54, DRIVE_SPEED); // back up to matchload
+  pros::delay(800);
+  Rwingus.set(true);
 }
 
 
@@ -200,7 +239,7 @@ void RUSHfar() { // six ball rush
 
   Rwingus.set(true);
 
-  chassis.set_drive_pid(48.3, 127); // grab middle ball
+  chassis.set_drive_pid(48.5, 127); // grab middle ball
   pros::delay(300);
 
   intake = Intake::STATE::IN;

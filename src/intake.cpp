@@ -18,7 +18,7 @@ void Intake::update() {
     intakeMotors.move(127);
     break;
   case STATE::HOLD:
-    intakeMotors.move(20);
+    intakeMotors.move(37);
     break;
   case STATE::OUT:
     intakeMotors.move(-127);
@@ -28,6 +28,9 @@ void Intake::update() {
     break;
   case STATE::IDLE:
     intakeMotors.move_velocity(0);
+    break;
+  case STATE::BOWL:
+    intakeMotors.move(-37);
     break;
 }}
 
